@@ -36,6 +36,9 @@ size_t	ft_strlen(const char *str);
 void	free_tab(char **tab);
 void	error_msg(char *msg);
 
+//PARSING
+char*	parsing(char *input);
+
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 50
 # endif

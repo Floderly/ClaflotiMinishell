@@ -18,6 +18,7 @@ SRCS =	minishell.c \
 		ft_strnstr.c \
 		pipex_free.c \
 		execve_cmd.c \
+		parsing/parsing.c \
 
 CC = gcc
 

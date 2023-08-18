@@ -59,7 +59,8 @@ int main(int argc, char **argv, char **env)
 		{
             add_history(input); // Ajoute l'entrée à l'historique
             // Ici, vous pouvez traiter la commande saisie par l'utilisateur
-            printf("Vous avez saisi : %s\n", input);
+            printf("Valeur prompt : %s\n", input);
+			printf("New input : %s\n",parsing(input));
 			//cmd_ctrl(input);
 			//valeur_env = getenv("PATH");
 			//printf("la valeur de PATH est %s\n", valeur_env);
