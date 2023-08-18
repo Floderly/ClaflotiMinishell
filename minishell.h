@@ -23,6 +23,14 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
+// structure globale
+typedef struct t_global
+{
+    char *input;
+    char *input2;
+}s_global;
+
+
 void	path_user(char *input, char **env);
 char	*clone_input_without_option(char *input, char *input_without_option);
 void	path(char *argv, char **env);
@@ -37,7 +45,10 @@ void	free_tab(char **tab);
 void	error_msg(char *msg);
 
 //PARSING
-char*	parsing(char *input);
+int	parsing(s_global *s_global);
+
+
+
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 50

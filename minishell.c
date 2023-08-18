@@ -45,28 +45,38 @@ void	son(char *input, char **env)
 
 int main(int argc, char **argv, char **env)
 {
-    char *input;
+	s_global s_global;
 	char *valeur_env;
 
     while (1)
 	{
-        input = readline("Minishell> "); // Affiche l'invite de commande
-        if (!input)
+        s_global.input = readline("Minishell> "); // Affiche l'invite de commande
+        if (!s_global.input)
 		{
             break; // L'utilisateur a appuyé sur Ctrl+D (fin d'entrée)
         }
-        if (input[0] != '\0') 
+        if (s_global.input[0] != '\0') 
 		{
-            add_history(input); // Ajoute l'entrée à l'historique
+            add_history(s_global.input); // Ajoute l'entrée à l'historique
             // Ici, vous pouvez traiter la commande saisie par l'utilisateur
-            printf("Valeur prompt : %s\n", input);
-			printf("New input : %s\n",parsing(input));
+            printf("Prompt avant traitement : %s\n", s_global.input);
+			if (parsing(&s_global))
+			{
+				printf("Retour 1, valeur : %s\n", s_global.input2);
+			}
+			else
+			{
+				printf("Retour 0, valeur : %s\n", s_global.input2);
+			}
+            printf("Prompt apres traitement : %s\n", s_global.input2);
 			//cmd_ctrl(input);
 			//valeur_env = getenv("PATH");
 			//printf("la valeur de PATH est %s\n", valeur_env);
-			son(input, env); //execution cmd sans fermer terminal.
+			son(s_global.input, env); //execution cmd sans fermer terminal.
         }
-        free(input); // Libère la mémoire allouée par readline
+        free(s_global.input); // Libère la mémoire allouée par readline
+        printf("Fin\n\n");
     }
+        free(s_global.input2); // Libère la mémoire allouée par readline
     return 0;
 }
