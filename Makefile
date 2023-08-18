@@ -17,6 +17,7 @@ SRCS =	minishell.c \
 		ft_strjoin.c \
 		ft_strnstr.c \
 		pipex_free.c \
+		execve_cmd.c \
 
 CC = gcc
 

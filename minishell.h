@@ -23,10 +23,16 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
+void	path_user(char *input, char **env);
+char	*clone_input_without_option(char *input, char *input_without_option);
 void	path(char *argv, char **env);
+
+
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
+size_t	ft_strlen(const char *str);
+
 void	free_tab(char **tab);
 void	error_msg(char *msg);
 

@@ -20,62 +20,24 @@
 	}
 }*/
 
-char	*check_path(char *cmd, char **env)
-{
-	char	**tabpath;
-	char	*halfpath;
-	char	*path;
-	int		i;
-
-	i = 0;
-	while (ft_strnstr(env[i], "PATH=", 5) == NULL)
-		i++;
-	tabpath = ft_split(env[i] + 5, ':');
-	i = 0;
-	while (tabpath[i])
-	{
-		halfpath = ft_strjoin(tabpath[i], "/");
-		path = ft_strjoin(halfpath, cmd);
-		free(halfpath);
-		if (access(path, F_OK) == 0)
-		{
-			free_tab(tabpath);
-			return (path);
-		}
-		free(path);
-		i++;
-	}
-	free_tab(tabpath);
-	error_msg("error no path found\n");
-}
-
-void	path(char *argv, char **env)
-{
-	char	**cmd;
-	char	*path;
-
-	cmd = ft_split(argv, ' ');
-	path = check_path(cmd[0], env);
-	if (execve(path, cmd, env) == -1)
-	{
-		free_tab(cmd);
-		free(path);
-		error_msg("error execve\n");
-	}
-	free_tab(cmd);
-	free(path);
-}
-
 void	son(char *input, char **env)
 {
 	pid_t	pid;
+	char *input_without_option;
 
 	pid = fork();
+	input_without_option = clone_input_without_option(input, input_without_option);
 	if (pid == -1)
 		error_msg("error fork\n");
 	else if (pid == 0)
 	{
-		path(input, env); //processus fils pour execution de cmd.
+		if (access(input_without_option, F_OK) == 0 ) //verif si la commande entree par l'user n'est pas directement un path valide. Attention si c'est JUSTE un path.
+		{
+			path_user(input, env);
+			free(input_without_option);
+		}
+		else
+			path(input, env); //processus fils pour execution de cmd.
 		exit(0);
 	}
 	wait(NULL);
