@@ -46,3 +46,5 @@ fderly@c2r2p5:~/Documents/GitHub/ClaflotiMinishell3$ cat << non
 > non
 fdsbksnjd
 
+
+Pour les export si on peut empecher les variables avec "=" ce serait cool (je crois)

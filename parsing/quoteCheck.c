@@ -12,39 +12,28 @@
 
 #include "../minishell.h"
 
-int	mallocSize(char *input)
+int	quoteCheck(char *input)
 {
-	// PAS FAIT
-	return (4);
-}
+	int	i;
+	int singleQuoteNb;
+	int doubleQuoteNb;
 
-int	parsing(s_global *s_global, char **env)
-{
-	/////////
-	char *inputReturn;
-
-	inputReturn = malloc(sizeof(char) * 99999);
-	inputReturn[0] = 'a';
-	inputReturn[1] = 'b';
-	inputReturn[2] = 'c';
-	inputReturn[3] = 0;
-
-	s_global->input2 = inputReturn;
-	//////////
-
-	if (quoteCheck(s_global->input) == 0)
+	i = 0;
+	singleQuoteNb = 0;
+	doubleQuoteNb = 0;
+	while (input[i])
 	{
-		printf("!!! Error quote\n");
+		if (input[i] == 34)
+			doubleQuoteNb++;
+		if (input[i] == 39)
+			singleQuoteNb++;
+		i++;
+	}
+	if (singleQuoteNb % 2 == 1 || doubleQuoteNb % 2 == 1)
+	{
+		printf("Single : %d et double : %d\n", singleQuoteNb, doubleQuoteNb);
 		return (0);
 	}
-	if (varEnvChang(s_global, env) == 0)
-	{
-		printf("Variable Env inexistante\n");
-		return (0);
-	}
-	mallocSize(s_global->input);
-
-	free(inputReturn);
-
+	printf("Pas de single/double quote impair\n");
 	return (1);
 }

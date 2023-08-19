@@ -59,6 +59,8 @@ int main(int argc, char **argv, char **env)
 		{
             add_history(s_global.input); // Ajoute l'entrée à l'historique
             // Ici, vous pouvez traiter la commande saisie par l'utilisateur
+
+			// -------------------  DERLY  -------------------
             printf("---------- PARSING ------------\n");
             printf("Prompt avant traitement : %s\n", s_global.input);
 			if (parsing(&s_global, env))
@@ -70,14 +72,14 @@ int main(int argc, char **argv, char **env)
 				printf("Retour 0, valeur : %s\n", s_global.input2);
 			}
             printf("Prompt apres traitement : %s\n", s_global.input2);
-			//cmd_ctrl(input);
-			//valeur_env = getenv("PATH");
-			//printf("la valeur de PATH est %s\n", valeur_env);
+			// -------------------  FIN DERLY  -------------------
+
+			//cmd_ctrl(input); 
             printf("---------- EXECUTION ------------\n");
-			son(s_global.input, env); //execution cmd sans fermer terminal.
+			son(s_global.inputVarEnv, env); //execution cmd sans fermer terminal.
         }
         free(s_global.input); // Libère la mémoire allouée par readline
-        printf("Fin\n\n");
+        printf("---------- FIN ------------\n\n");
     }
         free(s_global.input2); // Libère la mémoire allouée par readline
     return 0;
