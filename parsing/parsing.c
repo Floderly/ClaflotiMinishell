@@ -14,6 +14,7 @@
 
 int	mallocSize(char *input)
 {
+	// PAS FAIT
 	return (4);
 }
 
@@ -42,27 +43,51 @@ int	quoteCheck(char *input)
 	return (1);
 }
 
-int	varEnvChang(char	*input)
+int	addVar(s_global *s_global, int i, char **env)
 {
-	int	i;
+	// FAIRE SOUS FONCTION QUI RECHERCHE LE CONTENU A METTRE ?
+	char *varTamp;
 
 	i = 0;
-	while (input[i])
+	char *pathVarTest = "GDMSESSION";
+	varTamp = malloc(sizeof(char)*99999);
+	while ((ft_strnstr(env[i], pathVarTest, ft_strlen(pathVarTest)) == NULL) && env[i] != 0)
 	{
-		if (input[i] == 36)
-		{
-			// A FAIRE NEXT : CHANGER PROMPT AVEC LA VARIABLE
-			// SUREMENT SE PENCHER SUR MALLOC
-			// PRENDRE EN COMPTE QUE SI PLUSIEURS $ CA NE MARCHE PAS LA
-			printf("Trouver, valeur i : %d\n", i);
-			return (1);
-		}
+		printf("Test addVarBoucle : %s", env[i]);
+
 		i++;
 	}
-	return (0);
+	printf("\n\nTest addVar : %s et valeur i : %d\n", env[i], i);
+	printf("\n\nTest viKing : %s\n\n", env[57]);
+	return (1);
 }
 
-int	parsing(s_global *s_global)
+int	varEnvChang(s_global *s_global, char **env)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	s_global->inputVar = malloc(sizeof(char)*99999);
+	// CREER FONCTION QUI COMPTE LA TAILLE DU MALLOC POUR FAIRE BIEN
+	while (s_global->input[i])
+	{
+		if (s_global->input[i] == 36)
+		{
+			j = j + addVar(s_global, i, env);
+			printf("Trouver, valeur i : %d\n", i);
+			i++;
+			j--;
+		}
+		else
+			s_global->inputVar[i + j] = s_global->input[i];
+		i++;
+	}
+	return (1);
+}
+
+int	parsing(s_global *s_global, char **env)
 {
 	/////////
 	char *inputReturn;
@@ -81,7 +106,7 @@ int	parsing(s_global *s_global)
 		printf("!!! Error quote\n");
 		return (0);
 	}
-	if (varEnvChang(s_global->input))
+	if (varEnvChang(s_global, env))
 		printf("Var trouver et changer :)\n");
 	mallocSize(s_global->input);
 

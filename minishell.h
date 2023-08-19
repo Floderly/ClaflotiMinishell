@@ -28,6 +28,7 @@ typedef struct t_global
 {
     char *input;
     char *input2;
+    char *inputVar;
 }s_global;
 
 
@@ -45,7 +46,7 @@ void	free_tab(char **tab);
 void	error_msg(char *msg);
 
 //PARSING
-int	parsing(s_global *s_global);
+int	parsing(s_global *s_global, char **env);
 
 
 

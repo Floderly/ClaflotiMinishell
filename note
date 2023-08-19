@@ -23,3 +23,26 @@ Dans l'idee j'ai surtout regarder parsing (prompt), pipe, redirection, variable 
 Il faudrait qu'on voit dans l'idee comment on communique entre mon parsing et ton execution
 Si jamais tu sais ce que t'as besoin, dit le moi
 Sinon ce weekend jvais essayer de trouver la meilleur methode
+
+Ok alors avec la base pipex qu'on a, ca va pas etre tres compliquer
+Jvais envoyer des char* genre "echo blablabla bla" que le pipex (sans le pipe) gere deja
+Ensuite faut juste traiter les < ou > qui modifie entrer ou sortie et les pipes
+Regle :
+Si plusieurs > sortie, ca cree chaque fichier et ca met la sortie finale sur le dernier
+Si plusieurs < entree, prend le dernier fichier uniquement
+Si entree < sur fichier non existant, "No such file or directory"
+> cree nouveau fichier (ecrase ancien si existe deja), >> ajoute au fichier deja existant
+<< pas trop compris, mais en gros tu entre des valeurs jusqu'a entrer la bonne et ca taffiche la command avec les valeurs entrer
+
+exemple :
+fderly@c2r2p5:~/Documents/GitHub/ClaflotiMinishell3$ wc << oue
+> ceci est une phrase
+> sshad
+> fdunjfds
+> oue
+ 3  6 35
+fderly@c2r2p5:~/Documents/GitHub/ClaflotiMinishell3$ cat << non
+> fdsbksnjd
+> non
+fdsbksnjd
+
