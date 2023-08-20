@@ -12,27 +12,27 @@
 
 #include "../minishell.h"
 
-int	skipSingleQuote(s_global *s_global, int i, char **env)
+int	skipSingleQuote(s_global *s_global, int i)
 {
 	return (2);
 }
 
-int	addVar(s_global *s_global, int i, char **env)
+int	addVar(s_global *s_global, int i)
 {
 	int	j;
 	int	k;
 
 	j = 0;
-	while (env[j])
+	while (s_global->miniEnv[j])
 	{
-		if (ft_strnstr(env[j], s_global->pathVarTempo, ft_strlen(s_global->pathVarTempo)) != NULL)
+		if (ft_strnstr(s_global->miniEnv[j], s_global->pathVarTempo, ft_strlen(s_global->pathVarTempo)) != NULL)
 			break;
 		j++;
 	}
 	k = 0;
-	while (env[j][ft_strlen(s_global->pathVarTempo) + k + 1] != ' ' && env[j][ft_strlen(s_global->pathVarTempo)+ k + 1] != 0)
+	while (s_global->miniEnv[j][ft_strlen(s_global->pathVarTempo) + k + 1] != ' ' && s_global->miniEnv[j][ft_strlen(s_global->pathVarTempo)+ k + 1] != 0)
 	{
-		s_global->inputVarEnv[i + k] = env[j][ft_strlen(s_global->pathVarTempo)+ k + 1];
+		s_global->inputVarEnv[i + k] = s_global->miniEnv[j][ft_strlen(s_global->pathVarTempo)+ k + 1];
 		k++;
 	}
 	s_global->inputVarEnv[i + k] = 0;
@@ -40,7 +40,7 @@ int	addVar(s_global *s_global, int i, char **env)
 	return (k - 1);
 }
 
-int	checkVar(s_global *s_global, int i, char **env)
+int	checkVar(s_global *s_global, int i)
 {
 	//malloc du quartier, avoir si besoin de faire propre
 	s_global->pathVarTempo = malloc(sizeof(char) * 9999); // NON FREE // variable structure ?
@@ -54,16 +54,16 @@ int	checkVar(s_global *s_global, int i, char **env)
 	s_global->pathVarTempo[j] = 0;
 	printf("Variable trouver : %s\n", s_global->pathVarTempo);
 	i = 0;
-	while (env[i])
+	while (s_global->miniEnv[i])
 	{
-		if ((ft_strnstr(env[i], s_global->pathVarTempo, ft_strlen(s_global->pathVarTempo)) != NULL) && env[i][ft_strlen(s_global->pathVarTempo)] == '=')
+		if ((ft_strnstr(s_global->miniEnv[i], s_global->pathVarTempo, ft_strlen(s_global->pathVarTempo)) != NULL) && s_global->miniEnv[i][ft_strlen(s_global->pathVarTempo)] == '=')
 		{
 			printf("La variable existe bien\n");
 			break;
 		}
 		i++;
 	}
-	if (env[i] == 0)
+	if (s_global->miniEnv[i] == 0)
 	{
 		printf("La variable n'existe pas\n");
 		return (0);
@@ -71,7 +71,7 @@ int	checkVar(s_global *s_global, int i, char **env)
 	return (1);
 }
 
-int	varEnvChang(s_global *s_global, char **env)
+int	varEnvChang(s_global *s_global)
 {
 	int	i;
 	int	j;
@@ -99,9 +99,9 @@ int	varEnvChang(s_global *s_global, char **env)
 		//j = j + skipSingleQuote(s_global, i, env);
 		else if (s_global->input[i] == 36)
 		{	
-			if (checkVar(s_global, i, env) != 0)
+			if (checkVar(s_global, i) != 0)
 			{
-				j = j + addVar(s_global, i, env);
+				j = j + addVar(s_global, i);
 				k = k + ft_strlen(s_global->pathVarTempo);
 			}
 			else

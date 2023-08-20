@@ -34,9 +34,9 @@ typedef struct t_global
     int switchSingleQuote;
 }s_global;
 
-void	path_user(char *input, char **env);
+void	path_user(s_global *s_global, char *input);
 char	*clone_input_without_option(char *input, char *input_without_option);
-void	path(char *argv, char **env);
+void	path(s_global *s_global, char *argv);
 
 
 char	**ft_split(char const *s, char c);
@@ -49,9 +49,9 @@ void	free_tab(char **tab);
 void	error_msg(char *msg);
 
 //PARSING
-int	parsing(s_global *s_global, char **env);
+int	parsing(s_global *s_global);
 int	quoteCheck(char *input);
-int	varEnvChang(s_global *s_global, char **env);
+int	varEnvChang(s_global *s_global);
 
 
 

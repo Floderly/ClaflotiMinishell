@@ -12,13 +12,7 @@
 
 #include "../minishell.h"
 
-int	mallocSize(char *input)
-{
-	// PAS FAIT
-	return (4);
-}
-
-int	parsing(s_global *s_global, char **env)
+int	parsing(s_global *s_global)
 {
 
 	if (quoteCheck(s_global->input) == 0)
@@ -26,12 +20,12 @@ int	parsing(s_global *s_global, char **env)
 		printf("!!! Error quote\n");
 		return (0);
 	}
-	if (varEnvChang(s_global, env) == 0)
+	if (varEnvChang(s_global) == 0)
 	{
 		printf("Variable Env inexistante\n");
 		return (0);
 	}
-	mallocSize(s_global->input);
+	//if (checkRedirection(s_global))
 
 	return (1);
 }

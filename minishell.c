@@ -20,7 +20,7 @@
 	}
 }*/
 
-void	son(char *input, char **env)
+void	son(s_global *s_global, char *input)
 {
 	pid_t	pid;
 	char *input_without_option;
@@ -33,11 +33,11 @@ void	son(char *input, char **env)
 	{
 		if (access(input_without_option, F_OK) == 0 ) //verif si la commande entree par l'user n'est pas directement un path valide. Attention si c'est JUSTE un path.
 		{
-			path_user(input, env);
+			path_user(s_global, input);
 			free(input_without_option);
 		}
 		else
-			path(input, env); //processus fils pour execution de cmd.
+			path(s_global, input); //processus fils pour execution de cmd.
 		exit(0);
 	}
 	wait(NULL);
@@ -64,14 +64,47 @@ void	viewMiniEnv(s_global *s_global)
 	i = 0;
 	while (s_global->miniEnv[i])
 	{
-		printf("%s", s_global->miniEnv[i]);
+		printf("%s\n", s_global->miniEnv[i]);
 		i++;
 	}
+}
+
+void	exportTest(s_global *s_global, char *nomVar, char* arg)
+{
+	int	i;
+	int	j;
+	int	k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while (s_global->miniEnv[i])
+		i++;
+	s_global->miniEnv[i] = malloc (sizeof(char) * 99999);
+	while (nomVar[j])
+	{
+		s_global->miniEnv[i][j] = nomVar[j];
+		j++;
+	}
+	s_global->miniEnv[i][j++] = '=';
+	while (arg[k])
+	{
+		s_global->miniEnv[i][j+k] = arg[k];
+		k++;
+	}
+	s_global->miniEnv[i][j+k] = 0;
+	s_global->miniEnv[i + 1] = 0;
 }
 
 int main(int argc, char **argv, char **env)
 {
 	s_global s_global;
+
+	// CLONE ENV POUR FAIRE EXPORT ET UNSET
+	cloneEnv(&s_global, env);
+	//exportTest(&s_global, "testVarEnvdd", "oui"); // EXPORT POUR TESTER LES VARIABLES
+	//viewMiniEnv(&s_global); //COMMAND POUR AFFICHER LE ENV
+
 
     while (1)
 	{
@@ -85,13 +118,10 @@ int main(int argc, char **argv, char **env)
             add_history(s_global.input); // Ajoute l'entrée à l'historique
             // Ici, vous pouvez traiter la commande saisie par l'utilisateur
 
-			// CLONE ENV POUR FAIRE EXPORT ET UNSET
-			cloneEnv(&s_global, env);
-			viewMiniEnv(&s_global);
 			// -------------------  DERLY  -------------------
             printf("---------- PARSING ------------\n");
             printf("Prompt avant traitement : %s\n", s_global.input);
-			if (parsing(&s_global, env))
+			if (parsing(&s_global))
 			{
 				printf("Retour 1, valeur : %s\n", s_global.inputVarEnv);
 			}
@@ -104,7 +134,7 @@ int main(int argc, char **argv, char **env)
 
 			//cmd_ctrl(input); 
             printf("---------- EXECUTION ------------\n");
-			son(s_global.inputVarEnv, env); //execution cmd sans fermer terminal.
+			son(&s_global, s_global.inputVarEnv); //execution cmd sans fermer terminal.
         }
         free(s_global.input); // Libère la mémoire allouée par readline
         printf("---------- FIN ------------\n\n");
