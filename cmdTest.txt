@@ -1,0 +1,12 @@
+echo 'test
+echo test"
+echo '> test'
+echo "> test"
+echo ee > test > wbou tt
+echo $USE
+echo '$USER'
+echo "$USER"
+echo ta $USER ta
+echo ta$USERta
+echo ta$USER ta
+echo test $USER test $USER test

@@ -13,9 +13,10 @@
 NAME =	minishell
 
 SRCS =	minishell.c \
-		ft_split.c \
-		ft_strjoin.c \
-		ft_strnstr.c \
+		ft_utils/ft_split.c \
+		ft_utils/ft_strjoin.c \
+		ft_utils/ft_strnstr.c \
+		ft_utils/ft_strdup.c \
 		pipex_free.c \
 		execve_cmd.c \
 		parsing/parsing.c \

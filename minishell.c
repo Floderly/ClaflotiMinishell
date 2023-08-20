@@ -43,10 +43,35 @@ void	son(char *input, char **env)
 	wait(NULL);
 }
 
+void	cloneEnv(s_global *s_global, char **env)
+{
+	int	i;
+	// FAIRE LE VRAI MALLOC ? CHAUD AVEC EXPORT
+	s_global->miniEnv = malloc(sizeof(char) * 9999);
+	i = 0;
+	while (env[i])
+	{
+		s_global->miniEnv[i] = ft_strdup(env[i]);
+		i++;
+	}
+	s_global->miniEnv[i] = 0;
+}
+
+void	viewMiniEnv(s_global *s_global)
+{
+	int	i;
+
+	i = 0;
+	while (s_global->miniEnv[i])
+	{
+		printf("%s", s_global->miniEnv[i]);
+		i++;
+	}
+}
+
 int main(int argc, char **argv, char **env)
 {
 	s_global s_global;
-	char *valeur_env;
 
     while (1)
 	{
@@ -60,6 +85,9 @@ int main(int argc, char **argv, char **env)
             add_history(s_global.input); // Ajoute l'entrée à l'historique
             // Ici, vous pouvez traiter la commande saisie par l'utilisateur
 
+			// CLONE ENV POUR FAIRE EXPORT ET UNSET
+			cloneEnv(&s_global, env);
+			viewMiniEnv(&s_global);
 			// -------------------  DERLY  -------------------
             printf("---------- PARSING ------------\n");
             printf("Prompt avant traitement : %s\n", s_global.input);

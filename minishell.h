@@ -26,10 +26,11 @@
 // structure globale
 typedef struct t_global
 {
-    char *input;
+    char    **miniEnv;
+    char    *input;
     //char *input2;
-    char *inputVarEnv;
-    char *pathVarTempo;
+    char    *inputVarEnv;
+    char    *pathVarTempo;
     int switchSingleQuote;
 }s_global;
 
@@ -42,6 +43,7 @@ char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 size_t	ft_strlen(const char *str);
+char	*ft_strdup(const char *s);
 
 void	free_tab(char **tab);
 void	error_msg(char *msg);
