@@ -16,14 +16,6 @@ https://github.com/iciamyplant/Minishell
 
 https://segfault42.github.io/posts/minishell/					--rajoute par clara
 
-J'ai pas toucher au code
-
-Dans l'idee j'ai surtout regarder parsing (prompt), pipe, redirection, variable globale / env (export/unset), modifier variable global dans le prompt avant traitement et redirection un peu
-
-Il faudrait qu'on voit dans l'idee comment on communique entre mon parsing et ton execution
-Si jamais tu sais ce que t'as besoin, dit le moi
-Sinon ce weekend jvais essayer de trouver la meilleur methode
-
 Ok alors avec la base pipex qu'on a, ca va pas etre tres compliquer
 Jvais envoyer des char* genre "echo blablabla bla" que le pipex (sans le pipe) gere deja
 Ensuite faut juste traiter les < ou > qui modifie entrer ou sortie et les pipes
@@ -48,3 +40,10 @@ fdsbksnjd
 
 
 Pour les export si on peut empecher les variables avec "=" ce serait cool (je crois)
+
+J'ai mit gc, c'est pour free les mallocs facilement
+https://github.com/malletgaetan/gc
+
+J'ai passer pipex, tu peux creer le groupe ClaFloti et minvitez stv
+
+

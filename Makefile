@@ -22,14 +22,21 @@ SRCS =	minishell.c \
 		parsing/quoteCheck.c \
 		parsing/varEnvChang.c \
 
+LIBGCDIR = gc
+LIBGC = libgc.a
+LIBGCFLAGS = -L $(LIBGCDIR) -l:$(LIBGC)
+
 CC = gcc
 
 FLAGS = -Wall -Wextra -Werror -lreadline -lhistory
 
 OBJS = $(SRCS:.c=.o)
 
-$(NAME):	$(OBJS)
-			$(CC) $(OBJS) -o $(NAME) $(FLAGS)
+$(NAME):	$(OBJS) $(LIBGCDIR)/$(LIBGC)
+			$(CC) $(OBJS) -o $(NAME) $(FLAGS) $(LIBGCFLAGS)
+
+$(LIBGCDIR)/$(LIBGC):
+	make -C $(LIBGCDIR)
 
 all:	$(NAME)
 
@@ -38,6 +45,7 @@ clean:
 
 fclean:
 		rm -f $(OBJS) $(NAME)
+		make -C ${LIBGCDIR} fclean
 
 re:		fclean $(NAME)
 

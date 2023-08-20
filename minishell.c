@@ -65,13 +65,13 @@ int main(int argc, char **argv, char **env)
             printf("Prompt avant traitement : %s\n", s_global.input);
 			if (parsing(&s_global, env))
 			{
-				printf("Retour 1, valeur : %s\n", s_global.input2);
+				printf("Retour 1, valeur : %s\n", s_global.inputVarEnv);
 			}
 			else
 			{
-				printf("Retour 0, valeur : %s\n", s_global.input2);
+				printf("Retour 0, valeur : %s\n", s_global.inputVarEnv);
 			}
-            printf("Prompt apres traitement : %s\n", s_global.input2);
+            printf("Prompt apres traitement : %s\n", s_global.inputVarEnv);
 			// -------------------  FIN DERLY  -------------------
 
 			//cmd_ctrl(input); 
@@ -81,6 +81,6 @@ int main(int argc, char **argv, char **env)
         free(s_global.input); // Libère la mémoire allouée par readline
         printf("---------- FIN ------------\n\n");
     }
-        free(s_global.input2); // Libère la mémoire allouée par readline
+	
     return 0;
 }

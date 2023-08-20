@@ -20,17 +20,6 @@ int	mallocSize(char *input)
 
 int	parsing(s_global *s_global, char **env)
 {
-	/////////
-	char *inputReturn;
-
-	inputReturn = malloc(sizeof(char) * 99999);
-	inputReturn[0] = 'a';
-	inputReturn[1] = 'b';
-	inputReturn[2] = 'c';
-	inputReturn[3] = 0;
-
-	s_global->input2 = inputReturn;
-	//////////
 
 	if (quoteCheck(s_global->input) == 0)
 	{
@@ -43,8 +32,6 @@ int	parsing(s_global *s_global, char **env)
 		return (0);
 	}
 	mallocSize(s_global->input);
-
-	free(inputReturn);
 
 	return (1);
 }

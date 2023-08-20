@@ -27,7 +27,7 @@
 typedef struct t_global
 {
     char *input;
-    char *input2;
+    //char *input2;
     char *inputVarEnv;
     char *pathVarTempo;
     int switchSingleQuote;
