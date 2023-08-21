@@ -123,11 +123,11 @@ int main(int argc, char **argv, char **env)
             printf("Prompt avant traitement : %s\n", s_global.input);
 			if (parsing(&s_global))
 			{
-				printf("Retour 1, valeur : %s\n", s_global.inputVarEnv);
+				printf("Retour parsing : 1\n");
 			}
 			else
 			{
-				printf("Retour 0, valeur : %s\n", s_global.inputVarEnv);
+				printf("Retour parsing : 0\n");
 			}
             printf("Prompt apres traitement : %s\n", s_global.inputVarEnv);
 			// -------------------  FIN DERLY  -------------------

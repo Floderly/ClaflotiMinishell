@@ -10,3 +10,6 @@ echo ta $USER ta
 echo ta$USERta
 echo ta$USER ta
 echo test $USER test $USER test
+echo $ USER
+echo tttt >    fileTest
+echo < test 12345

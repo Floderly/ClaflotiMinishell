@@ -46,3 +46,6 @@ https://github.com/malletgaetan/gc
 
 J'ai passer pipex, tu peux creer le groupe ClaFloti et minvitez stv
 
+J'ai creer le "miniEnv" et fait un export pour le tester
+Tout les traitements de variable sont bon (ex : echo $USER) (mieux que Gaethan)
+Et la j'ai commencer redirection (c'est le chantier)

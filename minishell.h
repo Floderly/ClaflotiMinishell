@@ -31,6 +31,8 @@ typedef struct t_global
     //char *input2;
     char    *inputVarEnv;
     char    *pathVarTempo;
+    char    *inputAfterRedi;
+    char    *redirectionNameFile;
     int switchSingleQuote;
 }s_global;
 
@@ -48,10 +50,14 @@ char	*ft_strdup(const char *s);
 void	free_tab(char **tab);
 void	error_msg(char *msg);
 
+//FONCTION AUTRE
+int	skipSpace(char *string, int i);
+
 //PARSING
 int	parsing(s_global *s_global);
 int	quoteCheck(char *input);
 int	varEnvChang(s_global *s_global);
+int	redirection(s_global *s_global);
 
 
 

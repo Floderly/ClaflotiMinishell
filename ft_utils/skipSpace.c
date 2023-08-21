@@ -1,36 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chugot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/04/20 11:40:27 by chugot           ###   ########.fr       */
+/*   Created: 2023/04/17 13:49:21 by chugot            #+#    #+#             */
+/*   Updated: 2023/04/17 13:49:26 by chugot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	parsing(s_global *s_global)
+int	skipSpace(char *string, int i)
 {
+	int	j;
 
-	if (quoteCheck(s_global->input) == 0)
-	{
-		printf("!!! Error quote\n");
-		return (0);
-	}
-	if (varEnvChang(s_global) == 0)
-	{
-		printf("Variable Env inexistante\n");
-		return (0);
-	}
-	if (redirection(s_global) == 0)
-	{
-		printf("Probleme redirection\n");
-		return (0);
-	}
-
-	printf("Parsing passe, tout est GOOD !!!\n");
-	return (1);
+	j = 1;
+	while (string[i + j] == ' ' && string[i + j] != 0)
+		j++;
+	return (j);
 }

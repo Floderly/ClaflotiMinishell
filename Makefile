@@ -17,11 +17,13 @@ SRCS =	minishell.c \
 		ft_utils/ft_strjoin.c \
 		ft_utils/ft_strnstr.c \
 		ft_utils/ft_strdup.c \
+		ft_utils/skipSpace.c \
 		pipex_free.c \
 		execve_cmd.c \
 		parsing/parsing.c \
 		parsing/quoteCheck.c \
 		parsing/varEnvChang.c \
+		parsing/redirection.c \
 
 LIBGCDIR = gc
 LIBGC = libgc.a
