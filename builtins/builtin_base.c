@@ -28,7 +28,7 @@ void    own_cd()
 {
     char *buffer;
 
-    if (getcwd(buffer) == NULL)
+    if (getcwd(buffer, 30) == NULL)
         perror("error getcwd\n");
     if (chdir(buffer) == -1)
         perror("error chdir\n");
@@ -38,7 +38,7 @@ int	if_builtin(s_global *s_global, char *input)
 {
 	//if (ft_strncmp(input, "echo", 4) == 0)
 	//	own_echo();
-	else if (ft_strcmp(input, "cd") == 0)
+	if (ft_strcmp(input, "cd") == 0)
 		own_cd();
 	/*else if (ft_strcmp(input, "pwd") == 0)
 		own_pwd();
