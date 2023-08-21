@@ -18,6 +18,10 @@ SRCS =	minishell.c \
 		ft_utils/ft_strnstr.c \
 		ft_utils/ft_strdup.c \
 		ft_utils/skipSpace.c \
+		ft_utils/ft_strcmp.c \
+		ft_utils/ft_strncmp.c \
+		builtins/own_echo.c \
+		builtins/builtin_base.c \
 		pipex_free.c \
 		execve_cmd.c \
 		parsing/parsing.c \

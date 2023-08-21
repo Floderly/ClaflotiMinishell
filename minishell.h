@@ -39,6 +39,8 @@ typedef struct t_global
 void	path_user(s_global *s_global, char *input);
 char	*clone_input_without_option(char *input, char *input_without_option);
 void	path(s_global *s_global, char *argv);
+int	if_builtin(s_global *s_global, char *input);
+void	own_env(s_global *s_global);
 
 
 char	**ft_split(char const *s, char c);
@@ -46,6 +48,8 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 size_t	ft_strlen(const char *str);
 char	*ft_strdup(const char *s);
+int	ft_strcmp(char *s1, char *s2);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
 
 void	free_tab(char **tab);
 void	error_msg(char *msg);

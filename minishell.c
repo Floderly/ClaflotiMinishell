@@ -31,7 +31,9 @@ void	son(s_global *s_global, char *input)
 		error_msg("error fork\n");
 	else if (pid == 0)
 	{
-		if (access(input_without_option, F_OK) == 0 ) //verif si la commande entree par l'user n'est pas directement un path valide. Attention si c'est JUSTE un path.
+		if (if_builtin(s_global, input) == 0) //si c'est des fonctions builtins, execute nos propres fonctions ci-dessous.
+			exit(0);
+		else if (access(input_without_option, F_OK) == 0 ) //verif si la commande entree par l'user n'est pas directement un path valide. Attention si c'est JUSTE un path.
 		{
 			path_user(s_global, input);
 			free(input_without_option);
@@ -55,18 +57,6 @@ void	cloneEnv(s_global *s_global, char **env)
 		i++;
 	}
 	s_global->miniEnv[i] = 0;
-}
-
-void	viewMiniEnv(s_global *s_global)
-{
-	int	i;
-
-	i = 0;
-	while (s_global->miniEnv[i])
-	{
-		printf("%s\n", s_global->miniEnv[i]);
-		i++;
-	}
 }
 
 void	exportTest(s_global *s_global, char *nomVar, char* arg)
@@ -103,7 +93,7 @@ int main(int argc, char **argv, char **env)
 	// CLONE ENV POUR FAIRE EXPORT ET UNSET
 	cloneEnv(&s_global, env);
 	//exportTest(&s_global, "testVarEnvdd", "oui"); // EXPORT POUR TESTER LES VARIABLES
-	//viewMiniEnv(&s_global); //COMMAND POUR AFFICHER LE ENV
+	//own_env(&s_global); //COMMAND POUR AFFICHER LE ENV
 
 
     while (1)
