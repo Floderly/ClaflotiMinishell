@@ -89,17 +89,20 @@ int	var_env_chang(s_gbl *s_gbl)
 	{
 		if (s_gbl->input[i] == '\'')
 		{
-			s_gbl->inputVarEnv[j] = s_gbl->input[i];
+			s_gbl->inputVarEnv[j] = s_gbl->input[i]; // Copie l'apostrophe simple
+			j++;
 			i++;
 			while (s_gbl->input[i] != '\'')
 			{
-				s_gbl->inputVarEnv[j] = s_gbl->input[i];
+				s_gbl->inputVarEnv[j] = s_gbl->input[i]; // Copie le caractère entre les apostrophes
 				j++;
 				i++;
 			}
-			s_gbl->inputVarEnv[j] = s_gbl->input[i];
+			s_gbl->inputVarEnv[j] = s_gbl->input[i]; // Copie la deuxième apostrophe simple
+			j++;
+			i++;
 		}
-		else if (s_gbl->input[i] == '$')
+		else if (s_gbl->input[i] == '$' && s_gbl->input[i + 1] != ' ')
 		{
 			if (check_var(s_gbl, i) != 0)
 			{

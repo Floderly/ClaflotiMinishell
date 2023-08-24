@@ -38,3 +38,5 @@ rev <test <test2
 
 echo " $USER ' '''" '"""' $PAGER   " $PATH "
 
+echo $ USER == crash
+
