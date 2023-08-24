@@ -36,7 +36,13 @@ rev <test <test2
 < test rev | cat -e
 < test cat -e | rev
 
-echo " $USER ' '''" '"""' $PAGER   " $PATH "
+echo " $USER ' '''" '"""' $PAGER   " $PATH " PATCH
 
-echo $ USER == crash
+echo $ USER == crash PATCH
+
+echo '$USER' $PAGER ee "$USER" == crash   cherche USER" puis crash
+Variable trouver : USER"
+La variable n'existe pas
+munmap_chunk(): invalid pointer
+[1]    39607 abort (core dumped)  ./minishell
 

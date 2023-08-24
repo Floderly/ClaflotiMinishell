@@ -47,11 +47,39 @@ void initTokenList(TokenList *token_list)
 
 void initTokenTest(s_gbl *s_gbl, TokenList *token_list)
 {
-	addToken(token_list, "echo", 1, s_gbl);
-	addToken(token_list, "abc", 2, s_gbl);
+	// EXEMPLE NUMERO 1
+	//Ligne de commande shell pour tester bash : echo abc | rev > testSorti
+	addToken(token_list, "echo abc", 1, s_gbl);
+	addToken(token_list, "|", 2, s_gbl);
+	addToken(token_list, "rev", 1, s_gbl);
+	addToken(token_list, "testSorti", 4, s_gbl);
+	
+	/*
+	EXEMPLE NUMERO 2
+	Ligne de commnade shell pour tester bash : rev < testEntree | cat -e | rev > testSorti
+	Doit mettre un $ devant la phrase dans le fichier testEntree, inverse le sens, puis cat -e et re inverse
+	addToken(token_list, "rev", 1, s_gbl);
+	addToken(token_list, "testEntree", 3, s_gbl);
+	addToken(token_list, "|", 3, s_gbl);
+	addToken(token_list, "cat -e", 1, s_gbl);
 	addToken(token_list, "|", 3, s_gbl);
 	addToken(token_list, "rev", 1, s_gbl);
-	addToken(token_list, "test1", 5, s_gbl);
+	addToken(token_list, "testSorti", 4, s_gbl);
+	*/
+
+	/*
+	EXEMPLE NUMERO 3
+	Ligne de commande shell pour tester bash : ls -l > testFile | rev < testFile | cat -e > testSortiN3
+	Met ls -l dans sorti testFile
+	addToken(token_list, "ls -l", 1, s_gbl);
+	addToken(token_list, "testFile", 4, s_gbl);
+	addToken(token_list, "|", 3, s_gbl);
+	addToken(token_list, "rev", 1, s_gbl);
+	addToken(token_list, "testFile", 3, s_gbl);
+	addToken(token_list, "|", 3, s_gbl);
+	addToken(token_list, "cat -e", 1, s_gbl);
+	addToken(token_list, "testSortiN3", 4, s_gbl);
+	*/
 
 	// Print tokens with types
 	s_Token *current = token_list->head;
