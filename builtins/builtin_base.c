@@ -12,14 +12,14 @@
 
 # include "../minishell.h"
 
-void	own_env(s_global *s_global)
+void	own_env(s_gbl *s_gbl)
 {
 	int	i;
 
 	i = 0;
-	while (s_global->miniEnv[i])
+	while (s_gbl->miniEnv[i])
 	{
-		printf("%s\n", s_global->miniEnv[i]);
+		printf("%s\n", s_gbl->miniEnv[i]);
 		i++;
 	}
 }
@@ -34,7 +34,7 @@ void    own_cd()
         perror("error chdir\n");
 }
 
-int	if_builtin(s_global *s_global, char *input)
+int	if_builtin(s_gbl *s_gbl, char *input)
 {
 	//if (ft_strncmp(input, "echo", 4) == 0)
 	//	own_echo();
@@ -47,7 +47,7 @@ int	if_builtin(s_global *s_global, char *input)
 	else if (ft_strcmp(input, "unset") == 0)
 		own_unset();
 	else if (ft_strcmp(input, "env") == 0)
-		own_env(s_global);
+		own_env(s_gbl);
 	else if (ft_strcmp(input, "exit") == 0)
 		own_exit();*/
 	else

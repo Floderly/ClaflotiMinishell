@@ -1,0 +1,40 @@
+2/3 truc a voir / faire
+split le parsing entre les commandes et les pipes (et les redirections ?)
+
+Refaire le parsing, check caractere par caractere
+et si detecte $ lancer fonction qui fait dollar
+si detecte quote traitement pareil
+si detecte redirection pareil
+et on re ecrit qu'une string
+
+Faire une ligne de code a reussir avant la fin de soiree
+
+
+Si argv[-1] et argv[+1] pas commande, pipe marche pas
+
+PARSING
+Check si single et double quote fermer (avec boucle string, et switch)
+Change les vars
+Separe dans un tableau :
+ - Command avec argument
+ - pipe "|"
+ - redirection < / > / << / >>
+Passe toute les redirections du tableau
+Les applique
+Passe toutes les non redirections
+Et check si pipe
+Moyen de faire en sorte que ca execute
+
+t < | > e
+
+Ligne qui doivent marcher :
+<test rev
+<    test    rev
+rev <test
+rev <test <test2
+<test <test2 rev
+< test rev | cat -e
+< test cat -e | rev
+
+echo " $USER ' '''" '"""' $PAGER   " $PATH "
+

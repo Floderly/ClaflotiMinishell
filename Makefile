@@ -13,10 +13,12 @@
 NAME =	minishell
 
 SRCS =	minishell.c \
+		minishell2.c \
 		ft_utils/ft_split.c \
 		ft_utils/ft_strjoin.c \
 		ft_utils/ft_strnstr.c \
 		ft_utils/ft_strdup.c \
+		ft_utils/ft_gcstrdup.c \
 		ft_utils/skipSpace.c \
 		ft_utils/ft_strcmp.c \
 		ft_utils/ft_strncmp.c \
@@ -28,6 +30,7 @@ SRCS =	minishell.c \
 		parsing/quoteCheck.c \
 		parsing/varEnvChang.c \
 		parsing/redirection.c \
+		listeExecution.c \
 
 LIBGCDIR = gc
 LIBGC = libgc.a

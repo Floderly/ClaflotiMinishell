@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   head.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chugot <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fderly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/04/20 11:40:27 by chugot           ###   ########.fr       */
+/*   Created: 2023/05/03 11:53:53 by fderly            #+#    #+#             */
+/*   Updated: 2023/05/03 11:53:55 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	quote_check(char *input)
+char	*ft_gcstrdup(const char *s, s_gbl *s_gbl)
 {
-	int	i;
+	int		i;
+	char	*dst;
+	int		len;
 
+	len = 0;
 	i = 0;
-	while (input[i] != 0)
+	while (s[len])
+		len++;
+	dst = gc_malloc(&s_gbl->gc ,sizeof(char) * len + 1);
+	if (dst == 0)
+		return (NULL);
+	while (s[i] != '\0')
 	{
-		if (input[i] == '\'')
-		{
-			i++;
-			while (input[i] != '\'')
-				if (input[i++] == 0)
-					return (0);
-		}
-		if (input[i] == '"')
-		{
-			i++;
-			while (input[i] != '"')
-				if (input[i++] == 0)
-					return (0);
-		}
+		dst[i] = s[i];
 		i++;
 	}
-	return (1);
+	dst[i] = '\0';
+	return (dst);
 }

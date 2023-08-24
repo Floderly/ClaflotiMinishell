@@ -13,3 +13,8 @@ echo test $USER test $USER test
 echo $ USER
 echo tttt >    fileTest
 echo < test 12345
+ec"ho" bon"'j'o'u"r
+echo "'$USER'"
+<test rev
+< test rev | cat -e
+< test cat -e | rev
