@@ -59,3 +59,5 @@ PASSEMENT PARSING EXECUTION
 J'ai trouve un cas ou ce qu'on fait marche pas, c'est des trucs genre : "echo 123" 456
 Le vrai bash chercher la commande echo 123, et dit quelle existe pas
 Mais jpense c'est pas grave si on fait pas pareil que bash pour ca
+
+Redirection toujours prioritaire sur les pipes

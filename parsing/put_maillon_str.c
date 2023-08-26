@@ -12,115 +12,130 @@
 
 #include "../minishell.h"
 
-void	put_maillon_str(s_gbl *s_gbl, int startStr, int lgStr, TokenList *token_list)
+void	process_single_quote(char *strtempo, int *i, int *redi_r, s_gbl *s_gbl)
 {
-	char	*strTempo;
-	int	i;
-	int	rediR;
-
-	rediR = 0;
-	i = 0;
-	strTempo = malloc (sizeof(char) * 9999);
-	while (i + rediR < lgStr)
+	strtempo[*i] = s_gbl->inputVarEnv[s_gbl->startStr + *i + *redi_r];
+	(*i)++;
+	while (s_gbl->inputVarEnv[s_gbl->startStr + *i + *redi_r] != '\'')
 	{
-		if (s_gbl->inputVarEnv[startStr + i + rediR] == '\'')
-		{
-			strTempo[i] = s_gbl->inputVarEnv[startStr + i + rediR];
-			i++;
-			while (s_gbl->inputVarEnv[startStr + i + rediR] != '\'')
-			{
-				strTempo[i] = s_gbl->inputVarEnv[startStr + i + rediR];
-				i++;
-			}
-			strTempo[i] = s_gbl->inputVarEnv[startStr + i + rediR];
-		}
-		else if (s_gbl->inputVarEnv[startStr + i + rediR] == '"')
-		{
-			strTempo[i] = s_gbl->inputVarEnv[startStr + i + rediR];
-			i++;
-			while (s_gbl->inputVarEnv[startStr + i + rediR] != '"')
-			{
-				strTempo[i] = s_gbl->inputVarEnv[startStr + i + rediR];
-				i++;
-			}
-			strTempo[i] = s_gbl->inputVarEnv[startStr + i + rediR];
-		}
-		else if (s_gbl->inputVarEnv[startStr + i + rediR] == '>' || s_gbl->inputVarEnv[startStr + i + rediR] == '<')
-		{
-			rediR++;
-			while (s_gbl->inputVarEnv[startStr + i + rediR] == ' ' && s_gbl->inputVarEnv[startStr + i + rediR] != 0)
-				rediR++;
-			while (s_gbl->inputVarEnv[startStr + i + rediR] != ' ' && s_gbl->inputVarEnv[startStr + i + rediR] != 0)
-				rediR++;
-			strTempo[i] = s_gbl->inputVarEnv[startStr + i + rediR];
-		}
+		strtempo[*i] = s_gbl->inputVarEnv[s_gbl->startStr + *i + *redi_r];
+		(*i)++;
+	}
+	strtempo[*i] = s_gbl->inputVarEnv[s_gbl->startStr + *i + *redi_r];
+}
+
+void	process_double_quote(char *strtempo, int *i, int *redi_r, s_gbl *s_gbl)
+{
+	strtempo[*i] = s_gbl->inputVarEnv[s_gbl->startStr + *i + *redi_r];
+	(*i)++;
+	while (s_gbl->inputVarEnv[s_gbl->startStr + *i + *redi_r] != '"')
+	{
+		strtempo[*i] = s_gbl->inputVarEnv[s_gbl->startStr + *i + *redi_r];
+		(*i)++;
+	}
+	strtempo[*i] = s_gbl->inputVarEnv[s_gbl->startStr + *i + *redi_r];
+}
+
+void	process_redi_rection(char *strtempo, int *i, int *redi_r, s_gbl *s_gbl)
+{
+	(*redi_r)++;
+	while (s_gbl->inputVarEnv[s_gbl->startStr + (*i) + (*redi_r)] == ' ' 
+		&& s_gbl->inputVarEnv[s_gbl->startStr + (*i) + (*redi_r)] != 0)
+		(*redi_r)++;
+	while (s_gbl->inputVarEnv[s_gbl->startStr + (*i) + (*redi_r)] != ' '
+		&& s_gbl->inputVarEnv[s_gbl->startStr + (*i) + (*redi_r)] != 0
+		&& s_gbl->inputVarEnv[s_gbl->startStr + (*i) + (*redi_r)] != '>'
+		&& s_gbl->inputVarEnv[s_gbl->startStr + (*i) + (*redi_r)] != '<')
+		(*redi_r)++;
+	strtempo[(*i)] = ' ';
+	(*redi_r)--;
+}
+
+void	put_maillon_str(s_gbl *s_gbl, TokenList *token_list)
+{
+	char	*strtempo;
+	int		i;
+	int		redi_r;
+
+	redi_r = 0;
+	i = 0;
+	strtempo = malloc (sizeof(char) * 9999);
+	while (i + redi_r < s_gbl->lgStr)
+	{
+		if (s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r] == '\'')
+			process_single_quote(strtempo, &i, &redi_r, s_gbl);
+		else if (s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r] == '"')
+			process_double_quote(strtempo, &i, &redi_r, s_gbl);
+		else if (s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r] == '>' 
+			|| s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r] == '<')
+			process_redi_rection(strtempo, &i, &redi_r, s_gbl);
 		else
-			strTempo[i] = s_gbl->inputVarEnv[startStr + i + rediR];
+			strtempo[i] = s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r];
 		i++;
 	}
-	strTempo[i] = 0;
-	addToken(token_list, strTempo, 1, s_gbl);
-	free (strTempo);
+	strtempo[i] = 0;
+	addToken(token_list, strtempo, 1, s_gbl);
+	free (strtempo);
 }
 
 /*
 ANCIEN PUT_MAILLON_STR, QUI ENLEVE LES QUOTES
-void	put_maillon_str(s_gbl *s_gbl, int startStr, int lgStr, TokenList *token_list)
+void	put_maillon_str(s_gbl *s_gbl, int s_gbl->startStr, int lgStr, TokenList *token_list)
 {
-	char	*strTempo;
+	char	*strtempo;
 	int	i;
 	int	quoteR;
-	int	rediR;
+	int	redi_r;
 
-	rediR = 0;
+	redi_r = 0;
 	quoteR = 0;
 	i = 0;
-	strTempo = malloc (sizeof(char) * 9999);
-	while (i + rediR < lgStr) //rajouter quoteR ????
+	strtempo = malloc (sizeof(char) * 9999);
+	while (i + redi_r < lgStr) //rajouter quoteR ????
 	{
-		if (s_gbl->inputVarEnv[startStr + i + rediR] == '\'')
+		if (s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r] == '\'')
 		{
 			i++;
 			quoteR++;
-			while (s_gbl->inputVarEnv[startStr + i + rediR] != '\'')
+			while (s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r] != '\'')
 			{
-				strTempo[i - quoteR] = s_gbl->inputVarEnv[startStr + i + rediR];
+				strtempo[i - quoteR] = s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r];
 				i++;
 			}
 			quoteR++;
 		}
-		else if (s_gbl->inputVarEnv[startStr + i + rediR] == '"')
+		else if (s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r] == '"')
 		{
 			printf("Je rentre double quote////////////\n");
 			i++;
 			quoteR++;
-			while (s_gbl->inputVarEnv[startStr + i + rediR] != '"')
+			while (s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r] != '"')
 			{
-				strTempo[i - quoteR] = s_gbl->inputVarEnv[startStr + i + rediR];
+				strtempo[i - quoteR] = s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r];
 				i++;
 			}
 			quoteR++;
 		}
-		else if (s_gbl->inputVarEnv[startStr + i + rediR] == '>' || s_gbl->inputVarEnv[startStr + i + rediR] == '<')
+		else if (s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r] == '>' || s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r] == '<')
 		{
-			rediR++;
-			while (s_gbl->inputVarEnv[startStr + i + rediR] == ' ' && s_gbl->inputVarEnv[startStr + i + rediR] != 0)
-				rediR++;
-			while (s_gbl->inputVarEnv[startStr + i + rediR] != ' ' && s_gbl->inputVarEnv[startStr + i + rediR] != 0)
-				rediR++;
-			printf("Print redirect : %c\n", s_gbl->inputVarEnv[startStr + i + rediR]);
-			strTempo[i - quoteR] = s_gbl->inputVarEnv[startStr + i + rediR];
+			redi_r++;
+			while (s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r] == ' ' && s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r] != 0)
+				redi_r++;
+			while (s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r] != ' ' && s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r] != 0)
+				redi_r++;
+			printf("Print redi_rect : %c\n", s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r]);
+			strtempo[i - quoteR] = s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r];
 		}
 		else
 		{
-			printf("Test print normal : %c\n", s_gbl->inputVarEnv[startStr + i + rediR]);
-			strTempo[i - quoteR] = s_gbl->inputVarEnv[startStr + i + rediR];
+			printf("Test print normal : %c\n", s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r]);
+			strtempo[i - quoteR] = s_gbl->inputVarEnv[s_gbl->startStr + i + redi_r];
 		}
 		i++;
 	}
-	strTempo[i - quoteR] = 0;
-	printf("Test putMaillonStr : %s\n", strTempo);
-	addToken(token_list, strTempo, 1, s_gbl);
-	free (strTempo);
+	strtempo[i - quoteR] = 0;
+	printf("Test putMaillonStr : %s\n", strtempo);
+	addToken(token_list, strtempo, 1, s_gbl);
+	free (strtempo);
 }
 */

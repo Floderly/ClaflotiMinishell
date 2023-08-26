@@ -38,7 +38,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (new == 0)
 		return (NULL);
 	while (i <= length)
-	{	
+	{
 		while (i < ft_strlen((char *) s1))
 		{
 			new[i] = s1[i];

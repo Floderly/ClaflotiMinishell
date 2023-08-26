@@ -23,7 +23,7 @@ int	entree_redirection(s_gbl *s_gbl, int i)
 	i++;
 	k = 1;
 	printf("Test skipSpace : %d\n", k);
-	k = k + skipSpace(s_gbl->inputVarEnv, i);
+	k = k + skip_space(s_gbl->inputVarEnv, i);
 	printf("Test skipSpace : %d\n", k);
 	printf("Test du i : %d\n", i);
 	printf("Test du i + k cibler : %c\n", s_gbl->inputVarEnv[i + k]);

@@ -36,7 +36,11 @@ typedef struct t_gbl
     char    *redirectionNameFile;
     int switchSingleQuote;
     char    **gestionTest;
+    //pour maillon str, pour la norminette
+    int startStr;
+    int lgStr;
 }s_gbl;
+
 
 // LC ARGUMENT TOKEN
 typedef struct s_Token {
@@ -75,15 +79,21 @@ void	free_tab(char **tab);
 void	error_msg(char *msg);
 
 //FONCTION AUTRE
-int	skipSpace(char *string, int i); // A REFAIRE AVEC +1 ?
+int	skip_space(char *string, int i); // A REFAIRE AVEC +1 ?
 
 // FONCTION PARSING
 int	parsing(s_gbl *s_gbl, TokenList *token_list);
 int	quote_check(char *input);
 int	var_env_chang(s_gbl *s_gbl);
 int	redirection(s_gbl *s_gbl);
+int	check_pipe_at_start(s_gbl *s_gbl);
 
-void	put_maillon_str(s_gbl *s_gbl, int startStr, int lgStr, TokenList *token_list);
+int	add_list_exec(s_gbl *s_gbl, TokenList *token_list);
+void	put_maillon_str(s_gbl *s_gbl, TokenList *token_list);
+int	put_red_deli_str(s_gbl *s_gbl, TokenList *token_list);
+int	put_red_in_str(s_gbl *s_gbl, TokenList *token_list);
+int	put_red_out_str(s_gbl *s_gbl, TokenList *token_list);
+int	put_red_append_str(s_gbl *s_gbl, TokenList *token_list);
 
 // LISTE CHAINER D'EXECUTION
 void addToken(TokenList *tokenList, char *prompt_str, int tokenType, s_gbl *s_gbl);

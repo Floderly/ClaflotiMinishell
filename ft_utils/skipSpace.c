@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	skipSpace(char *string, int i)
+int	skip_space(char *string, int i)
 {
 	int	j;
 

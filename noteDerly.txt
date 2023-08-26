@@ -1,32 +1,3 @@
-2/3 truc a voir / faire
-split le parsing entre les commandes et les pipes (et les redirections ?)
-
-Refaire le parsing, check caractere par caractere
-et si detecte $ lancer fonction qui fait dollar
-si detecte quote traitement pareil
-si detecte redirection pareil
-et on re ecrit qu'une string
-
-Faire une ligne de code a reussir avant la fin de soiree
-
-
-Si argv[-1] et argv[+1] pas commande, pipe marche pas
-
-PARSING
-Check si single et double quote fermer (avec boucle string, et switch)
-Change les vars
-Separe dans un tableau :
- - Command avec argument
- - pipe "|"
- - redirection < / > / << / >>
-Passe toute les redirections du tableau
-Les applique
-Passe toutes les non redirections
-Et check si pipe
-Moyen de faire en sorte que ca execute
-
-t < | > e
-
 Ligne qui doivent marcher :
 <test rev
 <    test    rev
@@ -54,3 +25,18 @@ gros probleme, le echo "oui        non" ne marchera pas si on envoie pas largume
 SOLUTION : moyen d'envoyer plusieurs maillon comme avant
 ou
 envoyer les quote dans le maillon
+
+
+Pour le check de fichier existant, le faire sur mon parsing
+Mais pour faire le vrai, il faudrait le faire dans lexecution
+ls >tes | rev<tes doit executer la premiere commande, mais la 2eme parti marche pas
+
+
+A faire next :
+ - Entre et delimiteur dans l'ordre
+ - Sorti et append dans l'ordre
+ - Check chaque maillon type 1 pour voir si c'est vide ou non, renvoyez une erreur si jamais
+ - Check chaque entry standard pour voir si ca existe bien
+ - Vider la chaine chainer a chaque readline
+ 
+Avoir le code parsing qui est clean (norminette + clean + leak)

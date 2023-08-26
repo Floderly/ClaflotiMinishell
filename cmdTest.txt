@@ -21,6 +21,8 @@ echo "'$USER'"
 echo test <sorti jjk | tet | "oui"'non'|<entree $USER et "$USER" et '$USER' >fin
 cat >oui>non
 cat <oui>non
+echo "test" <oui>mom test h <oui i>mom j
+echo     123     |       | rev
 
 
 Commande de chien :
