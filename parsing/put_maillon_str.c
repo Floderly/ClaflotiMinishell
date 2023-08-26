@@ -12,10 +12,6 @@
 
 #include "../minishell.h"
 
-void processSingleQuote(char *strTempo, int *i, int *rediR, int startStr, s_gbl *s_gbl)
-{
-	
-}
 void	put_maillon_str(s_gbl *s_gbl, int startStr, int lgStr, TokenList *token_list)
 {
 	char	*strTempo;
