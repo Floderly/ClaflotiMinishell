@@ -12,117 +12,117 @@
 
 #include "../minishell.h"
 
-int	add_var(s_gbl *s_gbl, int i)
+int	add_var(s_g *s_g, int i)
 {
 	int	j;
 	int	k;
 
 	j = 0;
-	while (s_gbl->miniEnv[j])
+	while (s_g->miniEnv[j])
 	{
-		if (ft_strnstr(s_gbl->miniEnv[j], s_gbl->pathVarTempo,
-				ft_strlen(s_gbl->pathVarTempo)) != NULL)
+		if (ft_strnstr(s_g->miniEnv[j], s_g->pathVarTempo,
+				ft_strlen(s_g->pathVarTempo)) != NULL)
 			break ;
 		j++;
 	}
 	k = 0;
-	while (s_gbl->miniEnv[j][ft_strlen(s_gbl->pathVarTempo) + k + 1] != ' '
-		&& s_gbl->miniEnv[j][ft_strlen(s_gbl->pathVarTempo) + k + 1] != 0)
+	while (s_g->miniEnv[j][ft_strlen(s_g->pathVarTempo) + k + 1] != ' '
+		&& s_g->miniEnv[j][ft_strlen(s_g->pathVarTempo) + k + 1] != 0)
 	{
-		s_gbl->inputVarEnv[i + k] = s_gbl->miniEnv[j]
-		[ft_strlen(s_gbl->pathVarTempo) + k + 1];
+		s_g->i2[i + k] = s_g->miniEnv[j]
+		[ft_strlen(s_g->pathVarTempo) + k + 1];
 		k++;
 	}
-	s_gbl->inputVarEnv[i + k] = 0;
-	printf("Prompt MAJ : %s\n", s_gbl->inputVarEnv);
+	s_g->i2[i + k] = 0;
+	printf("Prompt MAJ : %s\n", s_g->i2);
 	return (k);
 }
 
-int	check_var(s_gbl *s_gbl, int i)
+int	check_var(s_g *s_g, int i)
 {
 	int	j;
 
-	s_gbl->pathVarTempo = gc_malloc (&s_gbl->gc ,sizeof(char) * 9999);
-	if (!s_gbl->pathVarTempo)
+	s_g->pathVarTempo = malloc (sizeof(char) * 9999);
+	if (!s_g->pathVarTempo)
 		return (0);
 	i++;
 	j = 0;
-	while (s_gbl->input[i + j] != 0 && s_gbl->input[i + j] != ' ')
+	while (s_g->input[i + j] != 0 && s_g->input[i + j] != ' ')
 	{
-		s_gbl->pathVarTempo[j] = s_gbl->input[i + j];
+		s_g->pathVarTempo[j] = s_g->input[i + j];
 		j++;
 	}
-	s_gbl->pathVarTempo[j] = 0;
-	printf("Variable trouver : %s\n", s_gbl->pathVarTempo);
+	s_g->pathVarTempo[j] = 0;
+	printf("Variable trouver : %s\n", s_g->pathVarTempo);
 	i = 0;
-	while (s_gbl->miniEnv[i])
+	while (s_g->miniEnv[i])
 	{
-		if ((ft_strnstr(s_gbl->miniEnv[i], s_gbl->pathVarTempo,
-					ft_strlen(s_gbl->pathVarTempo)) != NULL)
-			&& s_gbl->miniEnv[i][ft_strlen(s_gbl->pathVarTempo)] == '=')
+		if ((ft_strnstr(s_g->miniEnv[i], s_g->pathVarTempo,
+					ft_strlen(s_g->pathVarTempo)) != NULL)
+			&& s_g->miniEnv[i][ft_strlen(s_g->pathVarTempo)] == '=')
 		{
 			printf("La variable existe bien\n");
 			break ;
 		}
 		i++;
 	}
-	if (s_gbl->miniEnv[i] == 0)
+	if (s_g->miniEnv[i] == 0)
 	{
 		printf("La variable n'existe pas\n");
-		free(s_gbl->pathVarTempo);
+		free(s_g->pathVarTempo);
 		return (0);
 	}
 	return (1);
 }
 
-int	var_env_chang(s_gbl *s_gbl)
+int	var_env_chang(s_g *s_g)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	s_gbl->inputVarEnv = gc_malloc (&s_gbl->gc ,sizeof(char) * 99999);
-	if (!s_gbl->inputVarEnv)
+	s_g->i2 = gc_malloc (&s_g->gc, sizeof(char) * 99999);
+	if (!s_g->i2)
 		return (0);
-	while (s_gbl->input[i])
+	while (s_g->input[i])
 	{
-		if (s_gbl->input[i] == '\'')
+		if (s_g->input[i] == '\'')
 		{
-			s_gbl->inputVarEnv[j] = s_gbl->input[i]; // Copie l'apostrophe simple
+			s_g->i2[j] = s_g->input[i]; // Copie l'apostrophe simple
 			j++;
 			i++;
-			while (s_gbl->input[i] != '\'')
+			while (s_g->input[i] != '\'')
 			{
-				s_gbl->inputVarEnv[j] = s_gbl->input[i]; // Copie le caractère entre les apostrophes
+				s_g->i2[j] = s_g->input[i]; // Copie le caractère entre les apostrophes
 				j++;
 				i++;
 			}
-			s_gbl->inputVarEnv[j] = s_gbl->input[i]; // Copie la deuxième apostrophe simple
+			s_g->i2[j] = s_g->input[i]; // Copie la deuxième apostrophe simple
 			j++;
 			i++;
 		}
-		else if (s_gbl->input[i] == '$' && s_gbl->input[i + 1] != ' ')
+		else if (s_g->input[i] == '$' && s_g->input[i + 1] != ' ')
 		{
-			if (check_var(s_gbl, i) != 0)
+			if (check_var(s_g, i) != 0)
 			{
-				j += add_var(s_gbl, j);
-				i += ft_strlen(s_gbl->pathVarTempo) + 1;
+				j += add_var(s_g, j);
+				i += ft_strlen(s_g->pathVarTempo) + 1;
 			}
 			else
 			{
-				free(s_gbl->inputVarEnv);
+				free(s_g->i2);
 				return (0);
 			}
 		}
 		else
 		{
-			s_gbl->inputVarEnv[j] = s_gbl->input[i];
+			s_g->i2[j] = s_g->input[i];
 			j++;
 			i++;
 		}
 	}
-	s_gbl->inputVarEnv[j] = '\0';
-	printf("Prompt fin traitement var : %s\n", s_gbl->inputVarEnv);
+	s_g->i2[j] = '\0';
+	printf("Prompt fin traitement var : %s\n", s_g->i2);
 	return (1);
 }

@@ -29,11 +29,11 @@ SRCS =	minishell.c \
 		parsing/parsing.c \
 		parsing/quoteCheck.c \
 		parsing/varEnvChang.c \
-		parsing/redirection.c \
 		parsing/put_maillon_str.c \
 		parsing/check_pipe_at_start.c \
 		parsing/add_list_exec.c \
-		parsing/put_redi_liste.c \
+		parsing/put_sorti.c \
+		parsing/put_entry.c \
 		listeExecution.c \
 
 LIBGCDIR = gc

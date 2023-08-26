@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*check_path(s_gbl *s_gbl, char *cmd)
+char	*check_path(s_g *s_g, char *cmd)
 {
 	char	**tabpath;
 	char	*halfpath;
@@ -20,9 +20,9 @@ char	*check_path(s_gbl *s_gbl, char *cmd)
 	int		i;
 
 	i = 0;
-	while (ft_strnstr(s_gbl->miniEnv[i], "PATH=", 5) == NULL)
+	while (ft_strnstr(s_g->miniEnv[i], "PATH=", 5) == NULL)
 		i++;
-	tabpath = ft_split(s_gbl->miniEnv[i] + 5, ':');
+	tabpath = ft_split(s_g->miniEnv[i] + 5, ':');
 	i = 0;
 	while (tabpath[i])
 	{
@@ -42,14 +42,14 @@ char	*check_path(s_gbl *s_gbl, char *cmd)
 	return(0);
 }
 
-void	path(s_gbl *s_gbl, char *argv)
+void	path(s_g *s_g, char *argv)
 {
 	char	**cmd;
 	char	*path;
 
 	cmd = ft_split(argv, ' ');
-	path = check_path(s_gbl, cmd[0]);
-	if (execve(path, cmd, s_gbl->miniEnv) == -1)
+	path = check_path(s_g, cmd[0]);
+	if (execve(path, cmd, s_g->miniEnv) == -1)
 	{
 		free_tab(cmd);
 		free(path);
@@ -59,12 +59,12 @@ void	path(s_gbl *s_gbl, char *argv)
 	free(path);
 }
 
-char	*change_cmd_0(s_gbl *s_gbl, char **cmd, char *path1) //modif la cmd[0] pour ne pas avoir le path pour deuxieme argument de execve.
+char	*change_cmd_0(s_g *s_g, char **cmd, char *path1) //modif la cmd[0] pour ne pas avoir le path pour deuxieme argument de execve.
 {
 	int	i;
 	int	j; //index debut cmd.
 
-	(void)s_gbl;
+	(void)s_g;
 	i = 0;
 	while (cmd[0][i])
 	{
@@ -87,15 +87,15 @@ char	*change_cmd_0(s_gbl *s_gbl, char **cmd, char *path1) //modif la cmd[0] pour
 	return(cmd[0]);
 }
 
-void	path_user(s_gbl *s_gbl, char *input)
+void	path_user(s_g *s_g, char *input)
 {
 	char	**cmd;
 	char *path1; //path sans option.
 
 	cmd = ft_split(input, ' ');
 	path1 = malloc(sizeof(char) * ft_strlen(cmd[0]));
-	cmd[0] = change_cmd_0(s_gbl, cmd, path1);
-	if (execve(path1, cmd, s_gbl->miniEnv) == -1)
+	cmd[0] = change_cmd_0(s_g, cmd, path1);
+	if (execve(path1, cmd, s_g->miniEnv) == -1)
 	{
 		free_tab(cmd);
 		free(path1);

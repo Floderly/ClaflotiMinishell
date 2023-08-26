@@ -33,10 +33,10 @@ ls >tes | rev<tes doit executer la premiere commande, mais la 2eme parti marche 
 
 
 A faire next :
- - Entre et delimiteur dans l'ordre
- - Sorti et append dans l'ordre
- - Check chaque maillon type 1 pour voir si c'est vide ou non, renvoyez une erreur si jamais
- - Check chaque entry standard pour voir si ca existe bien
- - Vider la chaine chainer a chaque readline
+G - Entre et delimiteur dans l'ordre
+G - Sorti et append dans l'ordre
+G - Check chaque maillon type 1 pour voir si c'est vide ou non, renvoyez une erreur si jamais
+G - Check chaque entry standard pour voir si ca existe bien
+G - Vider la chaine chainer a chaque readline
  
 Avoir le code parsing qui est clean (norminette + clean + leak)

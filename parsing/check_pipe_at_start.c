@@ -12,14 +12,14 @@
 
 #include "../minishell.h"
 
-int	check_pipe_at_start(s_gbl *s_gbl)
+int	check_pipe_at_start(s_g *s_g)
 {
 	int	i;
 
 	i = 0;
-	while (s_gbl->inputVarEnv[i] == ' ' && s_gbl->inputVarEnv[i] != 0)
+	while (s_g->i2[i] == ' ' && s_g->i2[i] != 0)
 		i++;
-	if (s_gbl->inputVarEnv[i] == '|')
+	if (s_g->i2[i] == '|')
 	{
 		printf("Le ptit pipe est solo bolo devant\n");
 		return (0);
