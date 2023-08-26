@@ -30,6 +30,7 @@ SRCS =	minishell.c \
 		parsing/quoteCheck.c \
 		parsing/varEnvChang.c \
 		parsing/redirection.c \
+		parsing/put_maillon_str.c \
 		listeExecution.c \
 
 LIBGCDIR = gc
@@ -38,12 +39,12 @@ LIBGCFLAGS = -L $(LIBGCDIR) -l:$(LIBGC)
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror -lreadline -lhistory
+CFLAGS = -Wall -Wextra -Werror -lreadline -lhistory
 
 OBJS = $(SRCS:.c=.o)
 
 $(NAME):	$(OBJS) $(LIBGCDIR)/$(LIBGC)
-			$(CC) $(OBJS) -o $(NAME) $(FLAGS) $(LIBGCFLAGS)
+			$(CC) $(OBJS) -o $(NAME) $(CFLAGS) $(LIBGCFLAGS)
 
 $(LIBGCDIR)/$(LIBGC):
 	make -C $(LIBGCDIR)

@@ -55,3 +55,7 @@ PASSEMENT PARSING EXECUTION
 || BLOC STR || entre chaque pipe
 || REDIRECTION || 0 ou plusieur apres un bloc STR
 || PIPE "|" || separe les bloc STR change sortie, priorite au redirection
+
+J'ai trouve un cas ou ce qu'on fait marche pas, c'est des trucs genre : "echo 123" 456
+Le vrai bash chercher la commande echo 123, et dit quelle existe pas
+Mais jpense c'est pas grave si on fait pas pareil que bash pour ca

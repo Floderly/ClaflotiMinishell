@@ -39,6 +39,7 @@ char	*check_path(s_gbl *s_gbl, char *cmd)
 	}
 	free_tab(tabpath);
 	error_msg("error no path found\n");
+	return(0);
 }
 
 void	path(s_gbl *s_gbl, char *argv)
@@ -63,6 +64,7 @@ char	*change_cmd_0(s_gbl *s_gbl, char **cmd, char *path1) //modif la cmd[0] pour
 	int	i;
 	int	j; //index debut cmd.
 
+	(void)s_gbl;
 	i = 0;
 	while (cmd[0][i])
 	{

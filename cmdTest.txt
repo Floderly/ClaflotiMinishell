@@ -18,3 +18,15 @@ echo "'$USER'"
 <test rev
 < test rev | cat -e
 < test cat -e | rev
+echo test <sorti jjk | tet | "oui"'non'|<entree $USER et "$USER" et '$USER' >fin
+cat >oui>non
+cat <oui>non
+
+
+Commande de chien :
+echo ee > test > wbou tt
+echo 123 <> test
+| echo test
+echo et >>>oui
+cat  <<     oui>test
+

@@ -46,3 +46,11 @@ La variable n'existe pas
 munmap_chunk(): invalid pointer
 [1]    39607 abort (core dumped)  ./minishell
 
+"echo aaaa" ne doit pas marcher, le parsing annule ca, a voir si d'autre probleme avec le parsing
+pres execution qui enleve tout les quotes
+
+gros probleme, le echo "oui        non" ne marchera pas si on envoie pas largument avec les quotes
+
+SOLUTION : moyen d'envoyer plusieurs maillon comme avant
+ou
+envoyer les quote dans le maillon

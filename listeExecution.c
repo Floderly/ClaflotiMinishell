@@ -47,12 +47,13 @@ void initTokenList(TokenList *token_list)
 
 void initTokenTest(s_gbl *s_gbl, TokenList *token_list)
 {
+	(void)s_gbl;
 	// EXEMPLE NUMERO 1
 	//Ligne de commande shell pour tester bash : echo abc | rev > testSorti
-	addToken(token_list, "echo abc", 1, s_gbl);
-	addToken(token_list, "|", 2, s_gbl);
-	addToken(token_list, "rev", 1, s_gbl);
-	addToken(token_list, "testSorti", 4, s_gbl);
+	//addToken(token_list, "LE TEST", 1, s_gbl);
+	//addToken(token_list, "|", 2, s_gbl);
+	//addToken(token_list, "rev", 1, s_gbl);
+	//addToken(token_list, "testSorti", 4, s_gbl);
 	
 	/*
 	EXEMPLE NUMERO 2

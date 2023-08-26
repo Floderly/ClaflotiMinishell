@@ -14,6 +14,8 @@
 
 int main(int argc, char **argv, char **env)
 {
+    (void)argc;
+    (void)argv;
 	s_gbl    s_gbl;
 	TokenList   token_list;
 
@@ -41,7 +43,7 @@ int main(int argc, char **argv, char **env)
 			// -------------------  DERLY  -------------------
             printf("---------- PARSING ------------\n");
             printf("Prompt avant traitement : %s\n", s_gbl.input);
-			printf("Valeur retour du parsing : %d\n", parsing(&s_gbl));
+			printf("Valeur retour du parsing : %d\n", parsing(&s_gbl, &token_list));
             printf("Prompt apres traitement : %s\n", s_gbl.inputVarEnv);
             printf("Liste chainer generer (test):\n");
 			afficherTokens(&token_list);

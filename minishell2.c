@@ -17,15 +17,16 @@ void	son(s_gbl *s_gbl, char *input)
 	pid_t	pid;
 	char	*input_without;
 
+	input_without = 0;
 	pid = fork();
 	input_without = clone_input_without_option(input, input_without);
 	if (pid == -1)
 		error_msg("error fork\n");
 	else if (pid == 0)
 	{
-		if (if_builtin(s_gbl, input) == 0) //si c'est des fonctions builtins, execute nos propres fonctions ci-dessous.
+		/*if (if_builtin(s_gbl, input) == 0) //si c'est des fonctions builtins, execute nos propres fonctions ci-dessous.
 			exit(0);
-		else if (access(input_without, F_OK) == 0 ) //verif si la commande entree par l'user n'est pas directement un path valide. Attention si c'est JUSTE un path.
+		else*/ if (access(input_without, F_OK) == 0 ) //verif si la commande entree par l'user n'est pas directement un path valide. Attention si c'est JUSTE un path.
 		{
 			path_user(s_gbl, input);
 			free(input_without);

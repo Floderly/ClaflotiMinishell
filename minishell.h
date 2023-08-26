@@ -78,10 +78,12 @@ void	error_msg(char *msg);
 int	skipSpace(char *string, int i); // A REFAIRE AVEC +1 ?
 
 // FONCTION PARSING
-int	parsing(s_gbl *s_gbl);
+int	parsing(s_gbl *s_gbl, TokenList *token_list);
 int	quote_check(char *input);
 int	var_env_chang(s_gbl *s_gbl);
 int	redirection(s_gbl *s_gbl);
+
+void	put_maillon_str(s_gbl *s_gbl, int startStr, int lgStr, TokenList *token_list);
 
 // LISTE CHAINER D'EXECUTION
 void addToken(TokenList *tokenList, char *prompt_str, int tokenType, s_gbl *s_gbl);
