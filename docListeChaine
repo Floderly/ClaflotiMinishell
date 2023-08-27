@@ -1,9 +1,9 @@
 DOC LISTE CHAINE
 
 //affiche la liste chainer
-afficherTokens(&tokenList);
+afficher_tokens(&to_lst);
 
-TokenList pour la tete de la liste
+to_lst pour la tete de la liste
 TokenNode
 token pour la string en char*
 tokenType pour le type en int
@@ -19,36 +19,36 @@ Numero du type :
 
 // EXEMPLE NUMERO 1
 //Ligne de commande shell pour tester bash : echo abc | rev > testSorti
-addToken(token_list, "echo abc", 1, s_g);
-addToken(token_list, "|", 2, s_g);
-addToken(token_list, "rev", 1, s_g);
-addToken(token_list, "testSorti", 4, s_g);
+add_token(to_lst, "echo abc", 1, s_g);
+add_token(to_lst, "|", 2, s_g);
+add_token(to_lst, "rev", 1, s_g);
+add_token(to_lst, "testSorti", 4, s_g);
 	
 /*
 EXEMPLE NUMERO 2
 Ligne de commnade shell pour tester bash : rev < testEntree | cat -e | rev > testSorti
 Doit mettre un $ devant la phrase dans le fichier testEntree, inverse le sens, puis cat -e et re inverse
-addToken(token_list, "rev", 1, s_g);
-addToken(token_list, "testEntree", 3, s_g);
-addToken(token_list, "|", 3, s_g);
-addToken(token_list, "cat -e", 1, s_g);
-addToken(token_list, "|", 3, s_g);
-addToken(token_list, "rev", 1, s_g);
-addToken(token_list, "testSorti", 4, s_g);
+add_token(to_lst, "rev", 1, s_g);
+add_token(to_lst, "testEntree", 3, s_g);
+add_token(to_lst, "|", 3, s_g);
+add_token(to_lst, "cat -e", 1, s_g);
+add_token(to_lst, "|", 3, s_g);
+add_token(to_lst, "rev", 1, s_g);
+add_token(to_lst, "testSorti", 4, s_g);
 */
 
 /*
 EXEMPLE NUMERO 3
 Ligne de commande shell pour tester bash : ls -l > testFile | rev < testFile | cat -e > testSortiN3
 Met ls -l dans sorti testFile
-addToken(token_list, "ls -l", 1, s_g);
-addToken(token_list, "testFile", 4, s_g);
-addToken(token_list, "|", 3, s_g);
-addToken(token_list, "rev", 1, s_g);
-addToken(token_list, "testFile", 3, s_g);
-addToken(token_list, "|", 3, s_g);
-addToken(token_list, "cat -e", 1, s_g);
-addToken(token_list, "testSortiN3", 4, s_g);
+add_token(to_lst, "ls -l", 1, s_g);
+add_token(to_lst, "testFile", 4, s_g);
+add_token(to_lst, "|", 3, s_g);
+add_token(to_lst, "rev", 1, s_g);
+add_token(to_lst, "testFile", 3, s_g);
+add_token(to_lst, "|", 3, s_g);
+add_token(to_lst, "cat -e", 1, s_g);
+add_token(to_lst, "testSortiN3", 4, s_g);
 */
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chugot <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:46:51 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/17 14:46:52 by chugot           ###   ########.fr       */
+/*   Updated: 2023/08/27 02:57:16 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "gc/gc.h"
+# include <limits.h>
 
 // structure globale
 typedef struct t_g
@@ -51,7 +52,7 @@ typedef struct s_Token {
 
 typedef struct {
     s_Token* head;
-} TokenList;
+} to_lst;
 
 // MINISHELL2
 void	son(s_g *s_g, char *input);
@@ -74,6 +75,8 @@ char	*ft_strdup(const char *s);
 char	*ft_gcstrdup(const char *s, s_g *s_g);
 int	ft_strcmp(char *s1, char *s2);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
+void	ft_putendl_fd(char *s, int fd);
+void	ft_putstr_fd(char *s, int fd);
 
 void	free_tab(char **tab);
 void	error_msg(char *msg);
@@ -82,31 +85,30 @@ void	error_msg(char *msg);
 int	skip_space(char *string, int i); // A REFAIRE AVEC +1 ?
 
 // FONCTION PARSING
-int	parsing(s_g *s_g, TokenList *token_list);
+int	parsing(s_g *s_g, to_lst *to_lst);
 int	quote_check(char *input);
 int	var_env_chang(s_g *s_g);
 int	redirection(s_g *s_g);
 int	check_pipe_at_start(s_g *s_g);
 
-int	add_list_exec(s_g *s_g, TokenList *token_list);
-void	put_maillon_str(s_g *s_g, TokenList *token_list);
-int	put_red_deli_str(s_g *s_g, TokenList *token_list);
-int	put_red_in_str(s_g *s_g, TokenList *token_list);
-int	put_red_out_str(s_g *s_g, TokenList *token_list);
-int	put_red_append_str(s_g *s_g, TokenList *token_list);
+int	add_list_exec(s_g *s_g, to_lst *to_lst);
+void	put_maillon_str(s_g *s_g, to_lst *to_lst);
+int	put_red_deli_str(s_g *s_g, to_lst *to_lst);
+int	put_red_in_str(s_g *s_g, to_lst *to_lst);
+int	put_red_out_str(s_g *s_g, to_lst *to_lst);
+int	put_red_append_str(s_g *s_g, to_lst *to_lst);
 
-int	put_entry(s_g *s_g, TokenList *token_list);
-int	put_sorti(s_g *s_g, TokenList *token_list);
+int	put_entry(s_g *s_g, to_lst *to_lst);
+int	put_sorti(s_g *s_g, to_lst *to_lst);
 
 // LISTE CHAINER D'EXECUTION
-void addToken(TokenList *tokenList, char *prompt_str, int tokenType, s_g *s_g);
-void initTokenList(TokenList *tokenList);
-void initTokenTest(s_g *s_g, TokenList *tokenList);
-void afficherTokens(TokenList *tokenList);
+void add_token(to_lst *to_lst, char *prompt_str, int tokenType, s_g *s_g);
+void initTokenTest(s_g *s_g, to_lst *to_lst);
+void afficher_tokens(to_lst *to_lst);
 
-int	check_empty_prompt(TokenList *token_list);
-int check_files_exist(TokenList *token_list);
-void clear_token_list(TokenList *token_list);
+int	check_empty_prompt(to_lst *to_lst);
+int check_files_exist(to_lst *to_lst);
+void clear_to_lst(to_lst *to_lst);
 
 //s_g->pathVarTempo = gc_malloc(&s_g->gc ,sizeof(char) * 9999);
 

@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_pipe_at_start.c                              :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aderouin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/27 02:58:12 by fderly           ###   ########.fr       */
+/*   Created: 2023/04/13 17:02:09 by aderouin          #+#    #+#             */
+/*   Updated: 2023/04/13 17:02:15 by aderouin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_pipe_at_start(s_g *s_g)
+void	ft_putendl_fd(char *s, int fd)
 {
-	int	i;
+	const char	n = '\n';
 
-	i = 0;
-	while (s_g->i2[i] == ' ' && s_g->i2[i] != 0)
-		i++;
-	if (s_g->i2[i] == '|')
-	{
-		printf("Pas de pipe au debut\n");
-		return (0);
-	}
-	return (1);
+	if (!s)
+		return ;
+	write(fd, s, ft_strlen(s));
+	write(fd, &n, 1);
 }

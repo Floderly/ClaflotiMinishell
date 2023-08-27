@@ -1,121 +1,73 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_free.c                                       :+:      :+:    :+:   */
+/*   listeExecution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chugot <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:18:51 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/02 16:18:54 by chugot           ###   ########.fr       */
+/*   Updated: 2023/08/27 02:32:23 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void addToken(TokenList *token_list, char *prompt_str, int tokenType, s_g *s_g)
+void	add_token(to_lst *to_lst, char *prompt_str, int tokenType, s_g *s_g)
 {
-	s_Token *newNode = (s_Token *)malloc(sizeof(s_Token));
-	if (newNode == NULL)
+	s_Token	*new_node;
+	s_Token	*last_node;
+
+	new_node = (s_Token *)malloc(sizeof(s_Token));
+	if (new_node == NULL)
 	{
 		perror("Erreur d'allocation de mémoire");
 		exit(EXIT_FAILURE);
 	}
-
-	newNode->prompt_str = ft_gcstrdup(prompt_str, s_g);
-	newNode->tokenType = tokenType;
-	newNode->next = NULL;
-
-	s_Token *lastNode = token_list->head;
-	if (lastNode == NULL)
+	new_node->prompt_str = ft_gcstrdup(prompt_str, s_g);
+	new_node->tokenType = tokenType;
+	new_node->next = NULL;
+	last_node = to_lst->head;
+	if (last_node == NULL)
 	{
-		token_list->head = newNode;
+		to_lst->head = new_node;
 	}
 	else
 	{
-		while (lastNode->next != NULL)
+		while (last_node->next != NULL)
 		{
-			lastNode = lastNode->next;
+			last_node = last_node->next;
 		}
-		lastNode->next = newNode;
+		last_node->next = new_node;
 	}
 }
 
-void initTokenList(TokenList *token_list)
+int	check_files_exist(to_lst *to_lst)
 {
-	token_list->head = NULL;
-}
+	s_Token	*current;
 
-void initTokenTest(s_g *s_g, TokenList *token_list)
-{
-	(void)s_g;
-	// EXEMPLE NUMERO 1
-	//Ligne de commande shell pour tester bash : echo abc | rev > testSorti
-	//addToken(token_list, "LE TEST", 1, s_g);
-	//addToken(token_list, "|", 2, s_g);
-	//addToken(token_list, "rev", 1, s_g);
-	//addToken(token_list, "testSorti", 4, s_g);
-	
-	/*
-	EXEMPLE NUMERO 2
-	Ligne de commnade shell pour tester bash : rev < testEntree | cat -e | rev > testSorti
-	Doit mettre un $ devant la phrase dans le fichier testEntree, inverse le sens, puis cat -e et re inverse
-	addToken(token_list, "rev", 1, s_g);
-	addToken(token_list, "testEntree", 3, s_g);
-	addToken(token_list, "|", 3, s_g);
-	addToken(token_list, "cat -e", 1, s_g);
-	addToken(token_list, "|", 3, s_g);
-	addToken(token_list, "rev", 1, s_g);
-	addToken(token_list, "testSorti", 4, s_g);
-	*/
-
-	/*
-	EXEMPLE NUMERO 3
-	Ligne de commande shell pour tester bash : ls -l > testFile | rev < testFile | cat -e > testSortiN3
-	Met ls -l dans sorti testFile
-	addToken(token_list, "ls -l", 1, s_g);
-	addToken(token_list, "testFile", 4, s_g);
-	addToken(token_list, "|", 3, s_g);
-	addToken(token_list, "rev", 1, s_g);
-	addToken(token_list, "testFile", 3, s_g);
-	addToken(token_list, "|", 3, s_g);
-	addToken(token_list, "cat -e", 1, s_g);
-	addToken(token_list, "testSortiN3", 4, s_g);
-	*/
-
-	// Print tokens with types
-	s_Token *current = token_list->head;
-	while (current != NULL)
+	current = to_lst->head;
+	while (current != NULL) 
 	{
-		printf("Token: %s, Type: %d\n", current->prompt_str, current->tokenType);
-		current = current->next;
-	}
-}
-
-int check_files_exist(TokenList *token_list) 
-{
-    s_Token *current = token_list->head;
-    
-    while (current != NULL) 
-	{
-        if (current->tokenType == 3) 
+		if (current->tokenType == 3) 
 		{
-            if (access(current->prompt_str, F_OK) == -1)
+			if (access(current->prompt_str, F_OK) == -1)
 			{
 				printf("%s non existant\n", current->prompt_str);
-                return 0;
+				return (0);
 			}
-        }
-        current = current->next;
-    }
-    return 1;
+		}
+		current = current->next;
+	}
+	return (1);
 }
 
-int	check_empty_prompt(TokenList *token_list)
+int	check_empty_prompt(to_lst *to_lst)
 {
-	int	i;
-	s_Token *current = token_list->head;
-	int	is_empty;
+	int		i;
+	s_Token	*current;
+	int		is_empty;
 
+	current = to_lst->head;
 	while (current != NULL)
 	{
 		if (current->tokenType == 1)
@@ -136,9 +88,11 @@ int	check_empty_prompt(TokenList *token_list)
 	return (1);
 }
 
-void afficherTokens(TokenList *token_list)
+void	afficher_tokens(to_lst *to_lst)
 {
-	s_Token *current = token_list->head;
+	s_Token	*current;
+
+	current = to_lst->head;
 	while (current != NULL)
 	{
 		printf("Token: %s, Type: %d\n", current->prompt_str, current->tokenType);
@@ -146,16 +100,17 @@ void afficherTokens(TokenList *token_list)
 	}
 }
 
-void clear_token_list(TokenList *token_list)
+void	clear_to_lst(to_lst *to_lst)
 {
-    s_Token *current = token_list->head;
-    
-    while (current != NULL) {
-        s_Token *temp = current;
-        current = current->next;
-		//(void)temp;
-        free(temp);
-    }
-    
-    token_list->head = NULL;
+	s_Token	*current;
+	s_Token	*temp;
+
+	current = to_lst->head;
+	while (current != NULL)
+	{
+		temp = current;
+		current = current->next;
+		free(temp);
+	}
+	to_lst->head = NULL;
 }

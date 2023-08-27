@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   put_sorti.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chugot <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/04/20 11:40:27 by chugot           ###   ########.fr       */
+/*   Updated: 2023/08/27 02:24:07 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	sorti_basique(int *i, s_g *s_g, TokenList *token_list)
+void	sorti_basique(int *i, s_g *s_g, to_lst *to_lst)
 {
 	char	*str_tempo;
 	int		k;
@@ -36,11 +36,11 @@ void	sorti_basique(int *i, s_g *s_g, TokenList *token_list)
 		|| s_g->i2[s_g->startStr + (*i)] == '<')
 		(*i)--;
 	str_tempo[k] = 0;
-	addToken(token_list, str_tempo, 4, s_g);
+	add_token(to_lst, str_tempo, 4, s_g);
 	free(str_tempo);
 }
 
-void	sorti_append(int *i, s_g *s_g, TokenList *token_list)
+void	sorti_append(int *i, s_g *s_g, to_lst *to_lst)
 {
 	char	*str_tempo;
 	int		k;
@@ -64,11 +64,11 @@ void	sorti_append(int *i, s_g *s_g, TokenList *token_list)
 		|| s_g->i2[s_g->startStr + (*i)] == '<')
 		(*i)--;
 	str_tempo[k] = 0;
-	addToken(token_list, str_tempo, 6, s_g);
+	add_token(to_lst, str_tempo, 6, s_g);
 	free(str_tempo);
 }
 
-int	put_sorti(s_g *s_g, TokenList *token_list)
+int	put_sorti(s_g *s_g, to_lst *to_lst)
 {
 	int	i;
 
@@ -81,7 +81,7 @@ int	put_sorti(s_g *s_g, TokenList *token_list)
 			if (s_g->i2[s_g->startStr + i + 1] == '<' 
 				|| s_g->i2[s_g->startStr + i + 1] == '|')
 				return (0);
-			sorti_basique(&i, s_g, token_list);
+			sorti_basique(&i, s_g, to_lst);
 		}
 		else if (s_g->i2[s_g->startStr + i] == '>' 
 			&& s_g->i2[s_g->startStr + i + 1] == '>')
@@ -90,7 +90,7 @@ int	put_sorti(s_g *s_g, TokenList *token_list)
 				|| s_g->i2[s_g->startStr + i + 2] == '<' 
 				|| s_g->i2[s_g->startStr + i + 2] == '|')
 				return (0);
-			sorti_append(&i, s_g, token_list);
+			sorti_append(&i, s_g, to_lst);
 		}
 		i++;
 	}

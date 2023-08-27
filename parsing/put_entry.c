@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   put_entry.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chugot <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/04/20 11:40:27 by chugot           ###   ########.fr       */
+/*   Updated: 2023/08/27 02:24:07 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	entry_basique(int *i, s_g *s_g, TokenList *token_list)
+void	entry_basique(int *i, s_g *s_g, to_lst *to_lst)
 {
 	char	*str_tempo;
 	int		k;
@@ -37,11 +37,11 @@ void	entry_basique(int *i, s_g *s_g, TokenList *token_list)
 		|| s_g->i2[s_g->startStr + (*i)] == '>')
 		(*i)--;
 	str_tempo[k] = 0;
-	addToken(token_list, str_tempo, 3, s_g);
+	add_token(to_lst, str_tempo, 3, s_g);
 	free(str_tempo);
 }
 
-void	entry_delimiteur(int *i, s_g *s_g, TokenList *token_list)
+void	entry_delimiteur(int *i, s_g *s_g, to_lst *to_lst)
 {
 	char	*str_tempo;
 	int		k;
@@ -65,11 +65,11 @@ void	entry_delimiteur(int *i, s_g *s_g, TokenList *token_list)
 		|| s_g->i2[s_g->startStr + (*i)] == '<')
 		(*i)--;
 	str_tempo[k] = 0;
-	addToken(token_list, str_tempo, 5, s_g);
+	add_token(to_lst, str_tempo, 5, s_g);
 	free(str_tempo);
 }
 
-int	put_entry(s_g *sg, TokenList *token_list)
+int	put_entry(s_g *sg, to_lst *to_lst)
 {
 	int	i;
 
@@ -83,7 +83,7 @@ int	put_entry(s_g *sg, TokenList *token_list)
 				|| sg->i2[sg->startStr + i + 2] == '<'
 				|| sg->i2[sg->startStr + i + 2] == '|')
 				return (0);
-			entry_delimiteur(&i, sg, token_list);
+			entry_delimiteur(&i, sg, to_lst);
 		}
 		else if (sg->i2[sg->startStr + i] == '<')
 		{
@@ -91,7 +91,7 @@ int	put_entry(s_g *sg, TokenList *token_list)
 				|| (sg->i2[sg->startStr + i + 1] == '>'
 					&& sg->i2[sg->startStr + i + 2] == '|'))
 				return (0);
-			entry_basique(&i, sg, token_list);
+			entry_basique(&i, sg, to_lst);
 		}
 		i++;
 	}

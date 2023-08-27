@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   put_maillon_str.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chugot <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/04/20 11:40:27 by chugot           ###   ########.fr       */
+/*   Updated: 2023/08/27 02:24:07 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	process_redi_rection(char *strtempo, int *i, int *redi_r, s_g *s_g)
 	(*redi_r)--;
 }
 
-void	put_maillon_str(s_g *s_g, TokenList *token_list)
+void	put_maillon_str(s_g *s_g, to_lst *to_lst)
 {
 	char	*strtempo;
 	int		i;
@@ -74,68 +74,6 @@ void	put_maillon_str(s_g *s_g, TokenList *token_list)
 		i++;
 	}
 	strtempo[i] = 0;
-	addToken(token_list, strtempo, 1, s_g);
+	add_token(to_lst, strtempo, 1, s_g);
 	free (strtempo);
 }
-
-/*
-ANCIEN PUT_MAILLON_STR, QUI ENLEVE LES QUOTES
-void	put_maillon_str(s_g *s_g, int s_g->startStr, int lgStr, TokenList *token_list)
-{
-	char	*strtempo;
-	int	i;
-	int	quoteR;
-	int	redi_r;
-
-	redi_r = 0;
-	quoteR = 0;
-	i = 0;
-	strtempo = malloc (sizeof(char) * 9999);
-	while (i + redi_r < lgStr) //rajouter quoteR ????
-	{
-		if (s_g->i2[s_g->startStr + i + redi_r] == '\'')
-		{
-			i++;
-			quoteR++;
-			while (s_g->i2[s_g->startStr + i + redi_r] != '\'')
-			{
-				strtempo[i - quoteR] = s_g->i2[s_g->startStr + i + redi_r];
-				i++;
-			}
-			quoteR++;
-		}
-		else if (s_g->i2[s_g->startStr + i + redi_r] == '"')
-		{
-			printf("Je rentre double quote////////////\n");
-			i++;
-			quoteR++;
-			while (s_g->i2[s_g->startStr + i + redi_r] != '"')
-			{
-				strtempo[i - quoteR] = s_g->i2[s_g->startStr + i + redi_r];
-				i++;
-			}
-			quoteR++;
-		}
-		else if (s_g->i2[s_g->startStr + i + redi_r] == '>' || s_g->i2[s_g->startStr + i + redi_r] == '<')
-		{
-			redi_r++;
-			while (s_g->i2[s_g->startStr + i + redi_r] == ' ' && s_g->i2[s_g->startStr + i + redi_r] != 0)
-				redi_r++;
-			while (s_g->i2[s_g->startStr + i + redi_r] != ' ' && s_g->i2[s_g->startStr + i + redi_r] != 0)
-				redi_r++;
-			printf("Print redi_rect : %c\n", s_g->i2[s_g->startStr + i + redi_r]);
-			strtempo[i - quoteR] = s_g->i2[s_g->startStr + i + redi_r];
-		}
-		else
-		{
-			printf("Test print normal : %c\n", s_g->i2[s_g->startStr + i + redi_r]);
-			strtempo[i - quoteR] = s_g->i2[s_g->startStr + i + redi_r];
-		}
-		i++;
-	}
-	strtempo[i - quoteR] = 0;
-	printf("Test putMaillonStr : %s\n", strtempo);
-	addToken(token_list, strtempo, 1, s_g);
-	free (strtempo);
-}
-*/

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: clara <clara@student.42.fr>                +#+  +:+       +#+         #
+#    By: fderly <fderly@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/17 12:00:49 by chugot            #+#    #+#              #
-#    Updated: 2023/08/17 17:48:26 by chugot           ###   ########.fr        #
+#    Updated: 2023/08/27 02:51:54 by fderly           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRCS =	minishell.c \
 		ft_utils/skipSpace.c \
 		ft_utils/ft_strcmp.c \
 		ft_utils/ft_strncmp.c \
-		builtins/own_echo.c \
+		ft_utils/ft_putstr_fd.c \
+		ft_utils/ft_putendl_fd.c \
 		builtins/builtin_base.c \
 		pipex_free.c \
 		execve_cmd.c \
