@@ -25,8 +25,9 @@ SRCS =	minishell.c \
 		ft_utils/ft_putstr_fd.c \
 		ft_utils/ft_putendl_fd.c \
 		builtins/builtin_base.c \
-		pipex_free.c \
-		execve_cmd.c \
+		Exec/exec_test1.c \
+		Exec/pipex_free.c \
+		Exec/execve_cmd.c \
 		parsing/parsing.c \
 		parsing/quoteCheck.c \
 		parsing/varEnvChang.c \

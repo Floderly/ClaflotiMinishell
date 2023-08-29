@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: clara <clara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:46:51 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/27 02:57:16 by fderly           ###   ########.fr       */
+/*   Updated: 2023/08/28 18:08:12 by clara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ typedef struct t_g
     //pour maillon str, pour la norminette
     int startStr;
     int lgStr;
+    //pour execution.
+    pid_t   pid;
+    int     cmd_nbr;
+    int     pipe_nbr;
+    int     *pipe; //tableau de fd pour les pipes multiples.
+    int     index_cmd;
 }s_g;
 
 
@@ -55,11 +61,12 @@ typedef struct {
 } to_lst;
 
 // MINISHELL2
-void	son(s_g *s_g, char *input);
 void	clone_env(s_g *s_g, char **env);
 void	export_test(s_g *s_g, char *nomVar, char* arg);
 
 // FONCTION EXECUTION
+int    exec_prompt(s_g *s_g, to_lst *to_lst);
+void	son(s_g *s_g, char *input);
 void	path_user(s_g *s_g, char *input);
 char	*clone_input_without_option(char *input, char *input_without_option);
 void	path(s_g *s_g, char *argv);

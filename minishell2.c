@@ -1,42 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   minishell2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chugot <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: clara <clara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:14:19 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/17 15:14:20 by chugot           ###   ########.fr       */
+/*   Updated: 2023/08/28 17:53:26 by clara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	son(s_g *s_g, char *input)
-{
-	pid_t	pid;
-	char	*input_without;
-
-	input_without = 0;
-	pid = fork();
-	input_without = clone_input_without_option(input, input_without);
-	if (pid == -1)
-		error_msg("error fork\n");
-	else if (pid == 0)
-	{
-		/*if (if_builtin(s_g, input) == 0) //si c'est des fonctions builtins, execute nos propres fonctions ci-dessous.
-			exit(0);
-		else*/ if (access(input_without, F_OK) == 0 ) //verif si la commande entree par l'user n'est pas directement un path valide. Attention si c'est JUSTE un path.
-		{
-			path_user(s_g, input);
-			free(input_without);
-		}
-		else
-			path(s_g, input); //processus fils pour execution de cmd.
-		exit(0);
-	}
-	wait(NULL);
-}
 
 void	clone_env(s_g *s_g, char **env)
 {

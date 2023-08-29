@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: clara <clara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:14:19 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/27 03:00:53 by fderly           ###   ########.fr       */
+/*   Updated: 2023/08/28 18:07:43 by clara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int main(int argc, char **argv, char **env)
             printf("Liste chainer generer :\n");
 			afficher_tokens(&to_lst);
             printf("---------- EXECUTION ------------\n");
-			son(&s_g, s_g.i2);
+			exec_prompt(&s_g, &to_lst);
+            //son(&s_g, s_g.i2);
         }
         free(s_g.input);
         clear_to_lst(&to_lst);
