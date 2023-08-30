@@ -43,27 +43,7 @@ void    init_struct_for_pipe(to_lst *to_lst, s_g *s_g)
     ft_nbr_of_pipe(to_lst, s_g);
     s_g->cmd_nbr = (s_g->pipe_nbr / 2) + 1;
     // printf("nbr_pipe : %d, nbr_cmd : %d\n", s_g->pipe_nbr, s_g->cmd_nbr); //test
-    if (s_g->pipe_nbr > 0)
-    {
-        s_g->pipe =  malloc(sizeof(int) * (s_g->pipe_nbr)); //a free.
-        if (!s_g->pipe)
-            error_msg("Error malloc pipe\n");
-    }
     s_g->index_cmd = 0;
-}
-
-void    create_all_pipes(s_g *s_g)
-{
-    int i;
-
-    i = 0;
-    while(i < s_g->cmd_nbr - 1)
-    {
-        if (pipe(s_g->pipe + (2 * i)) < 0)
-            error_msg("Error pipe\n"); //Voir pour les frees à ce niveau.
-        printf("created pipe with read end %d and write end %d\n", s_g->pipe[i * 2], s_g->pipe[(i * 2) + 1]);
-        i++;
-    }
 }
 
 char *find_cmd(to_lst *to_lst, s_g *s_g, char *cmd)
@@ -75,11 +55,16 @@ char *find_cmd(to_lst *to_lst, s_g *s_g, char *cmd)
     cmd_ptr = to_lst->head;
     while(i < s_g->index_cmd)
     {
+        printf("cmd parsing 1 : %s\n", cmd_ptr->prompt_str);
         cmd_ptr = cmd_ptr->next;
         i++;
     }
-    while (cmd_ptr->tokenType != 2 || cmd_ptr->next != NULL)
+    printf("cmd parsing 1,5 : %s\n", cmd_ptr->prompt_str);
+    if (cmd_ptr != 0)
+        cmd_ptr = cmd_ptr->next;
+    while (cmd_ptr->next != NULL) //cmd_ptr->tokenType != 2 || 
     {
+        printf("cmd parsing 2 : %s\n", cmd_ptr->prompt_str);
         if(cmd_ptr->tokenType == 1)
         {
             cmd = cmd_ptr->prompt_str;
@@ -110,53 +95,43 @@ char *find_cmd(to_lst *to_lst, s_g *s_g, char *cmd)
 //     }
 // }
 
-void    safe_close(int fd)
+void	redirection_pipe(s_g *s_g, int fds[2], int last_fd)
 {
-    dprintf(STDERR_FILENO, "closing %d fd\n", fd);
-    close(fd);
-}
-
-int safe_dup2(int oldfd, int newfd)
-{
-    dprintf(STDERR_FILENO, "dup2(%d, %d)\n", oldfd, newfd);
-    return dup2(oldfd, newfd);
-}
-
-void	redirection_pipe(s_g *s_g)
-{
-    if(s_g->index_cmd != 0) // si pas premiere commande
+    if(last_fd != STDIN_FILENO) // si pas premiere commande
     {
-        dprintf(STDERR_FILENO, "REDIRECTION CHILD %d STDIN_FILENO\n", s_g->index_cmd);
-        if (safe_dup2(s_g->pipe[(2 * s_g->index_cmd) - 2], STDIN_FILENO) == -1)
+        // dprintf(STDERR_FILENO, "STDIN PIPE %d\n", s_g->index_cmd);
+        if (dup2(last_fd, STDIN_FILENO) == -1)
             error_msg("Error dup2 2\n");
-        safe_close(s_g->pipe[2 * s_g->index_cmd - 2]);
+        close(last_fd);
     }
     if(s_g->index_cmd != (s_g->cmd_nbr - 1)) // si pas derniere commande
     {
-        dprintf(STDERR_FILENO, "REDIRECTION CHILD %d STDOUT_FILENO\n", s_g->index_cmd);
-        safe_close(s_g->pipe[2 * s_g->index_cmd]);
-        if (safe_dup2(s_g->pipe[(2 * s_g->index_cmd) + 1], STDOUT_FILENO) == -1)
+        // dprintf(STDERR_FILENO, "STDOUT PIPE %d\n", s_g->index_cmd);
+        close(fds[0]);
+        if (dup2(fds[1], STDOUT_FILENO) == -1)
             error_msg("Error dup2 1\n");
-        safe_close(s_g->pipe[(2 * s_g->index_cmd) + 1]);
+        close(fds[1]);
     }
-    dprintf(STDERR_FILENO, "\n");
 }
 
-void	son(s_g *s_g, char *input)
+int	son(s_g *s_g, char *input, int last_fd)
 {
 	char	*input_without;
+    int     fds[2];
 
     input_without = malloc(sizeof(char) * (ft_strlen(input) + 1)); //free a faire.
     //if(input_without)
       //  error_msg("Error malloc input_without\n");
 	input_without = clone_input_without_option(input, input_without);
-	s_g->pid = fork();
+    if (s_g->index_cmd != (s_g->cmd_nbr - 1))
+        pipe(fds); // TODO: check error
+    s_g->pid = fork();
 	if (s_g->pid == -1)
 		error_msg("error fork\n");
 	else if (s_g->pid == 0)
 	{
         if (s_g->cmd_nbr > 1)
-		    redirection_pipe(s_g);
+		    redirection_pipe(s_g, fds, last_fd);
 		// if (if_builtin(s_g, input) == 0) //si c'est des fonctions builtins, execute nos propres fonctions ci-dessous.
 		// 	exit(0);
 		if (access(input_without, F_OK) == 0) //verif si la commande entree par l'user n'est pas directement un path valide. Attention si c'est JUSTE un path.
@@ -170,27 +145,29 @@ void	son(s_g *s_g, char *input)
     }
     wait(NULL);
     // close read end of last cmd pipe
-    if (s_g->index_cmd != 0)
-        close(s_g->pipe[(2 * s_g->index_cmd) - 2]);
-    // close write end of current cmd pipe
-    if (s_g->cmd_nbr != 1 && (s_g->index_cmd != s_g->cmd_nbr - 1))
-        close(s_g->pipe[(2 * s_g->index_cmd) + 1]);
+    if(last_fd != STDIN_FILENO)
+        close(last_fd);
+    if (s_g->index_cmd != (s_g->cmd_nbr - 1))
+        close(fds[1]);
+    return (fds[0]);
 }
 
 void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du prompt.
 {
-    char *cmd;
+    s_Token *cmd_ptr;
+    int last_fd;
 
+    last_fd = STDIN_FILENO;
+    cmd_ptr = to_lst->head;
     init_struct_for_pipe(to_lst, s_g);
-    create_all_pipes(s_g);
     while (s_g->index_cmd < s_g->cmd_nbr) //traite les pipes avant cmd suivante.
     {
-        cmd = find_cmd(to_lst, s_g, cmd);
-        //if (cmd == 0)
-        //    return (0);
-        // printf("cmd : %s\n", cmd); //test 
-        son(s_g, cmd);
-        //wait(NULL);
+        printf("cmd HI: %s\n", cmd_ptr->prompt_str); //test
+        last_fd = son(s_g, cmd_ptr->prompt_str, last_fd);
         s_g->index_cmd++;
+        cmd_ptr = cmd_ptr->next;
+        if (cmd_ptr == NULL)
+            break ;
+        cmd_ptr = cmd_ptr->next;
     }
 }
