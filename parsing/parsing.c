@@ -37,6 +37,6 @@ int	parsing(s_g *s_g, to_lst *to_lst)
 		printf("Fichier non existant\n");
 		return (0);
 	}
-	printf("Parsing passe, tout est GOOD !!!\n");
+	// printf("Parsing passe, tout est GOOD !!!\n");
 	return (1);
 }

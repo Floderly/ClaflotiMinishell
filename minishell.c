@@ -31,20 +31,20 @@ int main(int argc, char **argv, char **env)
 		{
             break; // L'utilisateur a appuyé sur Ctrl+D (fin d'entrée)
         }
-        if (s_g.input[0] != '\0') 
+        if (s_g.input[0] != '\0')
 		{
             add_history(s_g.input);
 
-			printf("Valeur retour du parsing : %d\n", parsing(&s_g, &to_lst));
-            printf("Liste chainer generer :\n");
-			afficher_tokens(&to_lst);
-            printf("---------- EXECUTION ------------\n");
+			parsing(&s_g, &to_lst);
+            // printf("Liste chainer generer :\n");
+			// afficher_tokens(&to_lst);
+            // printf("---------- EXECUTION ------------\n");
 			exec_prompt(&s_g, &to_lst);
             //son(&s_g, s_g.i2);
         }
         free(s_g.input);
         clear_to_lst(&to_lst);
-        printf("---------- FIN ------------\n\n");
+        // printf("---------- FIN ------------\n\n");
     }
 	gc_clean(&s_g.gc);
 	

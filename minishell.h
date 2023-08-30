@@ -65,7 +65,7 @@ void	clone_env(s_g *s_g, char **env);
 void	export_test(s_g *s_g, char *nomVar, char* arg);
 
 // FONCTION EXECUTION
-int    exec_prompt(s_g *s_g, to_lst *to_lst);
+void    exec_prompt(s_g *s_g, to_lst *to_lst);
 void	son(s_g *s_g, char *input);
 void	path_user(s_g *s_g, char *input);
 char	*clone_input_without_option(char *input, char *input_without_option);
