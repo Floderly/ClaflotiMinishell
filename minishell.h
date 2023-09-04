@@ -6,7 +6,7 @@
 /*   By: clara <clara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:46:51 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/28 18:08:12 by clara            ###   ########.fr       */
+/*   Updated: 2023/09/04 18:21:35 by clara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct t_g
     int     cmd_nbr;
     int     pipe_nbr;
     int     index_cmd;
+    //int     flag_entry_redir;
 }s_g;
 
 

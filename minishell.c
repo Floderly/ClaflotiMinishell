@@ -6,7 +6,7 @@
 /*   By: clara <clara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:14:19 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/28 18:07:43 by clara            ###   ########.fr       */
+/*   Updated: 2023/09/04 18:24:57 by clara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,11 @@ int main(int argc, char **argv, char **env)
 		{
             add_history(s_g.input);
 
-			parsing(&s_g, &to_lst);
+			if (parsing(&s_g, &to_lst) == 1)
+                exec_prompt(&s_g, &to_lst);
             // printf("Liste chainer generer :\n");
 			// afficher_tokens(&to_lst);
             // printf("---------- EXECUTION ------------\n");
-			exec_prompt(&s_g, &to_lst);
-            //son(&s_g, s_g.i2);
         }
         free(s_g.input);
         clear_to_lst(&to_lst);

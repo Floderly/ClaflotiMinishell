@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_test1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chugot <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: clara <clara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 17:52:23 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/18 17:52:25 by chugot           ###   ########.fr       */
+/*   Updated: 2023/09/04 20:21:47 by clara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ void    init_struct_for_pipe(to_lst *to_lst, s_g *s_g)
     s_g->cmd_nbr = (s_g->pipe_nbr / 2) + 1;
     // printf("nbr_pipe : %d, nbr_cmd : %d\n", s_g->pipe_nbr, s_g->cmd_nbr); //test
     s_g->index_cmd = 0;
+    //s_g->flag_entry_redir = 0;
 }
 
-char *find_cmd(to_lst *to_lst, s_g *s_g, char *cmd)
+/*char *find_cmd(to_lst *to_lst, s_g *s_g, char *cmd)
 {
     int i;
     s_Token *cmd_ptr;
@@ -73,7 +74,7 @@ char *find_cmd(to_lst *to_lst, s_g *s_g, char *cmd)
         cmd_ptr = cmd_ptr->next;
     }
     return (0);
-}
+}*/
 
 /*void	dup2_in_out(int zero, int one)
 {
@@ -114,15 +115,16 @@ void	redirection_pipe(s_g *s_g, int fds[2], int last_fd)
     }
 }
 
+
 int	son(s_g *s_g, char *input, int last_fd)
 {
 	char	*input_without;
     int     fds[2];
 
     input_without = malloc(sizeof(char) * (ft_strlen(input) + 1)); //free a faire.
-    //if(input_without)
-      //  error_msg("Error malloc input_without\n");
-	input_without = clone_input_without_option(input, input_without);
+    if (input_without == NULL)
+        error_msg("Error malloc input_without\n");
+    input_without = clone_input_without_option(input, input_without);
     if (s_g->index_cmd != (s_g->cmd_nbr - 1))
         pipe(fds); // TODO: check error
     s_g->pid = fork();
@@ -145,11 +147,80 @@ int	son(s_g *s_g, char *input, int last_fd)
     }
     wait(NULL);
     // close read end of last cmd pipe
-    if(last_fd != STDIN_FILENO)
+    if (last_fd != STDIN_FILENO)
         close(last_fd);
     if (s_g->index_cmd != (s_g->cmd_nbr - 1))
         close(fds[1]);
-    return (fds[0]);
+    if (s_g->index_cmd != (s_g->cmd_nbr - 1))
+        return (fds[0]);
+    return (0);
+}
+
+int    redirection_simple_entry(s_g *s_g, char *infile, int last_fd)
+{
+    int infilefd;
+
+    infilefd = open(infile, O_RDONLY, 0777);
+    if(infilefd == -1)
+        error_msg("Error open entry infilefd redirection\n");
+    if (last_fd != STDIN_FILENO)
+        close(last_fd);
+    if(s_g->cmd_nbr == 1)
+    {
+        if(dup2(infilefd, STDIN_FILENO) == -1)
+            error_msg("Error dup2 infile\n");
+        //return (infilefd);
+    }
+    return(infilefd);
+}
+
+void    copy_input(char *input, int inputfd)
+{
+        int i;
+
+        i = 0;
+        while (input[i])
+        {
+            write(inputfd, &input[i], ft_strlen(input));
+            i++;
+        }
+        write(inputfd, "\n", 1);
+}
+
+int    redirection_condition_entry(char *cmd_prompt, char *keycode, s_g *s_g, int last_fd)
+{
+    char *input;
+    int inputfd;
+
+    inputfd = open("inputfd.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
+    if(inputfd == -1)
+        error_msg("Error open entry inputfd redirection\n");
+    while (1)
+	{
+        input = readline("> ");
+        copy_input(input, inputfd);
+        printf("prompt : %s\n", cmd_prompt);
+        if (ft_strcmp(input, keycode) == 0)
+        {
+            if (ft_strncmp(cmd_prompt, "cat", 3) == 0) //attention espaces avant et après cmd.
+            {
+                printf("test\n");
+                if (last_fd != STDIN_FILENO)
+                    close(last_fd);
+                if(s_g->cmd_nbr == 1)
+                {
+                    if(dup2(inputfd, STDIN_FILENO) == -1)
+                        error_msg("Error dup2 inputfd\n");
+                }
+                write(inputfd, "\0", 1);
+                free(input);
+                return(inputfd);
+            }
+            write(inputfd, "\0", 1);
+            free(input);
+            return(STDIN_FILENO);
+        }
+    }
 }
 
 void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du prompt.
@@ -162,8 +233,24 @@ void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du p
     init_struct_for_pipe(to_lst, s_g);
     while (s_g->index_cmd < s_g->cmd_nbr) //traite les pipes avant cmd suivante.
     {
-        printf("cmd HI: %s\n", cmd_ptr->prompt_str); //test
+        
+        if (cmd_ptr->next != NULL)
+        {
+            printf("next tokenType : %d\n", cmd_ptr->next->tokenType);
+            printf("cmd prompt : %s\n", cmd_ptr->next->prompt_str);
+        }
+        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 3) //IF SIMPLE ENTRY
+            last_fd = redirection_simple_entry(s_g, cmd_ptr->next->prompt_str, last_fd);
+        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 5) // IF <<
+            last_fd = redirection_condition_entry(cmd_ptr->prompt_str, cmd_ptr->next->prompt_str, s_g, last_fd);
+
         last_fd = son(s_g, cmd_ptr->prompt_str, last_fd);
+
+        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 3) //IF SIMPLE ENTRY
+            cmd_ptr = cmd_ptr->next;
+        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 5) //IF <<
+            cmd_ptr = cmd_ptr->next;
+        
         s_g->index_cmd++;
         cmd_ptr = cmd_ptr->next;
         if (cmd_ptr == NULL)

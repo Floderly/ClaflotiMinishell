@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_entry.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: clara <clara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/27 02:24:07 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/04 17:15:31 by clara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	entry_basique(int *i, s_g *s_g, to_lst *to_lst)
 	(*i)++;
 	while (s_g->i2[s_g->startStr + (*i)] == ' ' 
 		&& s_g->i2[s_g->startStr + (*i)] != 0)
-		i++;
+		(*i)++;
 	while (s_g->i2[s_g->startStr + (*i)] != ' ' 
 		&& s_g->i2[s_g->startStr + (*i)] != 0 
 		&& s_g->i2[s_g->startStr + (*i)] != '<' 
