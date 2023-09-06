@@ -33,3 +33,29 @@ char	*ft_gcstrdup(const char *s, s_g *s_g)
 	dst[i] = '\0';
 	return (dst);
 }
+
+void trimSpaces(char *str) 
+{
+    int start;
+    int end;
+    int    i;
+
+    start = 0;
+    end = strlen(str) - 1;
+    while (str[start] == ' ' || str[start] == '\t' 
+        || str[start] == '\n' || str[start] == '\r') 
+    {
+        start++;
+    }
+    while (end > start && (str[end] == ' ' || str[end] == '\t' 
+        || str[end] == '\n' || str[end] == '\r')) 
+    {
+        end--;
+    }
+    i = 0;
+    while (start <= end) 
+    {
+        str[i++] = str[start++];
+    }
+    str[i] = '\0';
+}

@@ -66,7 +66,7 @@ void	export_test(s_g *s_g, char *nomVar, char* arg);
 
 // FONCTION EXECUTION
 void    exec_prompt(s_g *s_g, to_lst *to_lst);
-int 	son(s_g *s_g, char *input, int last_fd);
+int 	son(s_g *s_g, char *input, int last_fd, int out_fd);
 void	path_user(s_g *s_g, char *input);
 char	*clone_input_without_option(char *input, char *input_without_option);
 void	path(s_g *s_g, char *argv);
@@ -80,6 +80,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 size_t	ft_strlen(const char *str);
 char	*ft_strdup(const char *s);
 char	*ft_gcstrdup(const char *s, s_g *s_g);
+void trimSpaces(char *str);
 int	ft_strcmp(char *s1, char *s2);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_putendl_fd(char *s, int fd);

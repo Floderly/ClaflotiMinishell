@@ -74,6 +74,7 @@ void	put_maillon_str(s_g *s_g, to_lst *to_lst)
 		i++;
 	}
 	strtempo[i] = 0;
+	trimSpaces(strtempo);
 	add_token(to_lst, strtempo, 1, s_g);
 	free (strtempo);
 }

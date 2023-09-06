@@ -96,7 +96,7 @@ void    init_struct_for_pipe(to_lst *to_lst, s_g *s_g)
 //     }
 // }
 
-void	redirection_pipe(s_g *s_g, int fds[2], int last_fd)
+void	redirection_pipe(s_g *s_g, int fds[2], int last_fd, int out_fd)
 {
     if(last_fd != STDIN_FILENO) // si pas premiere commande
     {
@@ -109,13 +109,28 @@ void	redirection_pipe(s_g *s_g, int fds[2], int last_fd)
     {
         //dprintf(STDERR_FILENO, "STDOUT PIPE %d\n", s_g->index_cmd);
         close(fds[0]);
-        if (dup2(fds[1], STDOUT_FILENO) == -1)
+        //if (out_fd != STDOUT_FILENO)
+        //{
+        //    if (dup2(out_fd, STDOUT_FILENO) == -1)
+        //        error_msg("Error dup2 1\n");
+        //    close(out_fd);
+        //}
+        //else
+        //{
+            if (dup2(fds[1], STDOUT_FILENO) == -1)
+                error_msg("Error dup2 1\n");
+            close(fds[1]);
+        //}
+    }
+    if(out_fd != STDOUT_FILENO) //s_g->cmd_nbr == 1 && 
+    {
+        if (dup2(out_fd, STDOUT_FILENO) == -1)
             error_msg("Error dup2 1\n");
-        close(fds[1]);
+        close(out_fd);
     }
 }
 
-int	son(s_g *s_g, char *input, int last_fd)
+int	son(s_g *s_g, char *input, int last_fd, int out_fd)
 {
 	char	*input_without;
     int     fds[2];
@@ -132,7 +147,7 @@ int	son(s_g *s_g, char *input, int last_fd)
 	else if (s_g->pid == 0)
 	{
         //if (s_g->cmd_nbr > 1)
-		redirection_pipe(s_g, fds, last_fd);
+		redirection_pipe(s_g, fds, last_fd, out_fd);
 		// if (if_builtin(s_g, input) == 0) //si c'est des fonctions builtins, execute nos propres fonctions ci-dessous.
 		// 	exit(0);
 		if (access(input_without, F_OK) == 0) //verif si la commande entree par l'user n'est pas directement un path valide. Attention si c'est JUSTE un path.
@@ -146,6 +161,8 @@ int	son(s_g *s_g, char *input, int last_fd)
     }
     wait(NULL);
     // close read end of last cmd pipe
+    if (out_fd != STDOUT_FILENO)
+        close(out_fd);
     if (last_fd != STDIN_FILENO)
         close(last_fd);
     if (s_g->index_cmd != (s_g->cmd_nbr - 1))
@@ -219,32 +236,53 @@ int    redirection_condition_entry(char *keycode, int last_fd) //char *cmd_promp
     }
 }
 
+int redirection_simple_exit(char *outfile, int out_fd)
+{
+    int outputfd;
+
+    outputfd = open(outfile, O_WRONLY | O_TRUNC, 0777);
+    if (outputfd == -1)
+        error_msg("Error open entry outputfd redirection\n");
+    if (out_fd != STDOUT_FILENO)
+        close(out_fd);
+    return(outputfd);
+}
+
 void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du prompt.
 {
     s_Token *cmd_ptr;
     int last_fd;
+    int out_fd;
 
     last_fd = STDIN_FILENO;
+    out_fd = STDOUT_FILENO;
     cmd_ptr = to_lst->head;
     init_struct_for_pipe(to_lst, s_g);
     while (s_g->index_cmd < s_g->cmd_nbr) //traite les pipes avant cmd suivante.
     {
-        //if (cmd_ptr->next != NULL)
-        //{
-        //    printf("next tokenType : %d\n", cmd_ptr->next->tokenType);
-        //    printf("cmd prompt : %s\n", cmd_ptr->next->prompt_str);
-        //}
-        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 3) //IF SIMPLE ENTRY
+        if (cmd_ptr->next != NULL)
+        {
+            printf("next tokenType : %d\n", cmd_ptr->next->tokenType);
+            printf("cmd prompt : %s\n", cmd_ptr->next->prompt_str);
+        }
+        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 3) //IF <
             last_fd = redirection_simple_entry(cmd_ptr->next->prompt_str, last_fd);
         if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 5) // IF <<
             last_fd = redirection_condition_entry(cmd_ptr->next->prompt_str, last_fd); //cmd_ptr->prompt_str, 
-        
-        last_fd = son(s_g, cmd_ptr->prompt_str, last_fd);
+        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 4) //IF >
+            out_fd = redirection_simple_exit(cmd_ptr->next->prompt_str, out_fd);
 
-        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 3) //IF SIMPLE ENTRY
+        last_fd = son(s_g, cmd_ptr->prompt_str, last_fd, out_fd);
+
+        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 3) //IF <
             cmd_ptr = cmd_ptr->next;
         if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 5) //IF <<
             cmd_ptr = cmd_ptr->next;
+        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 4) //IF >
+        {
+            cmd_ptr = cmd_ptr->next;
+            out_fd = STDOUT_FILENO;
+        }
         
         s_g->index_cmd++;
         cmd_ptr = cmd_ptr->next;
