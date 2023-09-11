@@ -14,6 +14,7 @@ NAME =	minishell
 
 SRCS =	minishell.c \
 		minishell2.c \
+		signal.c \
 		ft_utils/ft_split.c \
 		ft_utils/ft_strjoin.c \
 		ft_utils/ft_strnstr.c \
@@ -25,9 +26,10 @@ SRCS =	minishell.c \
 		ft_utils/ft_putstr_fd.c \
 		ft_utils/ft_putendl_fd.c \
 		builtins/builtin_base.c \
-		Exec/exec_test1.c \
+		Exec/exec_main.c \
 		Exec/pipex_free.c \
 		Exec/execve_cmd.c \
+		Exec/exec_redirections.c \
 		parsing/parsing.c \
 		parsing/quoteCheck.c \
 		parsing/varEnvChang.c \

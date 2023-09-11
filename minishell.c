@@ -18,17 +18,20 @@ int main(int argc, char **argv, char **env)
     (void)argv;
 	s_g    s_g;
 	to_lst   to_lst;
+    struct sigaction    sa;
 
 	gc_init(&s_g.gc);
 	to_lst.head = NULL;
 	clone_env(&s_g, env); // CLONE ENV POUR FAIRE EXPORT ET UNSET
 	//export_test(&s_g, "testVarEnvdd", "oui"); // EXPORT DE TEST POUR TESTER LES VARIABLES
+    init_signal(&sa);
 
     while (1)
 	{
         s_g.input = readline("Minishell> "); // Affiche l'invite de commande
         if (!s_g.input)
 		{
+            printf("Don't leave me !\n");
             break; // L'utilisateur a appuyé sur Ctrl+D (fin d'entrée)
         }
         if (s_g.input[0] != '\0')

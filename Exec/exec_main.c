@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_test1.c                                       :+:      :+:    :+:   */
+/*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clara <clara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,18 +11,6 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-//Ligne de commande shell pour tester bash : echo abc | rev > testSorti
-
-/*typedef struct s_Token {
-    char* prompt_str;   | echo abc | rev testSorti
-    int tokenType;          1    2  1       4
-    struct s_Token* next;
-} s_Token;
-
-typedef struct {
-    s_Token* head;
-} TokenList;*/
 
 void     ft_nbr_of_pipe(to_lst *to_lst, s_g *s_g)
 {
@@ -76,26 +64,6 @@ void    init_struct_for_pipe(to_lst *to_lst, s_g *s_g)
     return (0);
 }*/
 
-/*void	dup2_in_out(int zero, int one)
-{
-	if (dup2(zero, STDIN_FILENO) == -1) //copie zero, càd fichier de lecture sur l'entree standard 0.
-		error_msg("Error dup2 3\n");
-	if (dup2(one, STDOUT_FILENO) == -1)
-		error_msg("Error dup2 4\n");
-}*/
-
-// void    close_pipe(s_g *s_g)
-// {
-//     int i;
-
-//     i = 0;
-//     while(i < s_g->pipe_nbr)
-//     {
-//         safe_close(s_g->pipe[i]);
-//         i++;
-//     }
-// }
-
 void	redirection_pipe(s_g *s_g, int fds[2], int last_fd, int out_fd)
 {
     if(last_fd != STDIN_FILENO) // si pas premiere commande
@@ -107,22 +75,12 @@ void	redirection_pipe(s_g *s_g, int fds[2], int last_fd, int out_fd)
     }
     if(s_g->cmd_nbr > 1 && s_g->index_cmd != (s_g->cmd_nbr - 1)) // si pas derniere commande
     {
-        //dprintf(STDERR_FILENO, "STDOUT PIPE %d\n", s_g->index_cmd);
         close(fds[0]);
-        //if (out_fd != STDOUT_FILENO)
-        //{
-        //    if (dup2(out_fd, STDOUT_FILENO) == -1)
-        //        error_msg("Error dup2 1\n");
-        //    close(out_fd);
-        //}
-        //else
-        //{
             if (dup2(fds[1], STDOUT_FILENO) == -1)
                 error_msg("Error dup2 1\n");
             close(fds[1]);
-        //}
     }
-    if(out_fd != STDOUT_FILENO) //s_g->cmd_nbr == 1 && 
+    if(out_fd != STDOUT_FILENO)
     {
         if (dup2(out_fd, STDOUT_FILENO) == -1)
             error_msg("Error dup2 1\n");
@@ -172,82 +130,6 @@ int	son(s_g *s_g, char *input, int last_fd, int out_fd)
     return (0);
 }
 
-int    redirection_simple_entry(char *infile, int last_fd)
-{
-    int infilefd;
-
-    infilefd = open(infile, O_RDONLY, 0777);
-    if(infilefd == -1)
-        error_msg("Error open entry infilefd redirection\n");
-    if (last_fd != STDIN_FILENO)
-        close(last_fd);
-    //if(s_g->cmd_nbr == 1)
-    //{
-    //    if(dup2(infilefd, STDIN_FILENO) == -1)
-    //        error_msg("Error dup2 infile\n");
-    //    //return (infilefd);
-    //}
-    return(infilefd);
-}
-
-void    copy_input(char *input, int inputfd)
-{
-    int i;
-
-    i = 0;
-    while (input[i] != '\0')
-    {
-        write(inputfd, &input[i], 1);
-        i++;
-    }
-    write(inputfd, "\n", 1);
-}
-
-int    redirection_condition_entry(char *keycode, int last_fd) //char *cmd_prompt, 
-{
-    char *input;
-    int inputfd;
-
-    inputfd = open("inputfd.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
-    if(inputfd == -1)
-        error_msg("Error open entry inputfd redirection\n");
-    if (last_fd != STDIN_FILENO)
-        close(last_fd);
-    while (1)
-	{
-        input = readline("> ");
-        if (ft_strcmp(input, keycode) != 0)
-            copy_input(input, inputfd);
-        //printf("prompt : %s\n", cmd_prompt);
-        if (ft_strcmp(input, keycode) == 0)
-        {
-            //if (ft_strncmp(cmd_prompt, "cat", 3) == 0) //attention espaces avant et après cmd.
-            //{
-            //    //printf("test\n");
-            //    write(inputfd, "\0", 1);
-            //    free(input);
-            //    return(inputfd);
-            //}
-            write(inputfd, "\0", 1);
-            free(input);
-            return(inputfd);
-        }
-        free(input);
-    }
-}
-
-int redirection_simple_exit(char *outfile, int out_fd)
-{
-    int outputfd;
-
-    outputfd = open(outfile, O_WRONLY | O_TRUNC, 0777);
-    if (outputfd == -1)
-        error_msg("Error open entry outputfd redirection\n");
-    if (out_fd != STDOUT_FILENO)
-        close(out_fd);
-    return(outputfd);
-}
-
 void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du prompt.
 {
     s_Token *cmd_ptr;
@@ -260,17 +142,19 @@ void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du p
     init_struct_for_pipe(to_lst, s_g);
     while (s_g->index_cmd < s_g->cmd_nbr) //traite les pipes avant cmd suivante.
     {
-        if (cmd_ptr->next != NULL)
-        {
-            printf("next tokenType : %d\n", cmd_ptr->next->tokenType);
-            printf("cmd prompt : %s\n", cmd_ptr->next->prompt_str);
-        }
+        //if (cmd_ptr->next != NULL)
+        //{
+        //    printf("next tokenType : %d\n", cmd_ptr->next->tokenType);
+        //    printf("cmd prompt : %s\n", cmd_ptr->next->prompt_str);
+        //}
         if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 3) //IF <
             last_fd = redirection_simple_entry(cmd_ptr->next->prompt_str, last_fd);
         if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 5) // IF <<
-            last_fd = redirection_condition_entry(cmd_ptr->next->prompt_str, last_fd); //cmd_ptr->prompt_str, 
+            last_fd = redirection_condition_entry(cmd_ptr->next->prompt_str, last_fd);
         if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 4) //IF >
             out_fd = redirection_simple_exit(cmd_ptr->next->prompt_str, out_fd);
+        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 6) //IF >>
+            out_fd = redirection_double_exit(cmd_ptr->next->prompt_str, out_fd);
 
         last_fd = son(s_g, cmd_ptr->prompt_str, last_fd, out_fd);
 
@@ -279,6 +163,11 @@ void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du p
         if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 5) //IF <<
             cmd_ptr = cmd_ptr->next;
         if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 4) //IF >
+        {
+            cmd_ptr = cmd_ptr->next;
+            out_fd = STDOUT_FILENO;
+        }
+        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 6) //IF >>
         {
             cmd_ptr = cmd_ptr->next;
             out_fd = STDOUT_FILENO;

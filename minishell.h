@@ -24,6 +24,7 @@
 # include <sys/wait.h>
 # include "gc/gc.h"
 # include <limits.h>
+# include <signal.h>
 
 // structure globale
 typedef struct t_g
@@ -45,7 +46,7 @@ typedef struct t_g
     int     cmd_nbr;
     int     pipe_nbr;
     int     index_cmd;
-    //int     flag_entry_redir;
+    int     sigaction_flag;
 }s_g;
 
 
@@ -60,16 +61,25 @@ typedef struct {
     s_Token* head;
 } to_lst;
 
-// MINISHELL2
+// MINISHELL2, ENV
 void	clone_env(s_g *s_g, char **env);
 void	export_test(s_g *s_g, char *nomVar, char* arg);
 
-// FONCTION EXECUTION
+//FONCTION SIGNAL
+void    init_signal(struct sigaction *sa);
+
+// FONCTIONS EXECUTION
 void    exec_prompt(s_g *s_g, to_lst *to_lst);
 int 	son(s_g *s_g, char *input, int last_fd, int out_fd);
 void	path_user(s_g *s_g, char *input);
 char	*clone_input_without_option(char *input, char *input_without_option);
 void	path(s_g *s_g, char *argv);
+int    redirection_simple_entry(char *infile, int last_fd);
+int    redirection_condition_entry(char *keycode, int last_fd);
+int redirection_simple_exit(char *outfile, int out_fd);
+int redirection_double_exit(char *outfile, int out_fd);
+
+// FONCTIONS BUILTIN
 int	if_builtin(s_g *s_g, char *input);
 void	own_env(s_g *s_g);
 
