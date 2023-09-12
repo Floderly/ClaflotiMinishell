@@ -74,10 +74,10 @@ int 	son(s_g *s_g, char *input, int last_fd, int out_fd);
 void	path_user(s_g *s_g, char *input);
 char	*clone_input_without_option(char *input, char *input_without_option);
 void	path(s_g *s_g, char *argv);
-int    redirection_simple_entry(char *infile, int last_fd);
-int    redirection_condition_entry(char *keycode, int last_fd);
-int redirection_simple_exit(char *outfile, int out_fd);
-int redirection_double_exit(char *outfile, int out_fd);
+int    redirection_simple_entry(char *infile, int *last_fd);
+int    redirection_condition_entry(char *keycode, int *last_fd);
+int redirection_simple_exit(char *outfile, int *out_fd);
+int redirection_double_exit(char *outfile, int *out_fd);
 
 // FONCTIONS BUILTIN
 int	if_builtin(s_g *s_g, char *input);

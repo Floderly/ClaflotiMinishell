@@ -15,7 +15,7 @@
 void    signal_handler(int signal) //SIGINT ctrl+C
 {
     (void)signal;
-    //s_g->sigaction_signal = 1;
+    //s_g->sigaction_flag = 1;
     printf("Set newline\n");
     return ;
 }
@@ -25,6 +25,7 @@ void    init_signal(struct sigaction *sa)
     //Initialisation of struct for sigaction. 
     sa->sa_handler = signal_handler;
     sa->sa_flags = SA_RESTART;
+    //s_g->sigaction_flag = 0;
     sigemptyset(&sa->sa_mask);
     //If Ctrl+C is press.
     signal(SIGQUIT, SIG_IGN);

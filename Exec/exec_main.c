@@ -32,37 +32,7 @@ void    init_struct_for_pipe(to_lst *to_lst, s_g *s_g)
     s_g->cmd_nbr = (s_g->pipe_nbr / 2) + 1;
     // printf("nbr_pipe : %d, nbr_cmd : %d\n", s_g->pipe_nbr, s_g->cmd_nbr); //test
     s_g->index_cmd = 0;
-    //s_g->flag_entry_redir = 0;
 }
-
-/*char *find_cmd(to_lst *to_lst, s_g *s_g, char *cmd)
-{
-    int i;
-    s_Token *cmd_ptr;
-
-    i = 0;
-    cmd_ptr = to_lst->head;
-    while(i < s_g->index_cmd)
-    {
-        printf("cmd parsing 1 : %s\n", cmd_ptr->prompt_str);
-        cmd_ptr = cmd_ptr->next;
-        i++;
-    }
-    printf("cmd parsing 1,5 : %s\n", cmd_ptr->prompt_str);
-    if (cmd_ptr != 0)
-        cmd_ptr = cmd_ptr->next;
-    while (cmd_ptr->next != NULL) //cmd_ptr->tokenType != 2 || 
-    {
-        printf("cmd parsing 2 : %s\n", cmd_ptr->prompt_str);
-        if(cmd_ptr->tokenType == 1)
-        {
-            cmd = cmd_ptr->prompt_str;
-            return(cmd);
-        }
-        cmd_ptr = cmd_ptr->next;
-    }
-    return (0);
-}*/
 
 void	redirection_pipe(s_g *s_g, int fds[2], int last_fd, int out_fd)
 {
@@ -130,6 +100,44 @@ int	son(s_g *s_g, char *input, int last_fd, int out_fd)
     return (0);
 }
 
+s_Token    *move_on_prompt(s_Token *cmd_ptr, int *out_fd)
+{
+    if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 3) //IF <
+        cmd_ptr = cmd_ptr->next;
+    if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 5) //IF <<
+        cmd_ptr = cmd_ptr->next;
+    if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 4) //IF >
+    {
+        cmd_ptr = cmd_ptr->next;
+        *out_fd = STDOUT_FILENO;
+    }
+    if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 6) //IF >>
+    {
+        cmd_ptr = cmd_ptr->next;
+        *out_fd = STDOUT_FILENO;
+    }
+    return (cmd_ptr);
+}
+
+void    setup_fd_redir(s_Token *cmd_ptr, int *last_fd, int *out_fd)
+{
+    while (cmd_ptr->next != NULL && (cmd_ptr->next->tokenType == 3 || cmd_ptr->next->tokenType == 5))
+    {
+        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 3) //IF <
+            *last_fd = redirection_simple_entry(cmd_ptr->next->prompt_str, last_fd);
+        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 5) // IF <<
+            *last_fd = redirection_condition_entry(cmd_ptr->next->prompt_str, last_fd);
+        cmd_ptr = cmd_ptr->next;
+    }
+    while (cmd_ptr->next != NULL && cmd_ptr->next->tokenType != 2)
+    {
+        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 4) //IF >
+            *out_fd = redirection_simple_exit(cmd_ptr->next->prompt_str, out_fd);
+        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 6) //IF >>
+            *out_fd = redirection_double_exit(cmd_ptr->next->prompt_str, out_fd);
+        cmd_ptr = cmd_ptr->next;
+    }
+}
 void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du prompt.
 {
     s_Token *cmd_ptr;
@@ -140,39 +148,16 @@ void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du p
     out_fd = STDOUT_FILENO;
     cmd_ptr = to_lst->head;
     init_struct_for_pipe(to_lst, s_g);
-    while (s_g->index_cmd < s_g->cmd_nbr) //traite les pipes avant cmd suivante.
+    while (s_g->index_cmd < s_g->cmd_nbr) //traite les pipes et redirections avant cmd suivante.
     {
         //if (cmd_ptr->next != NULL)
         //{
         //    printf("next tokenType : %d\n", cmd_ptr->next->tokenType);
         //    printf("cmd prompt : %s\n", cmd_ptr->next->prompt_str);
         //}
-        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 3) //IF <
-            last_fd = redirection_simple_entry(cmd_ptr->next->prompt_str, last_fd);
-        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 5) // IF <<
-            last_fd = redirection_condition_entry(cmd_ptr->next->prompt_str, last_fd);
-        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 4) //IF >
-            out_fd = redirection_simple_exit(cmd_ptr->next->prompt_str, out_fd);
-        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 6) //IF >>
-            out_fd = redirection_double_exit(cmd_ptr->next->prompt_str, out_fd);
-
+        setup_fd_redir(cmd_ptr, &last_fd, &out_fd);
         last_fd = son(s_g, cmd_ptr->prompt_str, last_fd, out_fd);
-
-        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 3) //IF <
-            cmd_ptr = cmd_ptr->next;
-        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 5) //IF <<
-            cmd_ptr = cmd_ptr->next;
-        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 4) //IF >
-        {
-            cmd_ptr = cmd_ptr->next;
-            out_fd = STDOUT_FILENO;
-        }
-        if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 6) //IF >>
-        {
-            cmd_ptr = cmd_ptr->next;
-            out_fd = STDOUT_FILENO;
-        }
-        
+        cmd_ptr = move_on_prompt(cmd_ptr, &out_fd);
         s_g->index_cmd++;
         cmd_ptr = cmd_ptr->next;
         if (cmd_ptr == NULL)

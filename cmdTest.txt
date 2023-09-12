@@ -1,10 +1,10 @@
-echo 'test
-echo test"
-echo '> test'
+echo 'test			Trop bizarre dans bash, fonctionne comme <<	nous erreur
+echo test"			Idem						nous erreur
+echo '> test'			N'affiche rien alors que devrait
 echo "> test"
-echo ee > test > wbou tt
+echo ee > test > wbou tt	ok
 echo $USE
-echo '$USER'
+echo '$USER'		
 echo "$USER"
 echo ta $USER ta
 echo ta$USERta
@@ -23,12 +23,13 @@ cat >oui>non
 cat <oui>non
 echo "test" <oui>mom test h <oui i>mom j
 echo     123     |       | rev
+cat < test.txt > test8 | echo def > test9 | cat -e		ok
 
 
 Commande de chien :
-echo ee > test > wbou tt
-echo 123 <> test
-| echo test
-echo et >>>oui
-cat  <<     oui>test
+echo ee > test > wbou tt		ok
+echo 123 <> test			Met 123 dans test alors que sur shell affiche juste 123 -> <> 					ne doit pas etre reconnu je pense ?
+| echo test 				ok
+echo et >>>oui				ecrit quand meme "et" alors aue devrait mettre une erreur des 					le debut ---> erreur de parsing a rajouter.
+cat  <<     oui>test			ok
 
