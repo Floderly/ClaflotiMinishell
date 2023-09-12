@@ -1,9 +1,9 @@
 echo 'test			Trop bizarre dans bash, fonctionne comme <<	nous erreur
 echo test"			Idem						nous erreur
 echo '> test'			N'affiche rien alors que devrait
-echo "> test"
+echo "> test"			Idem
 echo ee > test > wbou tt	ok
-echo $USE
+echo $USE			
 echo '$USER'		
 echo "$USER"
 echo ta $USER ta
@@ -11,18 +11,18 @@ echo ta$USERta
 echo ta$USER ta
 echo test $USER test $USER test
 echo $ USER
-echo tttt >    fileTest
-echo < test 12345
+echo tttt >    fileTest	ok
+echo < test 12345		ok
 ec"ho" bon"'j'o'u"r
 echo "'$USER'"
-<test rev
-< test rev | cat -e
-< test cat -e | rev
-echo test <sorti jjk | tet | "oui"'non'|<entree $USER et "$USER" et '$USER' >fin
-cat >oui>non
-cat <oui>non
-echo "test" <oui>mom test h <oui i>mom j
-echo     123     |       | rev
+<test rev			ok
+< test rev | cat -e		ok
+< test cat -e | rev		ok
+echo test <sorti jjk | tet | "oui"'non'|<entree $USER et "$USER" et '$USER' >fin	ok
+cat >oui>non			ok
+cat <oui>non			ok
+echo "test" <oui>mom test h <oui i>mom j			recopie les guillemets avec.
+echo     123     |       | rev					ok
 cat < test.txt > test8 | echo def > test9 | cat -e		ok
 
 
