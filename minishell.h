@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clara <clara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:46:51 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/04 18:21:35 by clara            ###   ########.fr       */
+/*   Updated: 2023/09/13 19:29:10 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct t_g
 {
 	t_gcan	gc;
     char    **miniEnv;
+    char    **expEnv;
     char    *input;
     char    *i2;
     char    *pathVarTempo;
@@ -47,6 +48,13 @@ typedef struct t_g
     int     pipe_nbr;
     int     index_cmd;
     int     sigaction_flag;
+
+    //ADEROUIN
+    char    **history_tab;
+    int history_count;
+    char    *cur_pwd;
+    char    *new_pwd;
+    int exit_ret;
 }s_g;
 
 
@@ -64,6 +72,8 @@ typedef struct {
 // MINISHELL2, ENV
 void	clone_env(s_g *s_g, char **env);
 void	export_test(s_g *s_g, char *nomVar, char* arg);
+void	modif_exp(s_g *s_g, int i);
+int	is_equal(char *s);
 
 //FONCTION SIGNAL
 void    init_signal(struct sigaction *sa);
@@ -78,6 +88,19 @@ int    redirection_simple_entry(char *infile, int *last_fd);
 int    redirection_condition_entry(char *keycode, int *last_fd);
 int redirection_simple_exit(char *outfile, int *out_fd);
 int redirection_double_exit(char *outfile, int *out_fd);
+//aderouin
+int	if_builtin(s_g *s_g, char *input);
+void	own_env(s_g *s_g);
+int	own_pwd(/*s_g *s_g*/);
+int	own_export(char *input, s_g *s_g);
+void	swap_export(s_g *s_g);
+void    own_echo(char *input);
+void	own_exit(char *input, s_g *s_g);
+void    own_cd(char *str, s_g *s_g);
+void	own_unset(char *input, s_g *s_g);
+void	print_export(s_g *s_g);
+void	add_env(char *arg, s_g *s_g);
+int		own_pwd_check(s_g *s_g);
 
 // FONCTIONS BUILTIN
 int	if_builtin(s_g *s_g, char *input);
@@ -88,6 +111,7 @@ char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 size_t	ft_strlen(const char *str);
+int	ft_atoi(const char *nptr);
 char	*ft_strdup(const char *s);
 char	*ft_gcstrdup(const char *s, s_g *s_g);
 void trimSpaces(char *str);
@@ -98,6 +122,10 @@ void	ft_putstr_fd(char *s, int fd);
 
 void	free_tab(char **tab);
 void	error_msg(char *msg);
+//aderouin
+int	count_args(char **args);
+int	check_arg(char *arg);
+int	ft_isnum(char *str);
 
 //FONCTION AUTRE
 int	skip_space(char *string, int i); // A REFAIRE AVEC +1 ?

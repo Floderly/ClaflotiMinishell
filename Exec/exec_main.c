@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clara <clara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 17:52:23 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/04 20:21:47 by clara            ###   ########.fr       */
+/*   Updated: 2023/09/13 22:25:18 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ int	son(s_g *s_g, char *input, int last_fd, int out_fd)
 	{
         //if (s_g->cmd_nbr > 1)
 		redirection_pipe(s_g, fds, last_fd, out_fd);
-		// if (if_builtin(s_g, input) == 0) //si c'est des fonctions builtins, execute nos propres fonctions ci-dessous.
-		// 	exit(0);
-		if (access(input_without, F_OK) == 0) //verif si la commande entree par l'user n'est pas directement un path valide. Attention si c'est JUSTE un path.
+		if (if_builtin(s_g, input) == 0) //si c'est des fonctions builtins, execute nos propres fonctions ci-dessous.
+		 	exit(0);
+		else if (access(input_without, F_OK) == 0) //verif si la commande entree par l'user n'est pas directement un path valide. Attention si c'est JUSTE un path.
 		{
 			path_user(s_g, input);
 			free(input_without);

@@ -1,0 +1,5 @@
+export test=oui / epxort / env     garde pas en memoire === MARCHE SUR ADEROUIN VERSION
+unset ?  === MARCHE SUR ADEROUIN VERSION
+Il faut pas mettre dans le processus enfant la partie builtin
+
+exit wtf === MARCHE PAS SUR ADEROUIN VERSION

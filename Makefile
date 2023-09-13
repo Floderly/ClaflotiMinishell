@@ -6,7 +6,7 @@
 #    By: fderly <fderly@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/17 12:00:49 by chugot            #+#    #+#              #
-#    Updated: 2023/08/27 02:51:54 by fderly           ###   ########.fr        #
+#    Updated: 2023/09/13 14:37:31 by fderly           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,15 @@ SRCS =	minishell.c \
 		ft_utils/ft_strncmp.c \
 		ft_utils/ft_putstr_fd.c \
 		ft_utils/ft_putendl_fd.c \
+		ft_utils/ft_atoi.c \
 		builtins/builtin_base.c \
+		builtins/cd.c \
+		builtins/echo.c \
+		builtins/env.c \
+		builtins/exit.c \
+		builtins/export.c \
+		builtins/pwd.c \
+		builtins/unset.c \
 		Exec/exec_main.c \
 		Exec/pipex_free.c \
 		Exec/execve_cmd.c \

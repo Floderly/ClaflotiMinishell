@@ -33,3 +33,4 @@ echo 123 <> test			Met 123 dans test alors que sur shell affiche juste 123 -> <>
 echo et >>>oui				ecrit quand meme "et" alors aue devrait mettre une erreur des 					le debut ---> erreur de parsing a rajouter.
 cat  <<     oui>test			ok
 
+echo "oui "      "non"
