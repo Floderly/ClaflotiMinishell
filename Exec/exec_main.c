@@ -138,6 +138,7 @@ void    setup_fd_redir(s_Token *cmd_ptr, int *last_fd, int *out_fd)
         cmd_ptr = cmd_ptr->next;
     }
 }
+
 void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du prompt.
 {
     s_Token *cmd_ptr;
@@ -155,13 +156,22 @@ void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du p
         //    printf("next tokenType : %d\n", cmd_ptr->next->tokenType);
         //    printf("cmd prompt : %s\n", cmd_ptr->next->prompt_str);
         //}
-        setup_fd_redir(cmd_ptr, &last_fd, &out_fd);
-        last_fd = son(s_g, cmd_ptr->prompt_str, last_fd, out_fd);
-        cmd_ptr = move_on_prompt(cmd_ptr, &out_fd);
+        if (ft_strncmp(cmd_ptr->prompt_str, "export", 6) == 0 && s_g->cmd_nbr == 1)
+	    	own_export(cmd_ptr->prompt_str, s_g);
+	    else if (ft_strncmp(cmd_ptr->prompt_str, "unset", 5) == 0 && s_g->cmd_nbr == 1)
+	    	own_unset(cmd_ptr->prompt_str, s_g);
+        else if ((ft_strncmp(cmd_ptr->prompt_str, "export", 6) == 0 || ft_strncmp(cmd_ptr->prompt_str, "unset", 5) == 0) && s_g->cmd_nbr != 1)
+            cmd_ptr = cmd_ptr->next->next;
+        else
+        {
+            setup_fd_redir(cmd_ptr, &last_fd, &out_fd);
+            last_fd = son(s_g, cmd_ptr->prompt_str, last_fd, out_fd);
+            cmd_ptr = move_on_prompt(cmd_ptr, &out_fd);
+            cmd_ptr = cmd_ptr->next;
+            if (cmd_ptr == NULL)
+                break ;
+            cmd_ptr = cmd_ptr->next;
+        }
         s_g->index_cmd++;
-        cmd_ptr = cmd_ptr->next;
-        if (cmd_ptr == NULL)
-            break ;
-        cmd_ptr = cmd_ptr->next;
     }
 }

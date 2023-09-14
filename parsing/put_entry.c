@@ -69,6 +69,14 @@ void	entry_delimiteur(int *i, s_g *s_g, to_lst *to_lst)
 	free(str_tempo);
 }
 
+void    pass_quote(s_g *sg, int *i, char quote)
+{
+    (*i)++;
+    while (sg->i2[sg->startStr + i] != quote)
+        (*i)++;
+    (*i)++;
+}
+
 int	put_entry(s_g *sg, to_lst *to_lst)
 {
 	int	i;
@@ -76,6 +84,8 @@ int	put_entry(s_g *sg, to_lst *to_lst)
 	i = 0;
 	while (i < sg->lgStr)
 	{
+		if (sg->i2[sg->startStr + i] == '"' || sg->i2[sg->startStr + i] == '\'')
+            pass_quote(sg, &i, sg->i2[sg->startStr + i]);
 		if (sg->i2[sg->startStr + i] == '<' 
 			&& sg->i2[sg->startStr + i + 1] == '<')
 		{

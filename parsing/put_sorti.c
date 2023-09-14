@@ -68,6 +68,14 @@ void	sorti_append(int *i, s_g *s_g, to_lst *to_lst)
 	free(str_tempo);
 }
 
+void    pass_quote(s_g *s_g, int *i, char quote)
+{
+    (*i)++;
+    while (s_g->i2[s_g->startStr + i] != quote)
+        (*i)++;
+    (*i)++;
+}
+
 int	put_sorti(s_g *s_g, to_lst *to_lst)
 {
 	int	i;
@@ -75,6 +83,8 @@ int	put_sorti(s_g *s_g, to_lst *to_lst)
 	i = 0;
 	while (i < s_g->lgStr)
 	{
+		if (s_g->i2[s_g->startStr + i] == '"' || s_g->i2[s_g->startStr + i] == '\'')
+            pass_quote(s_g, &i, s_g->i2[s_g->startStr + i]);
 		if (s_g->i2[s_g->startStr + i] == '>' 
 			&& s_g->i2[s_g->startStr + i + 1] != '>')
 		{

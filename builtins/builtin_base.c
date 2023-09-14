@@ -22,10 +22,6 @@ int	if_builtin(s_g *s_g, char *input)
 		own_pwd(s_g);
 	else if (ft_strcmp(input, "env") == 0)
 		own_env(s_g);
-	else if (ft_strncmp(input, "export", 6) == 0)
-		own_export(input, s_g);
-	else if (ft_strncmp(input, "unset", 5) == 0)
-		own_unset(input, s_g);
 	else if (ft_strncmp(input, "exit", 4) == 0)
 		own_exit(input, s_g);
 	else
