@@ -26,6 +26,8 @@
 # include <limits.h>
 # include <signal.h>
 
+extern int g_signal_flag;
+
 // structure globale
 typedef struct t_g
 {
@@ -76,16 +78,16 @@ void	modif_exp(s_g *s_g, int i);
 int	is_equal(char *s);
 
 //FONCTION SIGNAL
-void    init_signal(struct sigaction *sa);
+void    treat_signal(struct sigaction *sa);
 
 // FONCTIONS EXECUTION
-void    exec_prompt(s_g *s_g, to_lst *to_lst);
+void    exec_prompt(s_g *s_g, to_lst *to_lst, struct sigaction *sa);
 int 	son(s_g *s_g, char *input, int last_fd, int out_fd);
 void	path_user(s_g *s_g, char *input);
 char	*clone_input_without_option(char *input, char *input_without_option);
 void	path(s_g *s_g, char *argv);
 int    redirection_simple_entry(char *infile, int *last_fd);
-int    redirection_condition_entry(char *keycode, int *last_fd);
+int    redirection_condition_entry(char *keycode, int *last_fd, struct sigaction *sa);
 int redirection_simple_exit(char *outfile, int *out_fd);
 int redirection_double_exit(char *outfile, int *out_fd);
 //aderouin

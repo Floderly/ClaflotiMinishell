@@ -37,7 +37,7 @@ void    copy_input(char *input, int inputfd)
     write(inputfd, "\n", 1);
 }
 
-int    redirection_condition_entry(char *keycode, int *last_fd) //char *cmd_prompt, 
+int    redirection_condition_entry(char *keycode, int *last_fd, struct sigaction *sa) //char *cmd_prompt, 
 {
     char *input;
     int inputfd;
@@ -47,7 +47,9 @@ int    redirection_condition_entry(char *keycode, int *last_fd) //char *cmd_prom
         error_msg("Error open entry inputfd redirection\n");
     if (*last_fd != STDIN_FILENO)
         close(*last_fd);
-    while (1)
+    g_signal_flag = 43;
+    treat_signal(sa);
+    while (42)
 	{
         input = readline("> ");
         if (ft_strcmp(input, keycode) != 0)

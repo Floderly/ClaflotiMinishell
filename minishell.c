@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int g_signal_flag = 0;
+
 int main(int argc, char **argv, char **env)
 {
     (void)argc;
@@ -24,10 +26,11 @@ int main(int argc, char **argv, char **env)
 	to_lst.head = NULL;
 	clone_env(&s_g, env); // CLONE ENV POUR FAIRE EXPORT ET UNSET
 	//export_test(&s_g, "testVarEnvdd", "oui"); // EXPORT DE TEST POUR TESTER LES VARIABLES
-    init_signal(&sa);
+    treat_signal(&sa);
 
     while (1)
 	{
+        g_signal_flag = 0;
         s_g.input = readline("Minishell> "); // Affiche l'invite de commande
         if (!s_g.input)
 		{
@@ -39,7 +42,7 @@ int main(int argc, char **argv, char **env)
             add_history(s_g.input);
 
 			if (parsing(&s_g, &to_lst) == 1)
-                exec_prompt(&s_g, &to_lst);
+                exec_prompt(&s_g, &to_lst, &sa);
             // printf("Liste chainer generer :\n");
 			// afficher_tokens(&to_lst);
             // printf("---------- EXECUTION ------------\n");

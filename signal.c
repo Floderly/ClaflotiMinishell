@@ -15,17 +15,24 @@
 void    signal_handler(int signal) //SIGINT ctrl+C
 {
     (void)signal;
-    //s_g->sigaction_flag = 1;
-    printf("Set newline\n");
-    return ;
+    if (g_signal_flag == 42)
+        g_signal_flag = 1;
+    else if (g_signal_flag == 43)
+        exit(0);
+    else
+    {
+        rl_replace_line("", 0);
+        printf("\n");
+        rl_on_new_line();
+        rl_redisplay();
+    }
 }
 
-void    init_signal(struct sigaction *sa)
+void    treat_signal(struct sigaction *sa)
 {
-    //Initialisation of struct for sigaction. 
+    //Initialisation of struct for sigaction
     sa->sa_handler = signal_handler;
     sa->sa_flags = SA_RESTART;
-    //s_g->sigaction_flag = 0;
     sigemptyset(&sa->sa_mask);
     //If Ctrl+C is press.
     signal(SIGQUIT, SIG_IGN);

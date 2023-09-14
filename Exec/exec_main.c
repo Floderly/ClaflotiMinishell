@@ -69,12 +69,17 @@ int	son(s_g *s_g, char *input, int last_fd, int out_fd)
     input_without = clone_input_without_option(input, input_without);
     if (s_g->index_cmd != (s_g->cmd_nbr - 1))
         pipe(fds); // TODO: check error
+    g_signal_flag = 42;
     s_g->pid = fork();
 	if (s_g->pid == -1)
 		error_msg("error fork\n");
 	else if (s_g->pid == 0)
 	{
-        //if (s_g->cmd_nbr > 1)
+        if (g_signal_flag == 1)
+        {
+            printf("\n");
+            return (0);
+        }
 		redirection_pipe(s_g, fds, last_fd, out_fd);
 		if (if_builtin(s_g, input) == 0) //si c'est des fonctions builtins, execute nos propres fonctions ci-dessous.
 		 	exit(0);
@@ -119,14 +124,14 @@ s_Token    *move_on_prompt(s_Token *cmd_ptr, int *out_fd)
     return (cmd_ptr);
 }
 
-void    setup_fd_redir(s_Token *cmd_ptr, int *last_fd, int *out_fd)
+void    setup_fd_redir(s_Token *cmd_ptr, int *last_fd, int *out_fd, struct sigaction *sa)
 {
     while (cmd_ptr->next != NULL && (cmd_ptr->next->tokenType == 3 || cmd_ptr->next->tokenType == 5))
     {
         if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 3) //IF <
             *last_fd = redirection_simple_entry(cmd_ptr->next->prompt_str, last_fd);
         if (cmd_ptr->next != NULL && cmd_ptr->next->tokenType == 5) // IF <<
-            *last_fd = redirection_condition_entry(cmd_ptr->next->prompt_str, last_fd);
+            *last_fd = redirection_condition_entry(cmd_ptr->next->prompt_str, last_fd, sa);
         cmd_ptr = cmd_ptr->next;
     }
     while (cmd_ptr->next != NULL && cmd_ptr->next->tokenType != 2)
@@ -139,7 +144,7 @@ void    setup_fd_redir(s_Token *cmd_ptr, int *last_fd, int *out_fd)
     }
 }
 
-void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du prompt.
+void    exec_prompt(s_g *s_g, to_lst *to_lst, struct sigaction *sa) //execute l'ensemble des cmds du prompt.
 {
     s_Token *cmd_ptr;
     int last_fd;
@@ -151,11 +156,6 @@ void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du p
     init_struct_for_pipe(to_lst, s_g);
     while (s_g->index_cmd < s_g->cmd_nbr) //traite les pipes et redirections avant cmd suivante.
     {
-        //if (cmd_ptr->next != NULL)
-        //{
-        //    printf("next tokenType : %d\n", cmd_ptr->next->tokenType);
-        //    printf("cmd prompt : %s\n", cmd_ptr->next->prompt_str);
-        //}
         if (ft_strncmp(cmd_ptr->prompt_str, "export", 6) == 0 && s_g->cmd_nbr == 1)
 	    	own_export(cmd_ptr->prompt_str, s_g);
 	    else if (ft_strncmp(cmd_ptr->prompt_str, "unset", 5) == 0 && s_g->cmd_nbr == 1)
@@ -164,7 +164,7 @@ void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du p
             cmd_ptr = cmd_ptr->next->next;
         else
         {
-            setup_fd_redir(cmd_ptr, &last_fd, &out_fd);
+            setup_fd_redir(cmd_ptr, &last_fd, &out_fd, sa);
             last_fd = son(s_g, cmd_ptr->prompt_str, last_fd, out_fd);
             cmd_ptr = move_on_prompt(cmd_ptr, &out_fd);
             cmd_ptr = cmd_ptr->next;
