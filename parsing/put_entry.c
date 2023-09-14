@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   put_entry.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clara <clara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/04 17:15:31 by clara            ###   ########.fr       */
+/*   Updated: 2023/09/14 15:20:19 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void pass_quote(s_g *sg, int *i, char quote)
+{
+    (*i)++;
+    while (sg->i2[sg->startStr + (*i)] != quote)
+    {
+        if (sg->i2[sg->startStr + (*i)] == '\0')
+        {
+            break;
+        }
+        (*i)++;
+    }
+    (*i)++;
+}
 
 void	entry_basique(int *i, s_g *s_g, to_lst *to_lst)
 {
@@ -67,14 +81,6 @@ void	entry_delimiteur(int *i, s_g *s_g, to_lst *to_lst)
 	str_tempo[k] = 0;
 	add_token(to_lst, str_tempo, 5, s_g);
 	free(str_tempo);
-}
-
-void    pass_quote(s_g *sg, int *i, char quote)
-{
-    (*i)++;
-    while (sg->i2[sg->startStr + i] != quote)
-        (*i)++;
-    (*i)++;
 }
 
 int	put_entry(s_g *sg, to_lst *to_lst)

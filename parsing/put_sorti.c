@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/27 02:24:07 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/14 15:16:01 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,6 @@ void	sorti_append(int *i, s_g *s_g, to_lst *to_lst)
 	str_tempo[k] = 0;
 	add_token(to_lst, str_tempo, 6, s_g);
 	free(str_tempo);
-}
-
-void    pass_quote(s_g *s_g, int *i, char quote)
-{
-    (*i)++;
-    while (s_g->i2[s_g->startStr + i] != quote)
-        (*i)++;
-    (*i)++;
 }
 
 int	put_sorti(s_g *s_g, to_lst *to_lst)

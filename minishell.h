@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:46:51 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/13 19:29:10 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/14 15:16:19 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ int	put_red_append_str(s_g *s_g, to_lst *to_lst);
 
 int	put_entry(s_g *s_g, to_lst *to_lst);
 int	put_sorti(s_g *s_g, to_lst *to_lst);
+void pass_quote(s_g *sg, int *i, char quote);
 
 // LISTE CHAINER D'EXECUTION
 void add_token(to_lst *to_lst, char *prompt_str, int tokenType, s_g *s_g);
