@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/27 02:24:07 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/14 13:42:24 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,32 @@
 
 void	process_single_quote(char *strtempo, int *i, int *redi_r, s_g *s_g)
 {
-	strtempo[*i] = s_g->i2[s_g->startStr + *i + *redi_r];
-	(*i)++;
+	//strtempo[*i] = s_g->i2[s_g->startStr + *i + *redi_r];
+	//(*i)++;
+	(*redi_r)++;
 	while (s_g->i2[s_g->startStr + *i + *redi_r] != '\'')
 	{
 		strtempo[*i] = s_g->i2[s_g->startStr + *i + *redi_r];
 		(*i)++;
 	}
-	strtempo[*i] = s_g->i2[s_g->startStr + *i + *redi_r];
+	(*redi_r)++;
+	(*i)--;
+	//strtempo[*i] = s_g->i2[s_g->startStr + *i + *redi_r];
 }
 
 void	process_double_quote(char *strtempo, int *i, int *redi_r, s_g *s_g)
 {
-	strtempo[*i] = s_g->i2[s_g->startStr + *i + *redi_r];
-	(*i)++;
+	//strtempo[*i] = s_g->i2[s_g->startStr + *i + *redi_r];
+	//(*i)++;
+	(*redi_r)++;
 	while (s_g->i2[s_g->startStr + *i + *redi_r] != '"')
 	{
 		strtempo[*i] = s_g->i2[s_g->startStr + *i + *redi_r];
 		(*i)++;
 	}
-	strtempo[*i] = s_g->i2[s_g->startStr + *i + *redi_r];
+	(*redi_r)++;
+	(*i)--;
+	//strtempo[*i] = s_g->i2[s_g->startStr + *i + *redi_r];
 }
 
 void	process_redi_rection(char *strtempo, int *i, int *redi_r, s_g *s_g)
