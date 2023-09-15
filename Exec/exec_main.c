@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 17:52:23 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/13 22:25:18 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/15 19:33:18 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,10 @@ void    exec_prompt(s_g *s_g, to_lst *to_lst) //execute l'ensemble des cmds du p
 	    	own_export(cmd_ptr->prompt_str, s_g);
 	    else if (ft_strncmp(cmd_ptr->prompt_str, "unset", 5) == 0 && s_g->cmd_nbr == 1)
 	    	own_unset(cmd_ptr->prompt_str, s_g);
+	    else if (ft_strncmp(cmd_ptr->prompt_str, "exit", 4) == 0 && s_g->cmd_nbr == 1)
+	    	own_exit(cmd_ptr->prompt_str, s_g);
+	    else if (ft_strncmp(cmd_ptr->prompt_str, "cd", 2) == 0 && s_g->cmd_nbr == 1)
+	    	own_cd(cmd_ptr->prompt_str, s_g);
         else if ((ft_strncmp(cmd_ptr->prompt_str, "export", 6) == 0 || ft_strncmp(cmd_ptr->prompt_str, "unset", 5) == 0) && s_g->cmd_nbr != 1)
             cmd_ptr = cmd_ptr->next->next;
         else

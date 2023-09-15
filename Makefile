@@ -6,7 +6,7 @@
 #    By: fderly <fderly@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/17 12:00:49 by chugot            #+#    #+#              #
-#    Updated: 2023/09/13 14:37:31 by fderly           ###   ########.fr        #
+#    Updated: 2023/09/14 23:54:18 by fderly           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS =	minishell.c \
 		ft_utils/ft_putstr_fd.c \
 		ft_utils/ft_putendl_fd.c \
 		ft_utils/ft_atoi.c \
+		ft_utils/ft_itoa.c \
 		builtins/builtin_base.c \
 		builtins/cd.c \
 		builtins/echo.c \
@@ -54,7 +55,7 @@ LIBGCFLAGS = -L $(LIBGCDIR) -l:$(LIBGC)
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -lreadline -lhistory
+CFLAGS = -Wall -Wextra -Werror -lreadline -lhistory -g3
 
 OBJS = $(SRCS:.c=.o)
 

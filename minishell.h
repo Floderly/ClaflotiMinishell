@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:46:51 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/14 15:16:19 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/14 23:55:30 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 size_t	ft_strlen(const char *str);
 int	ft_atoi(const char *nptr);
+char	*ft_itoa(int n);
 char	*ft_strdup(const char *s);
 char	*ft_gcstrdup(const char *s, s_g *s_g);
 void trimSpaces(char *str);

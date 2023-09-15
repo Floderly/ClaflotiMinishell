@@ -17,9 +17,20 @@ void	own_exit(char *input, s_g *s_g)
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putendl_fd(": numeric argument required", 2);
+		exit(s_g->exit_ret);
 	}
-	else if (args[1])
-		s_g->exit_ret = ft_atoi(args[1]);
-	else
+	else if (args[1] != 0)
+	{
 		s_g->exit_ret = 0;
+		exit(s_g->exit_ret);
+		s_g->exit_ret = ft_atoi(args[1]);
+		exit(s_g->exit_ret);
+	}
+		
+	else
+	{
+		s_g->exit_ret = 0;
+		exit(s_g->exit_ret);
+	}
+		
 }

@@ -19,7 +19,10 @@ int main(int argc, char **argv, char **env)
 	s_g    s_g;
 	to_lst   to_lst;
     struct sigaction    sa;
+    char	cwd[PATH_MAX];
 
+	if (getcwd(cwd, PATH_MAX))
+		s_g.cur_pwd = cwd;
 	gc_init(&s_g.gc);
 	to_lst.head = NULL;
 	clone_env(&s_g, env); // CLONE ENV POUR FAIRE EXPORT ET UNSET

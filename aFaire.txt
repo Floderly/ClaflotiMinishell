@@ -1,5 +1,16 @@
-export test=oui / epxort / env     garde pas en memoire === MARCHE SUR ADEROUIN VERSION
-unset ?  === MARCHE SUR ADEROUIN VERSION
-Il faut pas mettre dans le processus enfant la partie builtin
+X  Si finit par | probleme
+X  cat >>   cat <<    cat > (jai peut etre tout casser, check chaque maillon liste chainer et cancel si un est vide)
+  exit \n
+  exit 42
+  $? chiffre error
+X  cd
+X  export affiche sur ajout
+?  env  (a l'air bon, juste mon env de base est bizarre)
+?  ls > test.oui | cat < test.oui (si fichier vide test.oui creer avant ca marche, sinon non)
+Mettre le ifbuiltin dans le exec_prompt directement ?
 
-exit wtf === MARCHE PAS SUR ADEROUIN VERSION
+
+Ligne bizarre mais apparement ca marche :
+else if ((ft_strncmp(cmd_ptr->prompt_str, "export", 6) == 0 || ft_strncmp(cmd_ptr->prompt_str, "unset", 5) == 0) && s_g->cmd_nbr != 1)
+	cmd_ptr = cmd_ptr->next->next;
+           

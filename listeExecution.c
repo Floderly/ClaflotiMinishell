@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:18:51 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/27 02:32:23 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/15 18:42:26 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ int	check_empty_prompt(to_lst *to_lst)
 	current = to_lst->head;
 	while (current != NULL)
 	{
-		if (current->tokenType == 1)
-		{
 			is_empty = 0;
 			i = 0;
 			while (current->prompt_str[i] != 0)
@@ -80,7 +78,6 @@ int	check_empty_prompt(to_lst *to_lst)
 					is_empty = 1;
 				i++;
 			}
-		}
 		if (is_empty == 0)
 			return (0);
 		current = current->next;

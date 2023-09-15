@@ -6,11 +6,26 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/27 02:17:21 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/15 00:05:45 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	add_var_interro(s_g *s_g, int i)
+{
+	char *var_interro = ft_itoa(s_g->exit_ret);
+	int k;
+
+	k = 0;
+	while (var_interro[k])
+	{
+		s_g->i2[i + k] = var_interro[k];
+		k++;
+	}
+	s_g->i2[i + k] = 0;
+	return (k);
+}
 
 int	add_var(s_g *s_g, int i)
 {
@@ -88,7 +103,12 @@ int	var_env_chang(s_g *s_g)
 			quote_var_env(s_g, &i, &j);
 		else if (s_g->input[i] == '$' && s_g->input[i + 1] != ' ')
 		{
-			if (check_var(s_g, i) != 0)
+			if (s_g->input[i + 1] == '?')
+			{
+				j += add_var_interro(s_g, j);
+				i += 2;
+			}
+			else if (check_var(s_g, i) != 0)
 			{
 				j += add_var(s_g, j);
 				i += ft_strlen(s_g->pathVarTempo) + 1;

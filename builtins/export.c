@@ -44,7 +44,7 @@ void	add_export(char *input, s_g *s_g)
 	i++;
 	s_g->expEnv[i] = 0;
 	swap_export(s_g);
-	print_export(s_g);
+	//print_export(s_g);
 }
 
 int	own_export(char *input, s_g *s_g)

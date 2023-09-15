@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/27 02:24:07 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/15 18:44:03 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	parsing(s_g *s_g, to_lst *to_lst)
 	add_list_exec(s_g, to_lst);
 	if (check_empty_prompt(to_lst) == 0)
 	{
-		printf("Manque commande\n");
+		printf("cmd <input >output | <repeat>\n");
 		return (0);
 	}
 	if (check_files_exist(to_lst) == 0)

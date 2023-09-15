@@ -25,7 +25,9 @@ void	change_pwd(s_g *s_g)
 
 	i = 0;
 	j = -1;
+	printf("test 1 : %s\n", s_g->cur_pwd);
 	dir = ft_split(s_g->cur_pwd, '/');
+	printf("test 2 : %s\n", s_g->cur_pwd);
 	old = ft_strjoin(s_g->cur_pwd, "/");
 	while (dir[i])
 		i++;
