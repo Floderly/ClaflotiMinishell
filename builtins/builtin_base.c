@@ -12,6 +12,21 @@
 
 #include "../minishell.h"
 
+int	if_builtin_father(char *prompt, s_g *s_g)
+{
+    if (ft_strncmp(prompt, "export", 6) == 0 && s_g->cmd_nbr == 1)
+		own_export(prompt, s_g);
+	else if (ft_strncmp(prompt, "unset", 5) == 0 && s_g->cmd_nbr == 1)
+		own_unset(prompt, s_g);
+	else if (ft_strncmp(prompt, "exit", 4) == 0 && s_g->cmd_nbr == 1)
+		own_exit(prompt, s_g);
+	else if (ft_strncmp(prompt, "cd", 2) == 0 && s_g->cmd_nbr == 1)
+		own_cd(prompt, s_g);
+	else
+		return (0);
+	return (1);
+}
+
 int	if_builtin(s_g *s_g, char *input)
 {
 	if (ft_strncmp(input, "echo", 4) == 0)

@@ -25,9 +25,11 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-void	error_msg(char *msg)
+void	error_msg(char *msg, s_g *s_g)
 {
 	//free tout en plus, genre gc
+	//gc_clean();
+	//free()
 	perror(msg);
-	exit(1);
+	exit(s_g->exit_ret);
 }

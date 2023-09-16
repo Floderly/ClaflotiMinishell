@@ -28,7 +28,7 @@ void    signal_handler(int signal) //SIGINT ctrl+C
     }
 }
 
-void    treat_signal(struct sigaction *sa)
+void    treat_signal(struct sigaction *sa, s_g *s_g)
 {
     //Initialisation of struct for sigaction
     sa->sa_handler = signal_handler;
@@ -37,8 +37,5 @@ void    treat_signal(struct sigaction *sa)
     //If Ctrl+C is press.
     signal(SIGQUIT, SIG_IGN);
     if (sigaction(SIGINT, sa, NULL) == -1)
-        perror("Sigaction error\n");
-    //signal(SIGINT, signal_handler);
+        error_msg("Sigaction error\n", s_g);
 }
-
-//ctrl \ a gerer avec bruti de bell.

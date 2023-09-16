@@ -5,8 +5,8 @@ X  cat >>   cat <<    cat > (jai peut etre tout casser, check chaque maillon lis
   $? chiffre error
 X  cd
 X  export affiche sur ajout
-?  env  (a l'air bon, juste mon env de base est bizarre)
-?  ls > test.oui | cat < test.oui (si fichier vide test.oui creer avant ca marche, sinon non)
+X  env  (a l'air bon, juste mon env de base est bizarre)
+X ls > test.oui | cat < test.oui (si fichier vide test.oui creer avant ca marche, sinon non) -> ok idem bash
 Mettre le ifbuiltin dans le exec_prompt directement ?
 
 

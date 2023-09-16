@@ -38,7 +38,8 @@ char	*check_path(s_g *s_g, char *cmd)
 		i++;
 	}
 	free_tab(tabpath);
-	error_msg("error no path found\n");
+	s_g->exit_ret = 127;
+	error_msg("error no path found\n", s_g);
 	return(0);
 }
 
@@ -49,11 +50,13 @@ void	path(s_g *s_g, char *argv)
 
 	cmd = ft_split(argv, ' ');
 	path = check_path(s_g, cmd[0]);
+	s_g->exit_ret = 0;
 	if (execve(path, cmd, s_g->miniEnv) == -1)
 	{
 		free_tab(cmd);
 		free(path);
-		error_msg("error execve\n");
+		s_g->exit_ret = 2;
+		error_msg("error execve\n", s_g);
 	}
 	free_tab(cmd);
 	free(path);
@@ -99,7 +102,7 @@ void	path_user(s_g *s_g, char *input)
 	{
 		free_tab(cmd);
 		free(path1);
-		error_msg("error execve\n");
+		error_msg("error execve\n", s_g);
 	}
 	free(path1);
 	free_tab(cmd);

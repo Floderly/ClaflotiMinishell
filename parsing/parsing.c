@@ -32,11 +32,8 @@ int	parsing(s_g *s_g, to_lst *to_lst)
 		printf("cmd <input >output | <repeat>\n");
 		return (0);
 	}
-	if (check_files_exist(to_lst) == 0)
-	{
-		printf("Fichier non existant\n");
+	if (check_files_exist(to_lst, s_g) == 0)
 		return (0);
-	}
 	// printf("Parsing passe, tout est GOOD !!!\n");
 	return (1);
 }

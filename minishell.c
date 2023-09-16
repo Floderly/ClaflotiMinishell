@@ -14,6 +14,30 @@
 
 int g_signal_flag = 0;
 
+void    main_loop(s_g *s_g, struct sigaction *sa, to_lst *to_lst)
+{
+    while (1)
+	{
+        g_signal_flag = 0;
+        s_g->input = readline("Minishell> "); // Affiche l'invite de commande
+        if (!s_g->input)
+		{
+            printf("Don't leave me !\n");
+            free(s_g->input);
+            exit (s_g->exit_ret); // L'utilisateur a appuyé sur Ctrl+D (fin d'entrée)
+        }
+        if (s_g->input[0] != '\0')
+		{
+            add_history(s_g->input);
+
+			if (parsing(s_g, to_lst) == 1)
+                exec_prompt(s_g, to_lst, sa);
+        }
+        free(s_g->input);
+        clear_to_lst(to_lst);
+    }
+}
+
 int main(int argc, char **argv, char **env)
 {
     (void)argc;
@@ -28,33 +52,8 @@ int main(int argc, char **argv, char **env)
 	gc_init(&s_g.gc);
 	to_lst.head = NULL;
 	clone_env(&s_g, env); // CLONE ENV POUR FAIRE EXPORT ET UNSET
-	//export_test(&s_g, "testVarEnvdd", "oui"); // EXPORT DE TEST POUR TESTER LES VARIABLES
-    treat_signal(&sa);
-
-    while (1)
-	{
-        g_signal_flag = 0;
-        s_g.input = readline("Minishell> "); // Affiche l'invite de commande
-        if (!s_g.input)
-		{
-            printf("Don't leave me !\n");
-            break; // L'utilisateur a appuyé sur Ctrl+D (fin d'entrée)
-        }
-        if (s_g.input[0] != '\0')
-		{
-            add_history(s_g.input);
-
-			if (parsing(&s_g, &to_lst) == 1)
-                exec_prompt(&s_g, &to_lst, &sa);
-            // printf("Liste chainer generer :\n");
-			// afficher_tokens(&to_lst);
-            // printf("---------- EXECUTION ------------\n");
-        }
-        free(s_g.input);
-        clear_to_lst(&to_lst);
-        // printf("---------- FIN ------------\n\n");
-    }
+    treat_signal(&sa, &s_g);
+    main_loop(&s_g, &sa, &to_lst);
 	gc_clean(&s_g.gc);
-	
-    return 0;
+    return (0);
 }

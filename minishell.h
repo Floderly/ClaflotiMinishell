@@ -46,6 +46,7 @@ typedef struct t_g
     int lgStr;
     //pour execution.
     pid_t   pid;
+    int     status;
     int     cmd_nbr;
     int     pipe_nbr;
     int     index_cmd;
@@ -78,7 +79,8 @@ void	modif_exp(s_g *s_g, int i);
 int	is_equal(char *s);
 
 //FONCTION SIGNAL
-void    treat_signal(struct sigaction *sa);
+void    signal_handler(int signal);
+void    treat_signal(struct sigaction *sa, s_g *s_g);
 
 // FONCTIONS EXECUTION
 void    exec_prompt(s_g *s_g, to_lst *to_lst, struct sigaction *sa);
@@ -86,11 +88,13 @@ int 	son(s_g *s_g, char *input, int last_fd, int out_fd);
 void	path_user(s_g *s_g, char *input);
 char	*clone_input_without_option(char *input, char *input_without_option);
 void	path(s_g *s_g, char *argv);
-int    redirection_simple_entry(char *infile, int *last_fd);
-int    redirection_condition_entry(char *keycode, int *last_fd, struct sigaction *sa);
-int redirection_simple_exit(char *outfile, int *out_fd);
-int redirection_double_exit(char *outfile, int *out_fd);
+int    redirection_simple_entry(char *infile, int *last_fd, s_g *s_g);
+int    redirection_condition_entry(char *keycode, int *last_fd, struct sigaction *sa, s_g *s_g);
+int redirection_simple_exit(char *outfile, int *out_fd, s_g *s_g);
+int redirection_double_exit(char *outfile, int *out_fd, s_g *s_g);
+
 //aderouin
+int	if_builtin_father(char *prompt, s_g *s_g);
 int	if_builtin(s_g *s_g, char *input);
 void	own_env(s_g *s_g);
 int	own_pwd(/*s_g *s_g*/);
@@ -124,7 +128,7 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putstr_fd(char *s, int fd);
 
 void	free_tab(char **tab);
-void	error_msg(char *msg);
+void	error_msg(char *msg, s_g *s_g);
 //aderouin
 int	count_args(char **args);
 int	check_arg(char *arg);
@@ -157,7 +161,7 @@ void initTokenTest(s_g *s_g, to_lst *to_lst);
 void afficher_tokens(to_lst *to_lst);
 
 int	check_empty_prompt(to_lst *to_lst);
-int check_files_exist(to_lst *to_lst);
+int	check_files_exist(to_lst *to_lst, s_g *s_g);
 void clear_to_lst(to_lst *to_lst);
 
 //s_g->pathVarTempo = gc_malloc(&s_g->gc ,sizeof(char) * 9999);

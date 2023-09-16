@@ -41,7 +41,7 @@ void	add_token(to_lst *to_lst, char *prompt_str, int tokenType, s_g *s_g)
 	}
 }
 
-int	check_files_exist(to_lst *to_lst)
+int	check_files_exist(to_lst *to_lst, s_g *s_g)
 {
 	s_Token	*current;
 
@@ -52,7 +52,8 @@ int	check_files_exist(to_lst *to_lst)
 		{
 			if (access(current->prompt_str, F_OK) == -1)
 			{
-				printf("%s non existant\n", current->prompt_str);
+				s_g->exit_ret = 1;
+				printf("minishell: %s: No such file or directory\n", current->prompt_str);
 				return (0);
 			}
 		}
