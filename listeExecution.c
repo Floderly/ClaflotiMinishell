@@ -45,6 +45,7 @@ int	check_files_exist(to_lst *to_lst, s_g *s_g)
 {
 	s_Token	*current;
 
+	//(void)s_g; //test exit
 	current = to_lst->head;
 	while (current != NULL) 
 	{

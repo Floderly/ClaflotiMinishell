@@ -30,16 +30,13 @@ void    init_struct_for_pipe(to_lst *to_lst, s_g *s_g)
 {
     ft_nbr_of_pipe(to_lst, s_g);
     s_g->cmd_nbr = (s_g->pipe_nbr / 2) + 1;
-    // printf("nbr_pipe : %d, nbr_cmd : %d\n", s_g->pipe_nbr, s_g->cmd_nbr); //test
     s_g->index_cmd = 0;
-    //s_g->status = malloc(sizeof(int) * s_g->cmd_nbr); 
 }
 
 void	redirection_pipe(s_g *s_g, int fds[2], int last_fd, int out_fd)
 {
     if(last_fd != STDIN_FILENO) // si pas premiere commande
     {
-        // dprintf(STDERR_FILENO, "STDIN PIPE %d\n", s_g->index_cmd);
         if (dup2(last_fd, STDIN_FILENO) == -1)
             error_msg("Error dup2 2\n", s_g);
         close(last_fd);
@@ -97,10 +94,12 @@ int	son(s_g *s_g, char *input, int last_fd, int out_fd)
 	else if (s_g->pid == 0)
         exec_son(s_g, fds, last_fd, out_fd, input, input_without);
     waitpid(s_g->pid, &s_g->status, 0);
-    s_g->status = WEXITSTATUS(s_g->status);
-    printf("got status %d", s_g->status);
-    // if (s_g->status != 0)
-    //     s_g->exit_ret = s_g->status / 256;
+    //s_g->exit_ret = WEXITSTATUS(s_g->status);   //solution 2
+    //printf("got status %d\n", s_g->exit_ret);
+    if (s_g->status != 0)                     //solution 1
+        s_g->exit_ret = s_g->status / 256;
+    else
+        s_g->exit_ret = 0;
     if (out_fd != STDOUT_FILENO)
         close(out_fd);
     if (last_fd != STDIN_FILENO)
@@ -163,14 +162,6 @@ void    exec_prompt(s_g *s_g, to_lst *to_lst, struct sigaction *sa) //execute l'
     init_struct_for_pipe(to_lst, s_g);
     while (s_g->index_cmd < s_g->cmd_nbr) //traite les pipes et redirections avant cmd suivante.
     {
-        //if (ft_strncmp(cmd_ptr->prompt_str, "export", 6) == 0 && s_g->cmd_nbr == 1)
-	    //	own_export(cmd_ptr->prompt_str, s_g);
-	    //else if (ft_strncmp(cmd_ptr->prompt_str, "unset", 5) == 0 && s_g->cmd_nbr == 1)
-	    //	own_unset(cmd_ptr->prompt_str, s_g);
-	    //else if (ft_strncmp(cmd_ptr->prompt_str, "exit", 4) == 0 && s_g->cmd_nbr == 1)
-	    //	own_exit(cmd_ptr->prompt_str, s_g);
-	    //else if (ft_strncmp(cmd_ptr->prompt_str, "cd", 2) == 0 && s_g->cmd_nbr == 1)
-	    //	own_cd(cmd_ptr->prompt_str, s_g);
         if ((ft_strncmp(cmd_ptr->prompt_str, "export", 6) == 0 || ft_strncmp(cmd_ptr->prompt_str, "unset", 5) == 0) && s_g->cmd_nbr != 1)
             cmd_ptr = cmd_ptr->next->next;
         if (if_builtin_father(cmd_ptr->prompt_str, s_g) == 0)

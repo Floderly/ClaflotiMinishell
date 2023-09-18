@@ -55,7 +55,7 @@ LIBGCFLAGS = -L $(LIBGCDIR) -l:$(LIBGC)
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -lreadline -lhistory -g3
+CFLAGS = -fsanitize=address -Wall -Wextra -Werror -lreadline -lhistory -g3
 
 OBJS = $(SRCS:.c=.o)
 
