@@ -42,7 +42,8 @@ void	entry_basique(int *i, s_g *s_g, to_lst *to_lst)
 	while (s_g->i2[s_g->startStr + (*i)] != ' ' 
 		&& s_g->i2[s_g->startStr + (*i)] != 0 
 		&& s_g->i2[s_g->startStr + (*i)] != '<' 
-		&& s_g->i2[s_g->startStr + (*i)] != '>')
+		&& s_g->i2[s_g->startStr + (*i)] != '>'
+		&& s_g->i2[s_g->startStr + (*i)] != '|')
 	{
 		str_tempo[k++] = s_g->i2[s_g->startStr + (*i)];
 		(*i)++;
@@ -69,7 +70,8 @@ void	entry_delimiteur(int *i, s_g *s_g, to_lst *to_lst)
 	while (s_g->i2[s_g->startStr + (*i)] != ' ' 
 		&& s_g->i2[s_g->startStr + (*i)] != 0 
 		&& s_g->i2[s_g->startStr + (*i)] != '>' 
-		&& s_g->i2[s_g->startStr + (*i)] != '<')
+		&& s_g->i2[s_g->startStr + (*i)] != '<'
+		&& s_g->i2[s_g->startStr + (*i)] != '|')
 	{
 		str_tempo[k] = s_g->i2[s_g->startStr + (*i)];
 		(*i)++;

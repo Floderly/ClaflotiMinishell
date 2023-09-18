@@ -16,6 +16,7 @@ int	parsing(s_g *s_g, to_lst *to_lst)
 {
 	if (quote_check(s_g->input) == 0)
 	{
+		s_g->exit_ret = 2;
 		printf("!!! Error quote\n");
 		return (0);
 	}
@@ -29,11 +30,12 @@ int	parsing(s_g *s_g, to_lst *to_lst)
 	add_list_exec(s_g, to_lst);
 	if (check_empty_prompt(to_lst) == 0)
 	{
+		s_g->exit_ret = 127;
 		printf("cmd <input >output | <repeat>\n");
 		return (0);
 	}
 	if (check_files_exist(to_lst, s_g) == 0)
 		return (0);
-	// printf("Parsing passe, tout est GOOD !!!\n");
+	//afficher_tokens(to_lst);
 	return (1);
 }

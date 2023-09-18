@@ -27,4 +27,5 @@ void	own_echo(char *input)
 	}
 	if (n == 0)
 		printf("\n");
+	free_tab(args);
 }

@@ -94,10 +94,12 @@ int	son(s_g *s_g, char *input, int last_fd, int out_fd)
 	else if (s_g->pid == 0)
         exec_son(s_g, fds, last_fd, out_fd, input, input_without);
     waitpid(s_g->pid, &s_g->status, 0);
-    //s_g->exit_ret = WEXITSTATUS(s_g->status);   //solution 2
-    //printf("got status %d\n", s_g->exit_ret);
-    if (s_g->status != 0)                     //solution 1
-        s_g->exit_ret = s_g->status / 256;
+    free(input_without);
+    if (WIFEXITED(s_g->status))
+        //s_g->exit_ret = (WEXITSTATUS(s_g->status)) - 1;
+        s_g->exit_ret = (s_g->status / 256) - 1;
+    else if (WIFSIGNALED(s_g->status))
+        s_g->exit_ret = 128 + WTERMSIG(s_g->status);
     else
         s_g->exit_ret = 0;
     if (out_fd != STDOUT_FILENO)
@@ -162,6 +164,7 @@ void    exec_prompt(s_g *s_g, to_lst *to_lst, struct sigaction *sa) //execute l'
     init_struct_for_pipe(to_lst, s_g);
     while (s_g->index_cmd < s_g->cmd_nbr) //traite les pipes et redirections avant cmd suivante.
     {
+        //printf("Token : %d, prompt : %s\n", cmd_ptr->tokenType, cmd_ptr->prompt_str);
         if ((ft_strncmp(cmd_ptr->prompt_str, "export", 6) == 0 || ft_strncmp(cmd_ptr->prompt_str, "unset", 5) == 0) && s_g->cmd_nbr != 1)
             cmd_ptr = cmd_ptr->next->next;
         if (if_builtin_father(cmd_ptr->prompt_str, s_g) == 0)

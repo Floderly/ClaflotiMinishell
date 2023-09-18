@@ -74,12 +74,13 @@ char	*change_cmd_0(s_g *s_g, char **cmd, char *path1) //modif la cmd[0] pour ne 
 		path1[i] = cmd[0][i];
 		i++;
 	}
+	path1[i] = '\0';
 	while (path1[i] != '/')
 		i--;
 	j = i + 1;
 	i = 0;
 	free(cmd[0]);
-	cmd[0] = malloc(sizeof(char) * (ft_strlen(path1) - j) + 1);
+	cmd[0] = malloc(sizeof(char) * ((ft_strlen(path1) - j) + 1));
 	while (path1[j])
 	{
 		cmd[0][i] = path1[j];
@@ -96,16 +97,17 @@ void	path_user(s_g *s_g, char *input)
 	char *path1; //path sans option.
 
 	cmd = ft_split(input, ' ');
-	path1 = malloc(sizeof(char) * ft_strlen(cmd[0]));
+	path1 = malloc(sizeof(char) * (ft_strlen(cmd[0]) + 1));
 	cmd[0] = change_cmd_0(s_g, cmd, path1);
+	//printf("cmd[0] : %s\n", cmd[0]);
 	if (execve(path1, cmd, s_g->miniEnv) == -1)
 	{
-		free_tab(cmd);
 		free(path1);
+		free_tab(cmd);
 		error_msg("error execve\n", s_g);
 	}
-	free(path1);
-	free_tab(cmd);
+	//free(path1);
+	//free_tab(cmd);
 }
 
 char	*clone_input_without_option(char *input, char *input_without_option) //clone d'input pour verifier access sans option de commande.

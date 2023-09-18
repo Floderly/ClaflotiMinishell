@@ -3,14 +3,14 @@ echo test"			Idem						nous erreur
 echo '> test'			N'affiche rien alors que devrait
 echo "> test"			Idem
 echo ee > test > wbou tt	ok
-echo $USE			
-echo '$USER'		
-echo "$USER"
-echo ta $USER ta
-echo ta$USERta
-echo ta$USER ta
-echo test $USER test $USER test
-echo $ USER
+echo $USE			ok
+echo '$USER'			ok
+echo "$USER"			ok
+echo ta $USER ta		ok
+echo ta$USERta			doit ecrire ta
+echo ta$USER ta		ok
+echo test $USER test $USER test ok
+echo $ USER			ok
 echo tttt >    fileTest	ok
 echo < test 12345		ok
 ec"ho" bon"'j'o'u"r
@@ -34,3 +34,6 @@ echo et >>>oui				ecrit quand meme "et" alors aue devrait mettre une erreur des 
 cat  <<     oui>test			ok
 
 echo "oui "      "non"
+
+cat << oui < test3 << non | echo abc | cat -e
+cat << oui | < test3 < test.txt cat >test4 | cat -e 

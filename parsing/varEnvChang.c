@@ -61,7 +61,7 @@ int	check_var(s_g *s_g, int i)
 		return (0);
 	i++;
 	j = 0;
-	while (s_g->input[i + j] != 0 && s_g->input[i + j] != ' ')
+	while (s_g->input[i + j] != 0 && s_g->input[i + j] != ' ' && s_g->input[i + j] != '"' && s_g->input[i + j] != '|')
 	{
 		s_g->pathVarTempo[j] = s_g->input[i + j];
 		j++;

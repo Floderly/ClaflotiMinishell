@@ -36,6 +36,9 @@ int	check_pipe_at_start(s_g *s_g)
 		pipe_end = 1;
 	}
 	if (pipe_start == 1 || pipe_end == 1)
-		return (0);
+	{
+        s_g->exit_ret = 2;
+        return (0);
+    }
 	return (1);
 }

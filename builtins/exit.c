@@ -27,11 +27,6 @@ void	own_exit(char *input, s_g *s_g)
 			s_g->exit_ret = ft_atoi(args[1]);
 		exit(s_g->exit_ret);
 	}
-		
 	else
-	{
-		s_g->exit_ret = 0;
-		exit(s_g->exit_ret);
-	}
-		
+		exit(s_g->exit_ret);	
 }
