@@ -21,6 +21,8 @@ void	add_token(to_lst *to_lst, char *prompt_str, int tokenType, s_g *s_g)
 	if (new_node == NULL)
 	{
 		perror("Erreur d'allocation de mémoire");
+		gc_clean(&s_g->gc);
+		free(s_g->input);
 		exit(EXIT_FAILURE);
 	}
 	new_node->prompt_str = ft_gcstrdup(prompt_str, s_g);

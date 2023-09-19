@@ -99,15 +99,12 @@ void	path_user(s_g *s_g, char *input)
 	cmd = ft_split(input, ' ');
 	path1 = malloc(sizeof(char) * (ft_strlen(cmd[0]) + 1));
 	cmd[0] = change_cmd_0(s_g, cmd, path1);
-	//printf("cmd[0] : %s\n", cmd[0]);
 	if (execve(path1, cmd, s_g->miniEnv) == -1)
 	{
 		free(path1);
 		free_tab(cmd);
 		error_msg("error execve\n", s_g);
 	}
-	//free(path1);
-	//free_tab(cmd);
 }
 
 char	*clone_input_without_option(char *input, char *input_without_option) //clone d'input pour verifier access sans option de commande.
@@ -115,7 +112,6 @@ char	*clone_input_without_option(char *input, char *input_without_option) //clon
 	int	i;
 
 	i = 0;
-	//input_without_option = malloc(sizeof(char) * (ft_strlen(input) + 1));
 	while (input[i] != ' ' && input[i])
 	{
 		input_without_option[i] = input[i];

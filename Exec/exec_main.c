@@ -65,14 +65,20 @@ int    exec_son(s_g *s_g, int *fds, int last_fd, int out_fd, char *input, char *
     }
 	redirection_pipe(s_g, fds, last_fd, out_fd);
 	if (if_builtin(s_g, input) == 0) //si c'est des fonctions builtins, execute nos propres fonctions ci-dessous.
-	 	exit(0);
+	{
+        gc_clean(&s_g->gc);
+        free(s_g->input);
+        exit(0);
+    }
 	else if (access(input_without, F_OK) == 0) //verif si la commande entree par l'user n'est pas directement un path valide. Attention si c'est JUSTE un path.
 	{
 		path_user(s_g, input);
-		free(input_without);
+		//free(input_without);
 	}
 	else
 		path(s_g, input); //processus fils pour execution de cmd.
+    gc_clean(&s_g->gc);
+    free(s_g->input);
     exit(0);
 }
 
@@ -96,8 +102,7 @@ int	son(s_g *s_g, char *input, int last_fd, int out_fd)
     waitpid(s_g->pid, &s_g->status, 0);
     free(input_without);
     if (WIFEXITED(s_g->status))
-        //s_g->exit_ret = (WEXITSTATUS(s_g->status)) - 1;
-        s_g->exit_ret = (s_g->status / 256) - 1;
+        s_g->exit_ret = (s_g->status / 256);
     else if (WIFSIGNALED(s_g->status))
         s_g->exit_ret = 128 + WTERMSIG(s_g->status);
     else

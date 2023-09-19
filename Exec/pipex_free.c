@@ -28,10 +28,8 @@ void	free_tab(char **tab)
 void	error_msg(char *msg, s_g *s_g)
 {
 	//free tout en plus, genre gc
-	//gc_clean();
-	//free()
-	//(void)s_g;
+	gc_clean(&s_g->gc);
+	free(s_g->input);
 	perror(msg);
-	//exit(0);
 	exit(s_g->exit_ret);
 }

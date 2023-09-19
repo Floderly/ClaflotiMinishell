@@ -136,6 +136,7 @@ int	ft_isnum(char *str);
 
 //FONCTION AUTRE
 int	skip_space(char *string, int i); // A REFAIRE AVEC +1 ?
+char    *ft_clear_env(char *str, s_g *s_g);
 
 // FONCTION PARSING
 int	parsing(s_g *s_g, to_lst *to_lst);
