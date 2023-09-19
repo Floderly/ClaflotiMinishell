@@ -25,7 +25,7 @@ void    main_loop(s_g *s_g, struct sigaction *sa, to_lst *to_lst)
             printf("Don't leave me !\n");
             free(s_g->input);
             gc_clean(&s_g->gc);
-            exit (s_g->exit_ret); // L'utilisateur a appuyé sur Ctrl+D (fin d'entrée)
+            exit(s_g->exit_ret); //L'utilisateur a appuyé sur Ctrl+D (fin d'entrée)
         }
         if (s_g->input[0] != '\0')
 		{

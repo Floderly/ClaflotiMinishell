@@ -36,6 +36,7 @@ void	change_pwd(s_g *s_g)
 		{
 			tmp = ft_strjoin(dir[j], "/");
 			s_g->new_pwd = ft_strjoin(s_g->new_pwd, tmp);
+			free(tmp);
 		}
 	}
 	else
@@ -95,4 +96,5 @@ void	own_cd(char *str, s_g *s_g)
 		modif_chdir(s_g, args[1]);
 	else
 		ft_putstr_fd("minishell: cd: usage: cd [-L|-P] [dir]\n", 2);
+	free_tab(args);
 }

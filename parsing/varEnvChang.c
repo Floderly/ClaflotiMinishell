@@ -14,7 +14,7 @@
 
 int	add_var_interro(s_g *s_g, int i)
 {
-	char *var_interro = ft_itoa(s_g->exit_ret); //s_g->status
+	char *var_interro = ft_itoa(s_g->exit_ret);
 	int k;
 
 	k = 0;
