@@ -156,6 +156,8 @@ int	put_entry(s_g *s_g, to_lst *to_lst);
 int	put_sorti(s_g *s_g, to_lst *to_lst);
 void pass_quote(s_g *sg, int *i, char quote);
 
+int	check_var(s_g *s_g, int i);
+
 // LISTE CHAINER D'EXECUTION
 void add_token(to_lst *to_lst, char *prompt_str, int tokenType, s_g *s_g);
 void initTokenTest(s_g *s_g, to_lst *to_lst);

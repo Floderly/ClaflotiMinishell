@@ -6,30 +6,30 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/27 02:24:07 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/19 22:25:06 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	seek_next_pipe(s_g *s_g, int startStr)
+int	seek_next_pipe(s_g *s_g, int sStr)
 {
 	int	lg_str;
 
 	lg_str = 0;
-	while (s_g->i2[startStr + lg_str] != 0 
-		&& s_g->i2[startStr + lg_str] != '|')
+	while (s_g->i2[sStr + lg_str] != 0
+		&& s_g->i2[sStr + lg_str] != '|')
 	{
-		if (s_g->i2[startStr + lg_str] == '\'')
+		if (s_g->i2[sStr + lg_str] == '\'')
 		{
 			lg_str++;
-			while (s_g->i2[startStr + lg_str] != '\'')
+			while (s_g->i2[sStr + lg_str] != '\'')
 				lg_str++;
 		}
-		if (s_g->i2[startStr + lg_str] == '"')
+		if (s_g->i2[sStr + lg_str] == '"')
 		{
 			lg_str++;
-			while (s_g->i2[startStr + lg_str] != '"')
+			while (s_g->i2[sStr + lg_str] != '"')
 				lg_str++;
 		}
 		lg_str++;
@@ -39,12 +39,12 @@ int	seek_next_pipe(s_g *s_g, int startStr)
 
 int	add_list_exec(s_g *s_g, to_lst *to_lst)
 {
-	s_g->startStr = 0;
+	s_g->sStr = 0;
 	s_g->lgStr = 0;
-	while (s_g->i2[s_g->startStr + s_g->lgStr] != 0)
+	while (s_g->i2[s_g->sStr + s_g->lgStr] != 0)
 	{
-		s_g->startStr = s_g->startStr + s_g->lgStr;
-		s_g->lgStr = seek_next_pipe(s_g, s_g->startStr);
+		s_g->sStr = s_g->sStr + s_g->lgStr;
+		s_g->lgStr = seek_next_pipe(s_g, s_g->sStr);
 		put_maillon_str(s_g, to_lst);
 		if (put_entry(s_g, to_lst) == 0)
 		{
@@ -56,10 +56,10 @@ int	add_list_exec(s_g *s_g, to_lst *to_lst)
 			printf("Probleme dans les sorties");
 			return (0);
 		}
-		if (s_g->i2[s_g->startStr + s_g->lgStr] == '|')
+		if (s_g->i2[s_g->sStr + s_g->lgStr] == '|')
 		{
 			add_token(to_lst, "|", 2, s_g);
-			s_g->startStr++;
+			s_g->sStr++;
 		}
 	}
 	return (1);

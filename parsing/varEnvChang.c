@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/15 00:05:45 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/19 23:02:16 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 int	add_var_interro(s_g *s_g, int i)
 {
-	char *var_interro = ft_itoa(s_g->exit_ret);
-	int k;
+	char	*var_interro;
+	int		k;
 
 	k = 0;
+	var_interro = ft_itoa(s_g->exit_ret);
 	while (var_interro[k])
 	{
 		s_g->i2[i + k] = var_interro[k];
 		k++;
 	}
 	s_g->i2[i + k] = 0;
-	free(var_interro);
 	return (k);
 }
 
@@ -53,41 +53,29 @@ int	add_var(s_g *s_g, int i)
 	return (k);
 }
 
-int	check_var(s_g *s_g, int i)
-{
-	int	j;
-
-	s_g->pathVarTempo = gc_malloc (&s_g->gc, sizeof(char) * 9999);
-	if (!s_g->pathVarTempo)
-		return (0);
-	i++;
-	j = 0;
-	while (s_g->input[i + j] != 0 && s_g->input[i + j] != ' ' && s_g->input[i + j] != '"' && s_g->input[i + j] != '|')
-	{
-		s_g->pathVarTempo[j] = s_g->input[i + j];
-		j++;
-	}
-	s_g->pathVarTempo[j] = 0;
-	i = 0;
-	while (s_g->miniEnv[i])
-	{
-		if ((ft_strnstr(s_g->miniEnv[i], s_g->pathVarTempo,
-					ft_strlen(s_g->pathVarTempo)) != NULL)
-			&& s_g->miniEnv[i][ft_strlen(s_g->pathVarTempo)] == '=')
-			break ;
-		i++;
-	}
-	if (s_g->miniEnv[i] == 0)
-		return (0);
-	return (1);
-}
-
 void	quote_var_env(s_g *s_g, int *i, int *j)
 {
 	s_g->i2[(*j)++] = s_g->input[(*i)++];
 	while (s_g->input[(*i)] != '\'')
 		s_g->i2[(*j)++] = s_g->input[(*i)++];
 	s_g->i2[(*j)++] = s_g->input[(*i)++];
+}
+
+int	var_env_chang2(s_g *s_g, int *i, int *j)
+{
+	if (s_g->input[*(i) + 1] == '?')
+	{
+		*(j) += add_var_interro(s_g, *(j));
+		*(i) += 2;
+	}
+	else if (check_var(s_g, *(i)) != 0)
+	{
+		*(j) += add_var(s_g, *(j));
+		*(i) += ft_strlen(s_g->pathVarTempo) + 1;
+	}
+	else
+		return (0);
+	return (1);
 }
 
 int	var_env_chang(s_g *s_g)
@@ -104,17 +92,7 @@ int	var_env_chang(s_g *s_g)
 			quote_var_env(s_g, &i, &j);
 		else if (s_g->input[i] == '$' && s_g->input[i + 1] != ' ')
 		{
-			if (s_g->input[i + 1] == '?')
-			{
-				j += add_var_interro(s_g, j);
-				i += 2;
-			}
-			else if (check_var(s_g, i) != 0)
-			{
-				j += add_var(s_g, j);
-				i += ft_strlen(s_g->pathVarTempo) + 1;
-			}
-			else
+			if (var_env_chang2(s_g, &i, &j) == 0)
 				return (0);
 		}
 		else

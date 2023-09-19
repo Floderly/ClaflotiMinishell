@@ -1,39 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_pipe_at_start.c                              :+:      :+:    :+:   */
+/*   check_var.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/19 22:21:57 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/19 23:00:50 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_pipe_at_start(s_g *s_g)
+int	check_var(s_g *s_g, int i)
 {
-	int	i;
-	int	pipe_start;
-	int	pipe_end;
+	int	j;
 
-	pipe_start = 0;
-	pipe_end = 0;
-	i = 0;
-	while (s_g->i2[i] == ' ' && s_g->i2[i] != 0)
-		i++;
-	if (s_g->i2[i] == '|')
-		pipe_start = 1;
-	while (s_g->i2[i] != 0)
-		i++;
-	if (s_g->i2[i - 1] == '|')
-		pipe_end = 1;
-	if (pipe_start == 1 || pipe_end == 1)
+	s_g->pathVarTempo = gc_malloc (&s_g->gc, sizeof(char) * 9999);
+	i++;
+	j = 0;
+	while (s_g->input[i + j] != 0 && s_g->input[i + j] != ' '
+		&& s_g->input[i + j] != '"' && s_g->input[i + j] != '|')
 	{
-		printf("Pas de pipe au debut ou a la fin\n");
-		s_g->exit_ret = 2;
-		return (0);
+		s_g->pathVarTempo[j] = s_g->input[i + j];
+		j++;
 	}
+	s_g->pathVarTempo[j] = 0;
+	i = 0;
+	while (s_g->miniEnv[i])
+	{
+		if ((ft_strnstr(s_g->miniEnv[i], s_g->pathVarTempo,
+					ft_strlen(s_g->pathVarTempo)) != NULL)
+			&& s_g->miniEnv[i][ft_strlen(s_g->pathVarTempo)] == '=')
+			break ;
+		i++;
+	}
+	if (s_g->miniEnv[i] == 0)
+		return (0);
 	return (1);
 }

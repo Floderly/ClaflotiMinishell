@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/15 18:44:03 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/19 22:22:16 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,5 @@ int	parsing(s_g *s_g, to_lst *to_lst)
 	}
 	if (check_files_exist(to_lst, s_g) == 0)
 		return (0);
-	//afficher_tokens(to_lst);
 	return (1);
 }

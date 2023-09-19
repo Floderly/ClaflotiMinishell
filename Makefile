@@ -47,6 +47,7 @@ SRCS =	minishell.c \
 		parsing/add_list_exec.c \
 		parsing/put_sorti.c \
 		parsing/put_entry.c \
+		parsing/check_var.c \
 		listeExecution.c \
 
 LIBGCDIR = gc
