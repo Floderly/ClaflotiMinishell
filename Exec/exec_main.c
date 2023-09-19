@@ -68,17 +68,19 @@ int    exec_son(s_g *s_g, int *fds, int last_fd, int out_fd, char *input, char *
 	{
         gc_clean(&s_g->gc);
         free(s_g->input);
+        free(input_without);
         exit(0);
     }
 	else if (access(input_without, F_OK) == 0) //verif si la commande entree par l'user n'est pas directement un path valide. Attention si c'est JUSTE un path.
 	{
+		free(input_without);
 		path_user(s_g, input);
-		//free(input_without);
 	}
 	else
 		path(s_g, input); //processus fils pour execution de cmd.
     gc_clean(&s_g->gc);
     free(s_g->input);
+    free(input_without);
     exit(0);
 }
 
@@ -87,7 +89,7 @@ int	son(s_g *s_g, char *input, int last_fd, int out_fd)
 	char	*input_without;
     int     fds[2];
 
-    input_without = malloc(sizeof(char) * (ft_strlen(input) + 1)); //free a faire.
+    input_without = malloc(sizeof(char) * (ft_strlen(input) + 1));
     if (input_without == NULL)
         error_msg("Error malloc input_without\n", s_g);
     input_without = clone_input_without_option(input, input_without);

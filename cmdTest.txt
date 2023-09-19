@@ -37,3 +37,4 @@ echo "oui "      "non"
 
 cat << oui < test3 << non | echo abc | cat -e
 cat << oui | < test3 < test.txt cat >test4 | cat -e 
+ls |

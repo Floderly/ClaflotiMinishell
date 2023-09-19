@@ -18,6 +18,7 @@ void	own_exit(char *input, s_g *s_g)
 		ft_putstr_fd(args[1], 2);
 		ft_putendl_fd(": numeric argument required", 2);
 		gc_clean(&s_g->gc);
+		free_tab(args);
 		free(s_g->input);
 		exit(s_g->exit_ret);
 	}
@@ -29,12 +30,14 @@ void	own_exit(char *input, s_g *s_g)
 			s_g->exit_ret = ft_atoi(args[1]);
 		gc_clean(&s_g->gc);
 		free(s_g->input);
+		free_tab(args);
 		exit(s_g->exit_ret);
 	}
 	else
 	{
 		gc_clean(&s_g->gc);
 		free(s_g->input);
+		free_tab(args);
 		exit(s_g->exit_ret);	
 	}
 }

@@ -32,7 +32,7 @@ void	entry_basique(int *i, s_g *s_g, to_lst *to_lst)
 	int		k;
 
 	k = 0;
-	str_tempo = malloc (sizeof(char) * 9999);
+	str_tempo = malloc(sizeof(char) * 9999);
 	if (s_g->i2[s_g->startStr + (*i) + 1] == '>')
 		(*i)++;
 	(*i)++;
