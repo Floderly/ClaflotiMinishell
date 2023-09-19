@@ -24,6 +24,7 @@ int	add_var_interro(s_g *s_g, int i)
 		k++;
 	}
 	s_g->i2[i + k] = 0;
+	free(var_interro);
 	return (k);
 }
 

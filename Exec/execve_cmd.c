@@ -58,8 +58,6 @@ void	path(s_g *s_g, char *argv)
 		s_g->exit_ret = 2;
 		error_msg("error execve\n", s_g);
 	}
-	free_tab(cmd);
-	free(path);
 }
 
 char	*change_cmd_0(s_g *s_g, char **cmd, char *path1) //modif la cmd[0] pour ne pas avoir le path pour deuxieme argument de execve.

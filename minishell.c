@@ -47,6 +47,7 @@ int main(int argc, char **argv, char **env)
     struct sigaction    sa;
     char	cwd[PATH_MAX];
 
+    s_g.exit_ret = 0;
 	if (getcwd(cwd, PATH_MAX))
 		s_g.cur_pwd = cwd;
 	gc_init(&s_g.gc);
