@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 11:40:26 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/19 22:40:13 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/20 10:26:16 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	put_maillon_str(s_g *s_g, to_lst *to_lst)
 		i++;
 	}
 	strtempo[i] = 0;
-	trimSpaces(strtempo);
+	trim_spaces(strtempo);
 	add_token(to_lst, strtempo, 1, s_g);
 	free (strtempo);
 }

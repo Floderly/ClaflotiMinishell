@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:46:51 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/14 23:55:30 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/20 10:41:06 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct t_g
     int switchSingleQuote;
     char    **gestionTest;
     //pour maillon str, pour la norminette
-    int startStr;
+    int sStr;
     int lgStr;
     //pour execution.
     pid_t   pid;
@@ -121,7 +121,7 @@ int	ft_atoi(const char *nptr);
 char	*ft_itoa(int n);
 char	*ft_strdup(const char *s);
 char	*ft_gcstrdup(const char *s, s_g *s_g);
-void trimSpaces(char *str);
+void trim_spaces(char *str);
 int	ft_strcmp(char *s1, char *s2);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_putendl_fd(char *s, int fd);

@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:14:19 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/15 19:14:36 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/20 10:57:07 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	if_builtin_father(char *prompt, s_g *s_g)
 {
-    if (ft_strncmp(prompt, "export", 6) == 0 && s_g->cmd_nbr == 1)
+	if (ft_strncmp(prompt, "export", 6) == 0 && s_g->cmd_nbr == 1)
 		own_export(prompt, s_g);
 	else if (ft_strncmp(prompt, "unset", 5) == 0 && s_g->cmd_nbr == 1)
 		own_unset(prompt, s_g);
@@ -71,7 +71,7 @@ int	ft_isnum(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] < '0' && str[i] > '9')
+		if (str[i] < '0' || str[i] > '9')
 			return (-1);
 		i++;
 	}

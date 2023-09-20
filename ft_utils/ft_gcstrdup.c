@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   head.c                                             :+:      :+:    :+:   */
+/*   ft_gcstrdup.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fderly <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:53:53 by fderly            #+#    #+#             */
-/*   Updated: 2023/05/03 11:53:55 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/20 10:26:48 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,28 @@ char	*ft_gcstrdup(const char *s, s_g *s_g)
 	return (dst);
 }
 
-void trimSpaces(char *str) 
+void	trim_spaces(char *str)
 {
-    int start;
-    int end;
-    int    i;
+	int	start;
+	int	end;
+	int	i;
 
-    start = 0;
-    end = strlen(str) - 1;
-    while (str[start] == ' ' || str[start] == '\t' 
-        || str[start] == '\n' || str[start] == '\r') 
-    {
-        start++;
-    }
-    while (end > start && (str[end] == ' ' || str[end] == '\t' 
-        || str[end] == '\n' || str[end] == '\r')) 
-    {
-        end--;
-    }
-    i = 0;
-    while (start <= end) 
-    {
-        str[i++] = str[start++];
-    }
-    str[i] = '\0';
+	start = 0;
+	end = strlen(str) - 1;
+	while (str[start] == ' ' || str[start] == '\t'
+		|| str[start] == '\n' || str[start] == '\r')
+	{
+		start++;
+	}
+	while (end > start && (str[end] == ' ' || str[end] == '\t'
+			|| str[end] == '\n' || str[end] == '\r'))
+	{
+		end--;
+	}
+	i = 0;
+	while (start <= end)
+	{
+		str[i++] = str[start++];
+	}
+	str[i] = '\0';
 }
