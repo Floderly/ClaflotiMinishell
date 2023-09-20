@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chugot <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:18:51 by chugot            #+#    #+#             */
-/*   Updated: 2023/08/02 16:18:54 by chugot           ###   ########.fr       */
+/*   Updated: 2023/09/20 14:07:51 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,18 @@ void	error_msg(char *msg, s_g *s_g)
 	free(s_g->input);
 	perror(msg);
 	exit(s_g->exit_ret);
+}
+
+char	*clone_input_without_option(char *input, char *input_without_option)
+{
+	int	i;
+
+	i = 0;
+	while (input[i] != ' ' && input[i])
+	{
+		input_without_option[i] = input[i];
+		i++;
+	}
+	input_without_option[i] = '\0';
+	return (input_without_option);
 }
