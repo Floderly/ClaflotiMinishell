@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:14:19 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/13 18:56:00 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/20 11:09:09 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	is_equal(char *s)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	while (s[i])
 	{
 		if (s[i] == '=')
@@ -26,25 +28,24 @@ int	is_equal(char *s)
 
 void	modif_exp(s_g *s_g, int i)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	if (is_equal(s_g->expEnv[i]) == 1)
 	{
 		len = ft_strlen(s_g->expEnv[i]) + 2;
-		s_g->expEnv[i][len-1] = 34;
+		s_g->expEnv[i][len - 1] = 34;
 		len--;
 		while (s_g->expEnv[i][len--] != '=')
-			s_g->expEnv[i][len] = s_g->expEnv[i][len-1];
-		s_g->expEnv[i][len+1] = 34;
-		//printf("declare -x %s\n", s_g->expEnv[i]);
+			s_g->expEnv[i][len] = s_g->expEnv[i][len - 1];
+		s_g->expEnv[i][len + 1] = 34;
 	}
 }
 
 void	clone_env(s_g *s_g, char **env)
 {
 	int	i;
-	// FAIRE LE VRAI MALLOC ? CHAUD AVEC EXPORT
+
 	s_g->miniEnv = gc_malloc (&s_g->gc, sizeof(char) * 9999);
 	s_g->expEnv = gc_malloc (&s_g->gc, sizeof(char) * 9999);
 	i = 0;
@@ -56,8 +57,8 @@ void	clone_env(s_g *s_g, char **env)
 		i++;
 	}
 	s_g->miniEnv[i] = 0;
-	s_g->expEnv[i] = 0;	
- }
+	s_g->expEnv[i] = 0;
+}
 
 void	export_test(s_g *s_g, char *nomVar, char *arg)
 {
@@ -70,7 +71,7 @@ void	export_test(s_g *s_g, char *nomVar, char *arg)
 	k = 0;
 	while (s_g->miniEnv[i])
 		i++;
-	s_g->miniEnv[i] = gc_malloc (&s_g->gc ,sizeof(char) * 99999);
+	s_g->miniEnv[i] = gc_malloc (&s_g->gc, sizeof(char) * 9999);
 	while (nomVar[j])
 	{
 		s_g->miniEnv[i][j] = nomVar[j];
