@@ -12,71 +12,71 @@
 
 #include "../minishell.h"
 
-void	print_export(s_g *s_g)
+void	print_export(t_g *t_g)
 {
 	int	i;
 
 	i = -1;
-	while (s_g->expEnv[++i])
-		printf("declare -x %s\n", s_g->expEnv[i]);
+	while (t_g->exp_env[++i])
+		printf("declare -x %s\n", t_g->exp_env[i]);
 }
 
-void	swap_export(s_g *s_g)
+void	swap_export(t_g *t_g)
 {
 	int		i;
 	char	*tmp;
 
 	i = 0;
-	while (s_g->expEnv[i + 1])
+	while (t_g->exp_env[i + 1])
 	{
-		if (ft_strcmp(s_g->expEnv[i], s_g->expEnv[i + 1]) > 0)
+		if (ft_strcmp(t_g->exp_env[i], t_g->exp_env[i + 1]) > 0)
 		{
-			tmp = s_g->expEnv[i];
-			s_g->expEnv[i] = s_g->expEnv[i + 1];
-			s_g->expEnv[i + 1] = tmp;
+			tmp = t_g->exp_env[i];
+			t_g->exp_env[i] = t_g->exp_env[i + 1];
+			t_g->exp_env[i + 1] = tmp;
 			i = -1;
 		}
 		i++;
 	}
 }
 
-void	add_export(char *input, s_g *s_g)
+void	add_export(char *input, t_g *t_g)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (s_g->expEnv[i])
+	while (t_g->exp_env[i])
 	{
-		if (ft_strcmp(ft_clear_env(s_g->expEnv[i], s_g),
-				ft_clear_env(input, s_g)) == 0)
+		if (ft_strcmp(ft_clear_env(t_g->exp_env[i], t_g),
+				ft_clear_env(input, t_g)) == 0)
 			break ;
 		i++;
-		s_g->expEnv[i] = gc_malloc(&s_g->gc, sizeof(char) * 99999);
+		t_g->exp_env[i] = gc_malloc(&t_g->gc, sizeof(char) * 99999);
 	}
-	if (s_g->expEnv[i] == 0)
+	if (t_g->exp_env[i] == 0)
 	{
-		s_g->expEnv[i] = gc_malloc(&s_g->gc, sizeof(char) * 999);
+		t_g->exp_env[i] = gc_malloc(&t_g->gc, sizeof(char) * 999);
 	}
 	j = -1;
 	while (input[++j])
-		s_g->expEnv[i][j] = input[j];
-	s_g->expEnv[i][j] = 0;
-	modif_exp(s_g, i);
+		t_g->exp_env[i][j] = input[j];
+	t_g->exp_env[i][j] = 0;
+	modif_exp(t_g, i);
 	i++;
-	s_g->expEnv[i] = 0;
-	swap_export(s_g);
+	t_g->exp_env[i] = 0;
+	swap_export(t_g);
 }
 
-int	own_export(char *input, s_g *s_g)
+int	own_export(char *input, t_g *t_g)
 {
 	char	**args;
 
 	args = ft_split(input, ' ');
 	if (!args[1])
 	{
-		swap_export(s_g);
-		print_export(s_g);
+		swap_export(t_g);
+		print_export(t_g);
 		return (0);
 	}
 	else if (('0' <= args[1][0] && args[1][0] <= '9') || args[1][0] == '=')
@@ -86,7 +86,7 @@ int	own_export(char *input, s_g *s_g)
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		return (0);
 	}
-	add_export(args[1], s_g);
-	add_env(args[1], s_g);
+	add_export(args[1], t_g);
+	add_env(args[1], t_g);
 	return (0);
 }

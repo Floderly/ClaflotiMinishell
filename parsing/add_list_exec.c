@@ -12,24 +12,24 @@
 
 #include "../minishell.h"
 
-int	seek_next_pipe(s_g *s_g, int sStr)
+int	seek_next_pipe(t_g *t_g, int s_st)
 {
 	int	lg_str;
 
 	lg_str = 0;
-	while (s_g->i2[sStr + lg_str] != 0
-		&& s_g->i2[sStr + lg_str] != '|')
+	while (t_g->i2[s_st + lg_str] != 0
+		&& t_g->i2[s_st + lg_str] != '|')
 	{
-		if (s_g->i2[sStr + lg_str] == '\'')
+		if (t_g->i2[s_st + lg_str] == '\'')
 		{
 			lg_str++;
-			while (s_g->i2[sStr + lg_str] != '\'')
+			while (t_g->i2[s_st + lg_str] != '\'')
 				lg_str++;
 		}
-		if (s_g->i2[sStr + lg_str] == '"')
+		if (t_g->i2[s_st + lg_str] == '"')
 		{
 			lg_str++;
-			while (s_g->i2[sStr + lg_str] != '"')
+			while (t_g->i2[s_st + lg_str] != '"')
 				lg_str++;
 		}
 		lg_str++;
@@ -37,29 +37,29 @@ int	seek_next_pipe(s_g *s_g, int sStr)
 	return (lg_str);
 }
 
-int	add_list_exec(s_g *s_g, to_lst *to_lst)
+int	add_list_exec(t_g *t_g, t_lst *t_lst)
 {
-	s_g->sStr = 0;
-	s_g->lgStr = 0;
-	while (s_g->i2[s_g->sStr + s_g->lgStr] != 0)
+	t_g->s_st = 0;
+	t_g->ls_st = 0;
+	while (t_g->i2[t_g->s_st + t_g->ls_st] != 0)
 	{
-		s_g->sStr = s_g->sStr + s_g->lgStr;
-		s_g->lgStr = seek_next_pipe(s_g, s_g->sStr);
-		put_maillon_str(s_g, to_lst);
-		if (put_entry(s_g, to_lst) == 0)
+		t_g->s_st = t_g->s_st + t_g->ls_st;
+		t_g->ls_st = seek_next_pipe(t_g, t_g->s_st);
+		put_maillon_str(t_g, t_lst);
+		if (put_entry(t_g, t_lst) == 0)
 		{
 			printf("Probleme dans les entrees");
 			return (0);
 		}
-		if (put_sorti(s_g, to_lst) == 0)
+		if (put_sorti(t_g, t_lst) == 0)
 		{
 			printf("Probleme dans les sorties");
 			return (0);
 		}
-		if (s_g->i2[s_g->sStr + s_g->lgStr] == '|')
+		if (t_g->i2[t_g->s_st + t_g->ls_st] == '|')
 		{
-			add_token(to_lst, "|", 2, s_g);
-			s_g->sStr++;
+			add_token(t_lst, "|", 2, t_g);
+			t_g->s_st++;
 		}
 	}
 	return (1);

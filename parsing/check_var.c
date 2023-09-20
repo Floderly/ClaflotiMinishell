@@ -12,30 +12,30 @@
 
 #include "../minishell.h"
 
-int	check_var(s_g *s_g, int i)
+int	check_var(t_g *t_g, int i)
 {
 	int	j;
 
-	s_g->pathVarTempo = gc_malloc (&s_g->gc, sizeof(char) * 9999);
+	t_g->path_var_tempo = gc_malloc (&t_g->gc, sizeof(char) * 9999);
 	i++;
 	j = 0;
-	while (s_g->input[i + j] != 0 && s_g->input[i + j] != ' '
-		&& s_g->input[i + j] != '"' && s_g->input[i + j] != '|')
+	while (t_g->input[i + j] != 0 && t_g->input[i + j] != ' '
+		&& t_g->input[i + j] != '"' && t_g->input[i + j] != '|')
 	{
-		s_g->pathVarTempo[j] = s_g->input[i + j];
+		t_g->path_var_tempo[j] = t_g->input[i + j];
 		j++;
 	}
-	s_g->pathVarTempo[j] = 0;
+	t_g->path_var_tempo[j] = 0;
 	i = 0;
-	while (s_g->miniEnv[i])
+	while (t_g->mini_env[i])
 	{
-		if ((ft_strnstr(s_g->miniEnv[i], s_g->pathVarTempo,
-					ft_strlen(s_g->pathVarTempo)) != NULL)
-			&& s_g->miniEnv[i][ft_strlen(s_g->pathVarTempo)] == '=')
+		if ((ft_strnstr(t_g->mini_env[i], t_g->path_var_tempo,
+					ft_strlen(t_g->path_var_tempo)) != NULL)
+			&& t_g->mini_env[i][ft_strlen(t_g->path_var_tempo)] == '=')
 			break ;
 		i++;
 	}
-	if (s_g->miniEnv[i] == 0)
+	if (t_g->mini_env[i] == 0)
 		return (0);
 	return (1);
 }

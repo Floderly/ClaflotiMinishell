@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	basic_out(int *i, s_g *s_g, to_lst *to_lst)
+void	basic_out(int *i, t_g *t_g, t_lst *t_lst)
 {
 	char	*str_tempo;
 	int		k;
@@ -20,28 +20,28 @@ void	basic_out(int *i, s_g *s_g, to_lst *to_lst)
 	k = 0;
 	str_tempo = malloc (sizeof(char) * 9999);
 	(*i)++;
-	while (s_g->i2[s_g->sStr + (*i)] == ' '
-		&& s_g->i2[s_g->sStr + (*i)] != 0)
+	while (t_g->i2[t_g->s_st + (*i)] == ' '
+		&& t_g->i2[t_g->s_st + (*i)] != 0)
 		(*i)++;
-	while (s_g->i2[s_g->sStr + (*i)] != ' '
-		&& s_g->i2[s_g->sStr + (*i)] != 0
-		&& s_g->i2[s_g->sStr + (*i)] != '>'
-		&& s_g->i2[s_g->sStr + (*i)] != '<'
-		&& s_g->i2[s_g->sStr + (*i)] != '|')
+	while (t_g->i2[t_g->s_st + (*i)] != ' '
+		&& t_g->i2[t_g->s_st + (*i)] != 0
+		&& t_g->i2[t_g->s_st + (*i)] != '>'
+		&& t_g->i2[t_g->s_st + (*i)] != '<'
+		&& t_g->i2[t_g->s_st + (*i)] != '|')
 	{
-		str_tempo[k] = s_g->i2[s_g->sStr + (*i)];
+		str_tempo[k] = t_g->i2[t_g->s_st + (*i)];
 		(*i)++;
 		k++;
 	}
-	if (s_g->i2[s_g->sStr + (*i)] == '>'
-		|| s_g->i2[s_g->sStr + (*i)] == '<')
+	if (t_g->i2[t_g->s_st + (*i)] == '>'
+		|| t_g->i2[t_g->s_st + (*i)] == '<')
 		(*i)--;
 	str_tempo[k] = 0;
-	add_token(to_lst, str_tempo, 4, s_g);
+	add_token(t_lst, str_tempo, 4, t_g);
 	free(str_tempo);
 }
 
-void	sorti_append(int *i, s_g *s_g, to_lst *to_lst)
+void	sorti_append(int *i, t_g *t_g, t_lst *t_lst)
 {
 	char	*str_tempo;
 	int		k;
@@ -49,50 +49,50 @@ void	sorti_append(int *i, s_g *s_g, to_lst *to_lst)
 	k = 0;
 	str_tempo = malloc (sizeof(char) * 9999);
 	(*i) = (*i) + 2;
-	while (s_g->i2[s_g->sStr + (*i)] == ' '
-		&& s_g->i2[s_g->sStr + (*i)] != 0)
+	while (t_g->i2[t_g->s_st + (*i)] == ' '
+		&& t_g->i2[t_g->s_st + (*i)] != 0)
 		(*i)++;
-	while (s_g->i2[s_g->sStr + (*i)] != ' '
-		&& s_g->i2[s_g->sStr + (*i)] != 0
-		&& s_g->i2[s_g->sStr + (*i)] != '>'
-		&& s_g->i2[s_g->sStr + (*i)] != '<'
-		&& s_g->i2[s_g->sStr + (*i)] != '|')
+	while (t_g->i2[t_g->s_st + (*i)] != ' '
+		&& t_g->i2[t_g->s_st + (*i)] != 0
+		&& t_g->i2[t_g->s_st + (*i)] != '>'
+		&& t_g->i2[t_g->s_st + (*i)] != '<'
+		&& t_g->i2[t_g->s_st + (*i)] != '|')
 	{
-		str_tempo[k] = s_g->i2[s_g->sStr + (*i)];
+		str_tempo[k] = t_g->i2[t_g->s_st + (*i)];
 		(*i)++;
 		k++;
 	}
-	if (s_g->i2[s_g->sStr + (*i)] == '>'
-		|| s_g->i2[s_g->sStr + (*i)] == '<')
+	if (t_g->i2[t_g->s_st + (*i)] == '>'
+		|| t_g->i2[t_g->s_st + (*i)] == '<')
 		(*i)--;
 	str_tempo[k] = 0;
-	add_token(to_lst, str_tempo, 6, s_g);
+	add_token(t_lst, str_tempo, 6, t_g);
 	free(str_tempo);
 }
 
-int	put_sorti(s_g *s_g, to_lst *to_lst)
+int	put_sorti(t_g *t_g, t_lst *t_lst)
 {
 	int	i;
 
 	i = 0;
-	while (i < s_g->lgStr)
+	while (i < t_g->ls_st)
 	{
-		if (s_g->i2[s_g->sStr + i] == '"' || s_g->i2[s_g->sStr + i] == '\'')
-			pass_quote(s_g, &i, s_g->i2[s_g->sStr + i]);
-		if (s_g->i2[s_g->sStr + i] == '>' && s_g->i2[s_g->sStr + i + 1] != '>')
+		if (t_g->i2[t_g->s_st + i] == '"' || t_g->i2[t_g->s_st + i] == '\'')
+			pass_quote(t_g, &i, t_g->i2[t_g->s_st + i]);
+		if (t_g->i2[t_g->s_st + i] == '>' && t_g->i2[t_g->s_st + i + 1] != '>')
 		{
-			if (s_g->i2[s_g->sStr + i + 1] == '<'
-				|| s_g->i2[s_g->sStr + i + 1] == '|')
+			if (t_g->i2[t_g->s_st + i + 1] == '<'
+				|| t_g->i2[t_g->s_st + i + 1] == '|')
 				return (0);
-			basic_out(&i, s_g, to_lst);
+			basic_out(&i, t_g, t_lst);
 		}
-		else if (s_g->i2[s_g->sStr + i] == '>'
-			&& s_g->i2[s_g->sStr + i + 1] == '>')
+		else if (t_g->i2[t_g->s_st + i] == '>'
+			&& t_g->i2[t_g->s_st + i + 1] == '>')
 		{
-			if (s_g->i2[s_g->sStr + i + 2] == '>'
-				|| s_g->i2[s_g->sStr + i + 2] == '<')
+			if (t_g->i2[t_g->s_st + i + 2] == '>'
+				|| t_g->i2[t_g->s_st + i + 2] == '<')
 				return (0);
-			sorti_append(&i, s_g, to_lst);
+			sorti_append(&i, t_g, t_lst);
 		}
 		i++;
 	}

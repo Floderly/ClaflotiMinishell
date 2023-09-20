@@ -12,29 +12,29 @@
 
 #include "../minishell.h"
 
-int	if_builtin_father(char *prompt, s_g *s_g)
+int	if_builtin_father(char *prompt, t_g *t_g)
 {
-	if (ft_strncmp(prompt, "export", 6) == 0 && s_g->cmd_nbr == 1)
-		own_export(prompt, s_g);
-	else if (ft_strncmp(prompt, "unset", 5) == 0 && s_g->cmd_nbr == 1)
-		own_unset(prompt, s_g);
-	else if (ft_strncmp(prompt, "exit", 4) == 0 && s_g->cmd_nbr == 1)
-		own_exit(prompt, s_g);
-	else if (ft_strncmp(prompt, "cd", 2) == 0 && s_g->cmd_nbr == 1)
-		own_cd(prompt, s_g);
+	if (ft_strncmp(prompt, "export", 6) == 0 && t_g->cmd_nbr == 1)
+		own_export(prompt, t_g);
+	else if (ft_strncmp(prompt, "unset", 5) == 0 && t_g->cmd_nbr == 1)
+		own_unset(prompt, t_g);
+	else if (ft_strncmp(prompt, "exit", 4) == 0 && t_g->cmd_nbr == 1)
+		own_exit(prompt, t_g);
+	else if (ft_strncmp(prompt, "cd", 2) == 0 && t_g->cmd_nbr == 1)
+		own_cd(prompt, t_g);
 	else
 		return (0);
 	return (1);
 }
 
-int	if_builtin(s_g *s_g, char *input)
+int	if_builtin(t_g *t_g, char *input)
 {
 	if (ft_strncmp(input, "echo", 4) == 0)
 		own_echo(input);
 	else if (ft_strcmp(input, "pwd") == 0)
-		own_pwd(s_g);
+		own_pwd(t_g);
 	else if (ft_strcmp(input, "env") == 0)
-		own_env(s_g);
+		own_env(t_g);
 	else
 		return (1);
 	return (0);

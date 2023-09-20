@@ -12,29 +12,29 @@
 
 #include "../minishell.h"
 
-int	parsing(s_g *s_g, to_lst *to_lst)
+int	parsing(t_g *t_g, t_lst *t_lst)
 {
-	if (quote_check(s_g->input) == 0)
+	if (quote_check(t_g->input) == 0)
 	{
-		s_g->exit_ret = 2;
+		t_g->exit_ret = 2;
 		printf("!!! Error quote\n");
 		return (0);
 	}
-	if (var_env_chang(s_g) == 0)
+	if (var_env_chang(t_g) == 0)
 	{
 		printf("Variable Env inexistante\n");
 		return (0);
 	}
-	if (check_pipe_at_start(s_g) == 0)
+	if (check_pipe_at_start(t_g) == 0)
 		return (0);
-	add_list_exec(s_g, to_lst);
-	if (check_empty_prompt(to_lst) == 0)
+	add_list_exec(t_g, t_lst);
+	if (check_empty_prompt(t_lst) == 0)
 	{
-		s_g->exit_ret = 127;
+		t_g->exit_ret = 127;
 		printf("cmd <input >output | <repeat>\n");
 		return (0);
 	}
-	if (check_files_exist(to_lst, s_g) == 0)
+	if (check_files_exist(t_lst, t_g) == 0)
 		return (0);
 	return (1);
 }

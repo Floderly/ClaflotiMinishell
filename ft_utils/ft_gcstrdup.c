@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-char	*ft_gcstrdup(const char *s, s_g *s_g)
+char	*ft_gcstrdup(const char *s, t_g *t_g)
 {
 	int		i;
 	char	*dst;
@@ -22,7 +22,7 @@ char	*ft_gcstrdup(const char *s, s_g *s_g)
 	i = 0;
 	while (s[len])
 		len++;
-	dst = gc_malloc(&s_g->gc, sizeof(char) * len + 1);
+	dst = gc_malloc(&t_g->gc, sizeof(char) * len + 1);
 	if (dst == 0)
 		return (NULL);
 	while (s[i] != '\0')

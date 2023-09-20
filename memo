@@ -3,7 +3,7 @@ Protection malloc liste chainer enlever :
 	if (new_node == NULL)
 	{
 		perror("Erreur d'allocation de mémoire");
-		gc_clean(&s_g->gc);
-		free(s_g->input);
+		gc_clean(&t_g->gc);
+		free(t_g->input);
 		exit(EXIT_FAILURE);
 	}

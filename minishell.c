@@ -14,47 +14,47 @@
 
 int	g_signal_flag = 0;
 
-void	main_loop(s_g *s_g, struct sigaction *sa, to_lst *to_lst)
+void	main_loop(t_g *t_g, struct sigaction *sa, t_lst *t_lst)
 {
 	while (1)
 	{
 		g_signal_flag = 0;
-		s_g->input = readline("Minishell> ");
-		if (!s_g->input)
+		t_g->input = readline("Minishell> ");
+		if (!t_g->input)
 		{
 			printf("Don't leave me !\n");
-			free(s_g->input);
-			gc_clean(&s_g->gc);
-			exit(s_g->exit_ret);
+			free(t_g->input);
+			gc_clean(&t_g->gc);
+			exit(t_g->exit_ret);
 		}
-		if (s_g->input[0] != '\0')
+		if (t_g->input[0] != '\0')
 		{
-			add_history(s_g->input);
-			if (parsing(s_g, to_lst) == 1)
-				exec_prompt(s_g, to_lst, sa);
+			add_history(t_g->input);
+			if (parsing(t_g, t_lst) == 1)
+				exec_prompt(t_g, t_lst, sa);
 		}
-		free(s_g->input);
-		clear_to_lst(to_lst);
+		free(t_g->input);
+		clear_t_lst(t_lst);
 	}
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	s_g					s_g;
-	to_lst				to_lst;
+	t_g					t_g;
+	t_lst				t_lst;
 	struct sigaction	sa;
 	char				cwd[PATH_MAX];
 
 	(void)argc;
 	(void)argv;
-	s_g.exit_ret = 0;
+	t_g.exit_ret = 0;
 	if (getcwd(cwd, PATH_MAX))
-		s_g.cur_pwd = cwd;
-	gc_init(&s_g.gc);
-	to_lst.head = NULL;
-	clone_env(&s_g, env);
-	treat_signal(&sa, &s_g);
-	main_loop(&s_g, &sa, &to_lst);
-	gc_clean(&s_g.gc);
+		t_g.cur_pwd = cwd;
+	gc_init(&t_g.gc);
+	t_lst.head = NULL;
+	clone_env(&t_g, env);
+	treat_signal(&sa, &t_g);
+	main_loop(&t_g, &sa, &t_lst);
+	gc_clean(&t_g.gc);
 	return (0);
 }

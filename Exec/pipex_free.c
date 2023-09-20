@@ -25,12 +25,12 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-void	error_msg(char *msg, s_g *s_g)
+void	error_msg(char *msg, t_g *t_g)
 {
-	gc_clean(&s_g->gc);
-	free(s_g->input);
+	gc_clean(&t_g->gc);
+	free(t_g->input);
 	perror(msg);
-	exit(s_g->exit_ret);
+	exit(t_g->exit_ret);
 }
 
 char	*clone_input_without_option(char *input, char *input_without_option)

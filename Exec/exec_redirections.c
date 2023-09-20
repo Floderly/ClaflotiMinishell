@@ -12,15 +12,15 @@
 
 #include "../minishell.h"
 
-int	red_simp_entry(char *infile, s_g *s_g)
+int	red_simp_entry(char *infile, t_g *t_g)
 {
 	int	infilefd;
 
 	infilefd = open(infile, O_RDWR, 0777);
 	if (infilefd == -1)
-		error_msg("Error open entry infilefd redirection\n", s_g);
-	if (s_g->last_fd != STDIN_FILENO)
-		close(s_g->last_fd);
+		error_msg("Error open entry infilefd redirection\n", t_g);
+	if (t_g->last_fd != STDIN_FILENO)
+		close(t_g->last_fd);
 	return (infilefd);
 }
 
@@ -37,18 +37,18 @@ void	copy_input(char *input, int inputfd)
 	write(inputfd, "\n", 1);
 }
 
-int	red_cond_entry(char *keycode, struct sigaction *sa, s_g *s_g)
+int	red_cond_entry(char *keycode, struct sigaction *sa, t_g *t_g)
 {
 	char	*input;
 	int		inputfd;
 
 	inputfd = open("inputfd.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (inputfd == -1)
-		error_msg("Error open entry inputfd redirection\n", s_g);
-	if (s_g->last_fd != STDIN_FILENO)
-		close(s_g->last_fd);
+		error_msg("Error open entry inputfd redirection\n", t_g);
+	if (t_g->last_fd != STDIN_FILENO)
+		close(t_g->last_fd);
 	g_signal_flag = 43;
-	treat_signal(sa, s_g);
+	treat_signal(sa, t_g);
 	while (42)
 	{
 		input = readline("> ");
@@ -66,26 +66,26 @@ int	red_cond_entry(char *keycode, struct sigaction *sa, s_g *s_g)
 	}
 }
 
-int	red_simp_exit(char *outfile, s_g *s_g)
+int	red_simp_exit(char *outfile, t_g *t_g)
 {
 	int	outputfd;
 
 	outputfd = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (outputfd == -1)
-		error_msg("Error open entry outputfd redirection\n", s_g);
-	if (s_g->out_fd != STDOUT_FILENO)
-		close(s_g->out_fd);
+		error_msg("Error open entry outputfd redirection\n", t_g);
+	if (t_g->out_fd != STDOUT_FILENO)
+		close(t_g->out_fd);
 	return (outputfd);
 }
 
-int	red_doub_exit(char *outfile, s_g *s_g)
+int	red_doub_exit(char *outfile, t_g *t_g)
 {
 	int	outputfd;
 
 	outputfd = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0777);
 	if (outputfd == -1)
-		error_msg("Error open entry outputfd redirection\n", s_g);
-	if (s_g->out_fd != STDOUT_FILENO)
-		close(s_g->out_fd);
+		error_msg("Error open entry outputfd redirection\n", t_g);
+	if (t_g->out_fd != STDOUT_FILENO)
+		close(t_g->out_fd);
 	return (outputfd);
 }

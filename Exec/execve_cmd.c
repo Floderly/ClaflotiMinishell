@@ -12,25 +12,25 @@
 
 #include "../minishell.h"
 
-int	check_path_norminette(s_g *s_g)
+int	check_path_norminette(t_g *t_g)
 {
 	int	i;
 
 	i = 0;
-	while (ft_strnstr(s_g->miniEnv[i], "PATH=", 5) == NULL)
+	while (ft_strnstr(t_g->mini_env[i], "PATH=", 5) == NULL)
 		i++;
 	return (i);
 }
 
-char	*check_path(s_g *s_g, char *cmd)
+char	*check_path(t_g *t_g, char *cmd)
 {
 	char	**tabpath;
 	char	*halfpath;
 	char	*path;
 	int		i;
 
-	i = check_path_norminette(s_g);
-	tabpath = ft_split(s_g->miniEnv[i] + 5, ':');
+	i = check_path_norminette(t_g);
+	tabpath = ft_split(t_g->mini_env[i] + 5, ':');
 	i = 0;
 	while (tabpath[i])
 	{
@@ -46,34 +46,34 @@ char	*check_path(s_g *s_g, char *cmd)
 		i++;
 	}
 	free_tab(tabpath);
-	s_g->exit_ret = 127;
-	error_msg("error no path found\n", s_g);
+	t_g->exit_ret = 127;
+	error_msg("error no path found\n", t_g);
 	return (0);
 }
 
-void	path(s_g *s_g, char *argv)
+void	path(t_g *t_g, char *argv)
 {
 	char	**cmd;
 	char	*path;
 
 	cmd = ft_split(argv, ' ');
-	path = check_path(s_g, cmd[0]);
-	s_g->exit_ret = 0;
-	if (execve(path, cmd, s_g->miniEnv) == -1)
+	path = check_path(t_g, cmd[0]);
+	t_g->exit_ret = 0;
+	if (execve(path, cmd, t_g->mini_env) == -1)
 	{
 		free_tab(cmd);
 		free(path);
-		s_g->exit_ret = 2;
-		error_msg("error execve\n", s_g);
+		t_g->exit_ret = 2;
+		error_msg("error execve\n", t_g);
 	}
 }
 
-char	*change_cmd_0(s_g *s_g, char **cmd, char *path1)
+char	*change_cmd_0(t_g *t_g, char **cmd, char *path1)
 {
 	int	i;
 	int	j;
 
-	(void)s_g;
+	(void)t_g;
 	i = 0;
 	while (cmd[0][i])
 	{
@@ -97,18 +97,18 @@ char	*change_cmd_0(s_g *s_g, char **cmd, char *path1)
 	return (cmd[0]);
 }
 
-void	path_user(s_g *s_g, char *input)
+void	path_user(t_g *t_g, char *input)
 {
 	char	**cmd;
 	char	*path1;
 
 	cmd = ft_split(input, ' ');
 	path1 = malloc(sizeof(char) * (ft_strlen(cmd[0]) + 1));
-	cmd[0] = change_cmd_0(s_g, cmd, path1);
-	if (execve(path1, cmd, s_g->miniEnv) == -1)
+	cmd[0] = change_cmd_0(t_g, cmd, path1);
+	if (execve(path1, cmd, t_g->mini_env) == -1)
 	{
 		free(path1);
 		free_tab(cmd);
-		error_msg("error execve\n", s_g);
+		error_msg("error execve\n", t_g);
 	}
 }
