@@ -6,7 +6,7 @@
 #    By: fderly <fderly@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/17 12:00:49 by chugot            #+#    #+#              #
-#    Updated: 2023/09/14 23:54:18 by fderly           ###   ########.fr        #
+#    Updated: 2023/09/20 16:43:41 by fderly           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS =	minishell.c \
 		builtins/pwd.c \
 		builtins/unset.c \
 		Exec/exec_main.c \
+		Exec/exec_main_2.c \
 		Exec/pipex_free.c \
 		Exec/execve_cmd.c \
 		Exec/exec_redirections.c \

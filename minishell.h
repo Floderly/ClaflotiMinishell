@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:46:51 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/20 14:07:14 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/20 16:43:12 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ typedef struct t_g
     char    *cur_pwd;
     char    *new_pwd;
     int exit_ret;
+
+    int out_fd;
+    int last_fd;
 }s_g;
 
 
@@ -84,14 +87,14 @@ void    treat_signal(struct sigaction *sa, s_g *s_g);
 
 // FONCTIONS EXECUTION
 void    exec_prompt(s_g *s_g, to_lst *to_lst, struct sigaction *sa);
-int 	son(s_g *s_g, char *input, int last_fd, int out_fd);
+int 	son(s_g *s_g, char *input);
 void	path_user(s_g *s_g, char *input);
 char	*clone_input_without_option(char *input, char *input_without_option);
 void	path(s_g *s_g, char *argv);
-int    redirection_simple_entry(char *infile, int *last_fd, s_g *s_g);
-int    redirection_condition_entry(char *keycode, int *last_fd, struct sigaction *sa, s_g *s_g);
-int redirection_simple_exit(char *outfile, int *out_fd, s_g *s_g);
-int redirection_double_exit(char *outfile, int *out_fd, s_g *s_g);
+int    red_simp_entry(char *infile, s_g *s_g);
+int    red_cond_entry(char *keycode, struct sigaction *sa, s_g *s_g);
+int red_simp_exit(char *outfile, s_g *s_g);
+int red_doub_exit(char *outfile, s_g *s_g);
 
 //aderouin
 int	if_builtin_father(char *prompt, s_g *s_g);
@@ -169,6 +172,15 @@ void clear_to_lst(to_lst *to_lst);
 
 //s_g->pathVarTempo = gc_malloc(&s_g->gc ,sizeof(char) * 9999);
 
+// LES DERNIERES
+int	son(s_g *s_g, char *input);
+int	exec_son(s_g *s_g, int *fds, char *input, char *input_without);
+void	redirection_pipe(s_g *s_g, int fds[2]);
+void	exec_prompt(s_g *s_g, to_lst *to_lst, struct sigaction *sa);
+void	setup_fd_redir(s_Token *cmd_ptr, struct sigaction *sa, s_g *s_g);
+s_Token	*move_on_prompt(s_Token *cmd_ptr, s_g *s_g);
+void	init_struct_for_pipe(to_lst *to_lst, s_g *s_g);
+void	ft_nbr_of_pipe(to_lst *to_lst, s_g *s_g);
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 50
