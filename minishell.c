@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:14:19 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/20 11:19:52 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/20 17:39:50 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	main_loop(s_g *s_g, struct sigaction *sa, to_lst *to_lst)
 	while (1)
 	{
 		g_signal_flag = 0;
-		s_g->input = readline("Minishell> "); // Affiche l'invite de commande
+		s_g->input = readline("Minishell> ");
 		if (!s_g->input)
 		{
 			printf("Don't leave me !\n");
 			free(s_g->input);
 			gc_clean(&s_g->gc);
-			exit(s_g->exit_ret); //L'utilisateur a appuyé sur Ctrl+D (fin d'entrée)
+			exit(s_g->exit_ret);
 		}
 		if (s_g->input[0] != '\0')
 		{
@@ -52,7 +52,7 @@ int	main(int argc, char **argv, char **env)
 		s_g.cur_pwd = cwd;
 	gc_init(&s_g.gc);
 	to_lst.head = NULL;
-	clone_env(&s_g, env); // CLONE ENV POUR FAIRE EXPORT ET UNSET
+	clone_env(&s_g, env);
 	treat_signal(&sa, &s_g);
 	main_loop(&s_g, &sa, &to_lst);
 	gc_clean(&s_g.gc);

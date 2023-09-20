@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:46:51 by chugot            #+#    #+#             */
-/*   Updated: 2023/09/20 16:43:12 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/20 17:40:19 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ extern int g_signal_flag;
 // structure globale
 typedef struct t_g
 {
-	t_gcan	gc;
+    t_gcan	gc;
     char    **miniEnv;
     char    **expEnv;
     char    *input;
