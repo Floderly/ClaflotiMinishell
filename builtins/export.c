@@ -6,7 +6,7 @@
 /*   By: fderly <fderly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 10:30:34 by fderly            #+#    #+#             */
-/*   Updated: 2023/09/20 10:33:30 by fderly           ###   ########.fr       */
+/*   Updated: 2023/09/21 15:13:46 by fderly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	add_export(char *input, t_g *t_g)
 				ft_clear_env(input, t_g)) == 0)
 			break ;
 		i++;
-		t_g->exp_env[i] = gc_malloc(&t_g->gc, sizeof(char) * 99999);
 	}
 	if (t_g->exp_env[i] == 0)
 	{
