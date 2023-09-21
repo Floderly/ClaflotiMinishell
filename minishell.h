@@ -28,6 +28,16 @@
 
 extern int	g_signal_flag;
 
+typedef struct t_token {
+	char			*prompt_str;
+	int				token_type;
+	struct t_token	*next;
+}	t_token;
+
+typedef struct t_lst {
+	t_token	*head;
+}	t_lst;
+
 typedef struct t_g
 {
 	t_gcan	gc;
@@ -51,17 +61,8 @@ typedef struct t_g
 	int		exit_ret;
 	int		out_fd;
 	int		last_fd;
+	t_lst	*t_lst;
 }	t_g;
-
-typedef struct t_token {
-	char			*prompt_str;
-	int				token_type;
-	struct t_token	*next;
-}	t_token;
-
-typedef struct t_lst {
-	t_token	*head;
-}	t_lst;
 
 // MINISHELL2, ENV
 void	clone_env(t_g *t_g, char **env);

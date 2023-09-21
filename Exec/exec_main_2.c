@@ -57,6 +57,7 @@ int	exec_son(t_g *t_g, int *fds, char *input, char *input_without)
 	}
 	else
 		path(t_g, input);
+	clear_t_lst(t_g->t_lst);
 	gc_clean(&t_g->gc);
 	free(t_g->input);
 	free(input_without);

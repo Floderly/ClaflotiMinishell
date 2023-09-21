@@ -25,6 +25,7 @@ void	add_token(t_lst *t_lst, char *prompt_str, int token_type, t_g *t_g)
 	if (last_node == NULL)
 	{
 		t_lst->head = new_node;
+		t_g->t_lst = t_lst;
 	}
 	else
 	{
